@@ -26,8 +26,70 @@
         // ============================================
         function getRespuestaSegunJornada(tipoRespuesta, jornada) {
             const respuestas = {
+                vacaciones: {
+                    Diario: `✅ **VACACIONES - JORNADA DIARIA**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>31 días naturales al año</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (son retribuidas)</td>
+    </tr>
+    <tr>
+      <td>Acumulación</td>
+      <td>No son acumulables entre años</td>
+    </tr>
+    <tr>
+      <td>Disfrute</td>
+      <td>Según calendario empresa con tu acuerdo</td>
+    </tr>
+  </tbody>
+</table>
+
+⚠️ Diferencia: Las vacaciones SON PAGADAS y son diferentes de los permisos.`,
+                    SDF: `✅ **VACACIONES - JORNADA SDF**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>10 días naturales al año</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (son retribuidas)</td>
+    </tr>
+    <tr>
+      <td>Acumulación</td>
+      <td>No son acumulables entre años</td>
+    </tr>
+    <tr>
+      <td>Disfrute</td>
+      <td>Según calendario empresa con tu acuerdo</td>
+    </tr>
+  </tbody>
+</table>
+
+⚠️ Diferencia: Las vacaciones SON PAGADAS y son diferentes de los permisos.`
+                },
                 salarios: {
-                    Diario: `✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana)**
+                    Diario: `✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana, 7h/día)**
 
 <table>
   <thead>
@@ -39,15 +101,15 @@
   <tbody>
     <tr>
       <td>Peón Limpiador</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>[Pendiente de publicar]</td>
     </tr>
     <tr>
       <td>Oficial</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>[Pendiente de publicar]</td>
     </tr>
     <tr>
       <td>Capataz</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>[Pendiente de publicar]</td>
     </tr>
   </tbody>
 </table>
@@ -63,24 +125,24 @@
   </thead>
   <tbody>
     <tr>
-      <td>Turno Noche (23:00-06:00)</td>
+      <td>Turno Noche</td>
       <td>+25%</td>
     </tr>
     <tr>
-      <td>Dominical (domingo)</td>
+      <td>Dominical</td>
       <td>+50%</td>
     </tr>
     <tr>
       <td>Festivo trabajado</td>
-      <td>+100% (doble)</td>
+      <td>+100%</td>
     </tr>
     <tr>
       <td>Antigüedad</td>
-      <td>+2% cada 5 años (máximo 20%)</td>
+      <td>+2% cada 5 años (máx 20%)</td>
     </tr>
   </tbody>
 </table>`,
-                    SDF: `✅ **SALARIOS 2026 - JORNADA SDF (Servicios Discontinuos)**
+                    SDF: `✅ **SALARIOS 2026 - JORNADA SDF (≤30h/semana)**
 
 <table>
   <thead>
@@ -92,40 +154,15 @@
   <tbody>
     <tr>
       <td>Peón Limpiador</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>[Pendiente de publicar]</td>
     </tr>
     <tr>
       <td>Oficial</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>[Pendiente de publicar]</td>
     </tr>
     <tr>
       <td>Capataz</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-  </tbody>
-</table>
-
-**GARANTÍAS SDF:**
-
-<table>
-  <thead>
-    <tr>
-      <th>Característica</th>
-      <th>Valor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Mínimo días/mes garantizados</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Máximo horas/semana (media anual)</td>
-      <td>30 horas</td>
-    </tr>
-    <tr>
-      <td>Turnos</td>
-      <td>Rotativos</td>
+      <td>[Pendiente de publicar]</td>
     </tr>
   </tbody>
 </table>
@@ -160,66 +197,7 @@
 </table>`
                 },
                 horarios: {
-                    Diario: `✅ **HORARIOS - JORNADA DIARIA (35h/semana)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Turno</th>
-      <th>Horario</th>
-      <th>Horas/Día</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Mañana</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-      <td>7h</td>
-    </tr>
-    <tr>
-      <td>Tarde</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-      <td>7h</td>
-    </tr>
-    <tr>
-      <td>Noche</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-      <td>7h</td>
-    </tr>
-  </tbody>
-</table>
-
-**DESCANSO:**
-• 2 días consecutivos por semana
-• No cambian sin tu consentimiento
-
-⚠️ Turno noche paga +25% sobre salario base`,
-                    SDF: `✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Turno</th>
-      <th>Horario</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Mañana</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Tarde</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Noche</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-  </tbody>
-</table>
-
-**CARACTERÍSTICAS SDF:**
+                    Diario: `✅ **HORARIOS - JORNADA DIARIA**
 
 <table>
   <thead>
@@ -230,20 +208,50 @@
   </thead>
   <tbody>
     <tr>
+      <td>Jornada semanal</td>
+      <td>35 horas</td>
+    </tr>
+    <tr>
+      <td>Horas por día</td>
+      <td>7 horas</td>
+    </tr>
+    <tr>
       <td>Turnos</td>
-      <td>Rotativos (cambias entre mañana, tarde, noche)</td>
+      <td>Mañana, Tarde, Noche</td>
     </tr>
     <tr>
-      <td>Máximo horas/semana</td>
-      <td>30 (media anual)</td>
+      <td>Descanso semanal</td>
+      <td>2 días consecutivos</td>
+    </tr>
+  </tbody>
+</table>
+
+⚠️ Turno noche paga +25% sobre salario base`,
+                    SDF: `✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Máximo semanal</td>
+      <td>30 horas/semana (media anual)</td>
     </tr>
     <tr>
-      <td>Mínimo días/mes</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>Horas por día</td>
+      <td>7 horas</td>
     </tr>
     <tr>
-      <td>Descanso</td>
-      <td>2 días consecutivos por semana</td>
+      <td>Turnos</td>
+      <td>Rotativos (Mañana, Tarde, Noche)</td>
+    </tr>
+    <tr>
+      <td>Descanso semanal</td>
+      <td>2 días consecutivos</td>
     </tr>
   </tbody>
 </table>
@@ -272,14 +280,7 @@
             // ============ VACACIONES ============
             vacaciones: {
                 pregunta: "¿Sobre vacaciones?",
-                respuesta: `✅ **VACACIONES**
-
-• Duración: 30 días naturales al año
-• No son acumulables entre años
-• Se disfrutan según calendario de la empresa
-• Requiere acuerdo contigo para cambios
-
-⚠️ Diferencia: Las vacaciones SON PAGADAS y son diferentes de los permisos.`,
+                contextual: "vacaciones",
                 siguiente_pregunta: true
             },
 
@@ -291,6 +292,9 @@
                     { texto: "👶 Nacimiento de hijo", siguiente: "permiso_nacimiento" },
                     { texto: "⚰️ Defunción/Fallecimiento", siguiente: "permiso_defuncion" },
                     { texto: "🏥 Urgencia médica", siguiente: "permiso_medico" },
+                    { texto: "🏥 Hospitalización", siguiente: "permiso_hospitalizacion" },
+                    { texto: "🤒 Enfermedad grave", siguiente: "permiso_enfermedad_grave" },
+                    { texto: "🛏️ Intervención + reposo", siguiente: "permiso_intervencion" },
                     { texto: "📄 Carnet/DNI", siguiente: "permiso_carnet" },
                     { texto: "🩺 Asistencia médica", siguiente: "permiso_asistencia_medica" },
                     { texto: "❌ Sin paga (30 días)", siguiente: "permiso_no_retribuido" }
@@ -538,6 +542,117 @@
     <tr>
       <td>Aviso</td>
       <td>Preavisar cuando sea posible (salvo urgencias)</td>
+    </tr>
+  </tbody>
+</table>`,
+                siguiente_pregunta: true
+            },
+
+            permiso_hospitalizacion: {
+                pregunta: "Hospitalización",
+                respuesta: `✅ **PERMISO POR HOSPITALIZACIÓN**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>Días naturales y consecutivos según hospitalización</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Justificante de hospitalización obligatorio</td>
+    </tr>
+    <tr>
+      <td>Aviso</td>
+      <td>Obligatorio comunicar a la empresa</td>
+    </tr>
+  </tbody>
+</table>`,
+                siguiente_pregunta: true
+            },
+
+            permiso_enfermedad_grave: {
+                pregunta: "Enfermedad grave",
+                respuesta: `✅ **PERMISO POR ENFERMEDAD GRAVE**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>5 días</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Justificante médico obligatorio</td>
+    </tr>
+    <tr>
+      <td>Aviso</td>
+      <td>Obligatorio comunicar a la empresa</td>
+    </tr>
+  </tbody>
+</table>`,
+                siguiente_pregunta: true
+            },
+
+            permiso_intervencion: {
+                pregunta: "Intervención quirúrgica + reposo domiciliario",
+                respuesta: `✅ **PERMISO POR INTERVENCIÓN CON REPOSO DOMICILIARIO**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>5 días</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Justificante médico obligatorio</td>
+    </tr>
+    <tr>
+      <td>Aviso</td>
+      <td>Obligatorio comunicar a la empresa</td>
     </tr>
   </tbody>
 </table>`,
@@ -821,7 +936,6 @@
 
             let respuesta = '';
             
-            // Si es una respuesta contextual (depende de la jornada)
             if (nodoSiguiente.contextual) {
                 respuesta = getRespuestaSegunJornada(nodoSiguiente.contextual, appState.worker.jornada);
             } else if (nodoSiguiente.respuesta) {
