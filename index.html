@@ -11,6 +11,10 @@
         @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .btn-opcion { transition: all 0.2s; }
         .btn-opcion:hover { transform: scale(1.02); }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th { background-color: #dc2626; color: white; padding: 10px; border: 1px solid #ccc; text-align: left; }
+        td { border: 1px solid #ccc; padding: 10px; }
+        tr:nth-child(even) { background-color: #f3f4f6; }
     </style>
 </head>
 <body class="bg-white">
@@ -35,7 +39,14 @@
             // ============ VACACIONES ============
             vacaciones: {
                 pregunta: "¿Sobre vacaciones?",
-                respuesta: "✅ **VACACIONES**\n\n• Duración: 30 días naturales al año\n• No son acumulables entre años\n• Se disfrutan según calendario de la empresa\n• Requiere acuerdo contigo para cambios\n\n⚠️ Diferencia: Las vacaciones SON PAGADAS y son diferentes de los permisos.",
+                respuesta: `✅ **VACACIONES**
+
+• Duración: 30 días naturales al año
+• No son acumulables entre años
+• Se disfrutan según calendario de la empresa
+• Requiere acuerdo contigo para cambios
+
+⚠️ Diferencia: Las vacaciones SON PAGADAS y son diferentes de los permisos.`,
                 siguiente_pregunta: true
             },
 
@@ -55,13 +66,67 @@
 
             permiso_matrimonio: {
                 pregunta: "Matrimonio/Pareja de hecho",
-                respuesta: "✅ **PERMISO POR MATRIMONIO**\n\n• Duración: 3 días hábiles consecutivos\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Matrimonio legal o pareja de hecho registrada\n• Documentación: Certificado matrimonio o inscripción pareja",
+                respuesta: `✅ **PERMISO POR MATRIMONIO**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>3 días hábiles consecutivos</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Matrimonio legal o pareja de hecho registrada</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Certificado matrimonio o inscripción pareja</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             permiso_nacimiento: {
                 pregunta: "Nacimiento de hijo",
-                respuesta: "✅ **PERMISO POR NACIMIENTO**\n\n• Duración: 3 días hábiles consecutivos\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Ambos progenitores (padre y madre)\n• Documentación: Acta de nacimiento",
+                respuesta: `✅ **PERMISO POR NACIMIENTO**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>3 días hábiles consecutivos</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Ambos progenitores (padre y madre)</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Acta de nacimiento</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
@@ -78,62 +143,313 @@
 
             defuncion_conyugue: {
                 pregunta: "Fallecimiento de cónyuge/pareja",
-                respuesta: "✅ **PERMISO POR FALLECIMIENTO - CÓNYUGE/PAREJA**\n\n• Duración: 3 días hábiles\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Cónyuge o pareja de hecho registrada",
+                respuesta: `✅ **PERMISO POR FALLECIMIENTO - CÓNYUGE/PAREJA**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>3 días hábiles</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Cónyuge o pareja de hecho registrada</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             defuncion_padres: {
                 pregunta: "Fallecimiento de padres/suegros",
-                respuesta: "✅ **PERMISO POR FALLECIMIENTO - PADRES/SUEGROS**\n\n• Duración: 2 días hábiles\n• Se pagan: SÍ (permiso retribuido)",
+                respuesta: `✅ **PERMISO POR FALLECIMIENTO - PADRES/SUEGROS**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>2 días hábiles</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             defuncion_hermanos: {
                 pregunta: "Fallecimiento de hermanos",
-                respuesta: "✅ **PERMISO POR FALLECIMIENTO - HERMANOS**\n\n• Duración: 2 días hábiles\n• Se pagan: SÍ (permiso retribuido)",
+                respuesta: `✅ **PERMISO POR FALLECIMIENTO - HERMANOS**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>2 días hábiles</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             defuncion_matrimonio: {
                 pregunta: "Matrimonio de hijos/hermanos/padres",
-                respuesta: "✅ **PERMISO POR MATRIMONIO DE FAMILIARES**\n\n• Duración: 1 día hábil (2 días si es en distinta provincia)\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Matrimonio de hijos, hermanos o padres",
+                respuesta: `✅ **PERMISO POR MATRIMONIO DE FAMILIARES**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>1 día hábil (2 días si es en distinta provincia)</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Matrimonio de hijos, hermanos o padres</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             defuncion_otros: {
                 pregunta: "Fallecimiento de tíos/sobrinos",
-                respuesta: "✅ **PERMISO POR FALLECIMIENTO - TÍOS/SOBRINOS**\n\n• Duración: 1 día hábil (2 días si ocurre fuera de provincia)\n• Se pagan: SÍ (permiso retribuido)",
+                respuesta: `✅ **PERMISO POR FALLECIMIENTO - TÍOS/SOBRINOS**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>1 día hábil (2 días si ocurre fuera de provincia)</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             permiso_medico: {
                 pregunta: "Urgencia médica",
-                respuesta: "✅ **PERMISO POR URGENCIA MÉDICA**\n\n• Duración: Tiempo indispensable (no días fijos)\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Cónyuge, pareja de hecho, familiares 1er grado\n• Documentación: Justificante médico obligatorio\n• Aviso: Preavisar cuando sea posible (salvo urgencias)",
+                respuesta: `✅ **PERMISO POR URGENCIA MÉDICA**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>Tiempo indispensable (no días fijos)</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Justificante médico obligatorio</td>
+    </tr>
+    <tr>
+      <td>Aviso</td>
+      <td>Preavisar cuando sea posible (salvo urgencias)</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             permiso_carnet: {
                 pregunta: "Carnet/DNI",
-                respuesta: "✅ **PERMISO PARA CARNET/DNI**\n\n• Duración: Horas estrictamente necesarias\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Exámenes carnet conducir, renovación DNI\n• Documentación: Justificante de la cita\n\nℹ️ También incluye: Examen CAP (tiempo indispensable si coincide con jornada o noche anterior)",
+                respuesta: `✅ **PERMISO PARA CARNET/DNI**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>Horas estrictamente necesarias</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Exámenes carnet conducir, renovación DNI</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Justificante de la cita</td>
+    </tr>
+    <tr>
+      <td>Nota</td>
+      <td>También incluye: Examen CAP (tiempo indispensable si coincide con jornada)</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             permiso_asistencia_medica: {
                 pregunta: "Asistencia médica",
-                respuesta: "✅ **PERMISO PARA ASISTENCIA MÉDICA**\n\n• Duración: Tiempo necesario\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Asistencia a médico especialista y/o pruebas médicas\n• Documentación: Justificante médico obligatorio\n• Aviso: Preavisar cuando sea posible",
+                respuesta: `✅ **PERMISO PARA ASISTENCIA MÉDICA**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>Tiempo necesario</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>SÍ (permiso retribuido)</td>
+    </tr>
+    <tr>
+      <td>Aplicable a</td>
+      <td>Asistencia a médico especialista y/o pruebas médicas</td>
+    </tr>
+    <tr>
+      <td>Documentación</td>
+      <td>Justificante médico obligatorio</td>
+    </tr>
+    <tr>
+      <td>Aviso</td>
+      <td>Preavisar cuando sea posible</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             permiso_no_retribuido: {
                 pregunta: "Permisos sin paga",
-                respuesta: "✅ **PERMISOS NO RETRIBUIDOS**\n\n• Duración: Hasta 30 días al año\n• Se pagan: NO (sin retribución)\n• Motivos: Familiares, sociales, de estudio, etc.\n• Requisito: Acuerdo previo con la empresa\n\n⚠️ IMPORTANTE: Estos NO se pagan. Diferente de permisos retribuidos.",
+                respuesta: `✅ **PERMISOS NO RETRIBUIDOS**
+
+<table>
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duración</td>
+      <td>Hasta 30 días al año</td>
+    </tr>
+    <tr>
+      <td>Se pagan</td>
+      <td>NO (sin retribución)</td>
+    </tr>
+    <tr>
+      <td>Motivos</td>
+      <td>Familiares, sociales, de estudio, etc.</td>
+    </tr>
+    <tr>
+      <td>Requisito</td>
+      <td>Acuerdo previo con la empresa</td>
+    </tr>
+  </tbody>
+</table>
+
+⚠️ IMPORTANTE: Estos NO se pagan. Diferente de permisos retribuidos.`,
                 siguiente_pregunta: true
             },
 
             // ============ BAJAS ============
             bajas: {
                 pregunta: "Bajas médicas",
-                respuesta: "✅ **BAJAS MÉDICAS / INCAPACIDAD TEMPORAL**\n\n• Primeros 3 días: Empresa paga 60% del salario\n• Desde día 4 en adelante: Mutua paga 75% del salario\n• Requisito: Parte médico oficial necesario\n\n⚠️ DIFERENCIA: Baja ≠ Permiso. La baja es por enfermedad acreditada.",
+                respuesta: `✅ **BAJAS MÉDICAS / INCAPACIDAD TEMPORAL**
+
+<table>
+  <thead>
+    <tr>
+      <th>Período</th>
+      <th>Quién Paga</th>
+      <th>Porcentaje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Primeros 3 días</td>
+      <td>Empresa</td>
+      <td>60% del salario</td>
+    </tr>
+    <tr>
+      <td>Desde día 4 en adelante</td>
+      <td>Mutua</td>
+      <td>75% del salario</td>
+    </tr>
+  </tbody>
+</table>
+
+**Requisito:** Parte médico oficial necesario
+
+⚠️ DIFERENCIA: Baja ≠ Permiso. La baja es por enfermedad acreditada.`,
                 siguiente_pregunta: true
             },
 
@@ -148,13 +464,142 @@
 
             salarios_diario: {
                 pregunta: "Salarios Diario 2026",
-                respuesta: "✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana)**\n\n[Datos a actualizar con información exacta del documento]\n\n**PLUS ESPECIALES (se suman al salario base):**\n• Turno noche: +25%\n• Dominical (domingo): +50%\n• Festivo trabajado: +100% (doble)\n• Antigüedad: +2% cada 5 años (máximo 20%)",
+                respuesta: `✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Categoría</th>
+      <th>Salario Mensual</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Peón Limpiador</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Oficial</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Capataz</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+  </tbody>
+</table>
+
+**PLUS ESPECIALES (se suman al salario base):**
+
+<table>
+  <thead>
+    <tr>
+      <th>Plus</th>
+      <th>Incremento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Turno Noche (23:00-06:00)</td>
+      <td>+25%</td>
+    </tr>
+    <tr>
+      <td>Dominical (domingo)</td>
+      <td>+50%</td>
+    </tr>
+    <tr>
+      <td>Festivo trabajado</td>
+      <td>+100% (doble)</td>
+    </tr>
+    <tr>
+      <td>Antigüedad</td>
+      <td>+2% cada 5 años (máximo 20%)</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
             salarios_sdf: {
                 pregunta: "Salarios SDF 2026",
-                respuesta: "✅ **SALARIOS 2026 - JORNADA SDF (Servicios Discontinuos)**\n\n[Datos a actualizar con información exacta del documento]\n\n**GARANTÍAS SDF:**\n• Turnos rotativos\n• Máximo 30 horas/semana (media anual)\n\n**PLUS ESPECIALES:**\n• Turno noche: +25%\n• Dominical: +50%\n• Festivo: +100%\n• Antigüedad: +2% cada 5 años",
+                respuesta: `✅ **SALARIOS 2026 - JORNADA SDF (Servicios Discontinuos)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Categoría</th>
+      <th>Salario Mensual</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Peón Limpiador</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Oficial</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Capataz</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+  </tbody>
+</table>
+
+**GARANTÍAS SDF:**
+
+<table>
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mínimo días/mes garantizados</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Máximo horas/semana (media anual)</td>
+      <td>30 horas</td>
+    </tr>
+    <tr>
+      <td>Turnos</td>
+      <td>Rotativos</td>
+    </tr>
+  </tbody>
+</table>
+
+**PLUS ESPECIALES (igual que Diario):**
+
+<table>
+  <thead>
+    <tr>
+      <th>Plus</th>
+      <th>Incremento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Turno Noche</td>
+      <td>+25%</td>
+    </tr>
+    <tr>
+      <td>Dominical</td>
+      <td>+50%</td>
+    </tr>
+    <tr>
+      <td>Festivo</td>
+      <td>+100%</td>
+    </tr>
+    <tr>
+      <td>Antigüedad</td>
+      <td>+2% cada 5 años</td>
+    </tr>
+  </tbody>
+</table>`,
                 siguiente_pregunta: true
             },
 
@@ -169,13 +614,100 @@
 
             horarios_diario: {
                 pregunta: "Horarios Diario",
-                respuesta: "✅ **HORARIOS - JORNADA DIARIA (35h/semana)**\n\n[Datos a actualizar con horarios exactos del documento]\n\n**DESCANSO:**\n• 2 días consecutivos por semana\n• No cambian sin tu consentimiento\n\n⚠️ Turno noche paga +25% sobre salario base",
+                respuesta: `✅ **HORARIOS - JORNADA DIARIA (35h/semana)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Turno</th>
+      <th>Horario</th>
+      <th>Horas/Día</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mañana</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>7h</td>
+    </tr>
+    <tr>
+      <td>Tarde</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>7h</td>
+    </tr>
+    <tr>
+      <td>Noche</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>7h</td>
+    </tr>
+  </tbody>
+</table>
+
+**DESCANSO:**
+• 2 días consecutivos por semana
+• No cambian sin tu consentimiento
+
+⚠️ Turno noche paga +25% sobre salario base`,
                 siguiente_pregunta: true
             },
 
             horarios_sdf: {
                 pregunta: "Horarios SDF",
-                respuesta: "✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**\n\n[Datos a actualizar con horarios exactos del documento]\n\n**CARACTERÍSTICAS SDF:**\n• Turnos rotativos\n• Máximo 30 horas/semana (media anual)\n• 2 días descanso consecutivos por semana\n\n⚠️ En SDF los turnos rotan, no son fijos como en Diario",
+                respuesta: `✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Turno</th>
+      <th>Horario</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mañana</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Tarde</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Noche</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+  </tbody>
+</table>
+
+**CARACTERÍSTICAS SDF:**
+
+<table>
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Turnos</td>
+      <td>Rotativos (cambias entre mañana, tarde, noche)</td>
+    </tr>
+    <tr>
+      <td>Máximo horas/semana</td>
+      <td>30 (media anual)</td>
+    </tr>
+    <tr>
+      <td>Mínimo días/mes</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Descanso</td>
+      <td>2 días consecutivos por semana</td>
+    </tr>
+  </tbody>
+</table>
+
+⚠️ En SDF los turnos rotan, no son fijos como en Diario`,
                 siguiente_pregunta: true
             }
         };
@@ -459,8 +991,8 @@
                     
                     ${appState.chat.map(msg => `
                         <div class="chat-message ${msg.tipo === 'user' ? 'flex justify-end' : 'flex justify-start'}">
-                            <div class="max-w-2xl ${msg.tipo === 'user' ? 'bg-red-600 text-white' : 'bg-white border border-gray-300'} rounded-lg p-4 text-sm">
-                                ${msg.contenido.split('\n').map(line => `<p>${line}</p>`).join('')}
+                            <div class="max-w-4xl ${msg.tipo === 'user' ? 'bg-red-600 text-white' : 'bg-white border border-gray-300'} rounded-lg p-4 text-sm overflow-auto">
+                                ${msg.contenido.includes('<table>') ? msg.contenido : msg.contenido.split('\n').map(line => `<p>${line}</p>`).join('')}
                             </div>
                         </div>
                     `).join('')}
