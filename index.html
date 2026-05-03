@@ -48,7 +48,7 @@
                     { texto: "⚰️ Defunción/Fallecimiento", siguiente: "permiso_defuncion" },
                     { texto: "🏥 Urgencia médica", siguiente: "permiso_medico" },
                     { texto: "📄 Carnet/DNI", siguiente: "permiso_carnet" },
-                    { texto: "📋 Asuntos propios", siguiente: "permiso_asuntos" },
+                    { texto: "🩺 Asistencia médica", siguiente: "permiso_asistencia_medica" },
                     { texto: "❌ Sin paga (30 días)", siguiente: "permiso_no_retribuido" }
                 ]
             },
@@ -71,6 +71,7 @@
                     { texto: "💑 Cónyuge/Pareja", siguiente: "defuncion_conyugue" },
                     { texto: "👨‍👩‍👧 Padres/Suegros", siguiente: "defuncion_padres" },
                     { texto: "👫 Hermanos", siguiente: "defuncion_hermanos" },
+                    { texto: "📚 Matrimonio hijos/hermanos/padres", siguiente: "defuncion_matrimonio" },
                     { texto: "👨‍👦 Tíos/Sobrinos", siguiente: "defuncion_otros" }
                 ]
             },
@@ -89,7 +90,13 @@
 
             defuncion_hermanos: {
                 pregunta: "Fallecimiento de hermanos",
-                respuesta: "✅ **PERMISO POR FALLECIMIENTO - HERMANOS**\n\n• Duración: 1 día hábil\n• Se pagan: SÍ (permiso retribuido)",
+                respuesta: "✅ **PERMISO POR FALLECIMIENTO - HERMANOS**\n\n• Duración: 2 días hábiles\n• Se pagan: SÍ (permiso retribuido)",
+                siguiente_pregunta: true
+            },
+
+            defuncion_matrimonio: {
+                pregunta: "Matrimonio de hijos/hermanos/padres",
+                respuesta: "✅ **PERMISO POR MATRIMONIO DE FAMILIARES**\n\n• Duración: 1 día hábil (2 días si es en distinta provincia)\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Matrimonio de hijos, hermanos o padres",
                 siguiente_pregunta: true
             },
 
@@ -107,13 +114,13 @@
 
             permiso_carnet: {
                 pregunta: "Carnet/DNI",
-                respuesta: "✅ **PERMISO PARA CARNET/DNI**\n\n• Duración: Horas estrictamente necesarias\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Exámenes carnet conducir, renovación DNI\n• Documentación: Justificante de la cita",
+                respuesta: "✅ **PERMISO PARA CARNET/DNI**\n\n• Duración: Horas estrictamente necesarias\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Exámenes carnet conducir, renovación DNI\n• Documentación: Justificante de la cita\n\nℹ️ También incluye: Examen CAP (tiempo indispensable si coincide con jornada o noche anterior)",
                 siguiente_pregunta: true
             },
 
-            permiso_asuntos: {
-                pregunta: "Asuntos propios",
-                respuesta: "✅ **PERMISO POR ASUNTOS PROPIOS**\n\n• Duración: 1 día por año\n• Se pagan: SÍ (permiso retribuido)\n• Requisito: Aviso previo cuando sea posible",
+            permiso_asistencia_medica: {
+                pregunta: "Asistencia médica",
+                respuesta: "✅ **PERMISO PARA ASISTENCIA MÉDICA**\n\n• Duración: Tiempo necesario\n• Se pagan: SÍ (permiso retribuido)\n• Aplicable a: Asistencia a médico especialista y/o pruebas médicas\n• Documentación: Justificante médico obligatorio\n• Aviso: Preavisar cuando sea posible",
                 siguiente_pregunta: true
             },
 
@@ -134,20 +141,20 @@
             salarios: {
                 pregunta: "¿Cuál es tu jornada?",
                 opciones: [
-                    { texto: "📅 Diario (40h/semana)", siguiente: "salarios_diario" },
+                    { texto: "📅 Diario (35h/semana)", siguiente: "salarios_diario" },
                     { texto: "🔄 SDF (≤30h/semana)", siguiente: "salarios_sdf" }
                 ]
             },
 
             salarios_diario: {
                 pregunta: "Salarios Diario 2026",
-                respuesta: "✅ **SALARIOS 2026 - JORNADA DIARIA**\n\n• Peón limpiador: 1.250€/mes\n• Oficial: 1.380€/mes\n• Capataz: 1.520€/mes\n\n**PLUS ESPECIALES (se suman al salario base):**\n• Turno noche (23:00-06:00): +25%\n• Dominical (domingo): +50%\n• Festivo trabajado: +100% (doble)\n• Antigüedad: +2% cada 5 años (máximo 20%)\n\nEjemplo: Peón en turno noche = 1.250 × 1.25 = 1.562,50€",
+                respuesta: "✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana)**\n\n[Datos a actualizar con información exacta del documento]\n\n**PLUS ESPECIALES (se suman al salario base):**\n• Turno noche: +25%\n• Dominical (domingo): +50%\n• Festivo trabajado: +100% (doble)\n• Antigüedad: +2% cada 5 años (máximo 20%)",
                 siguiente_pregunta: true
             },
 
             salarios_sdf: {
                 pregunta: "Salarios SDF 2026",
-                respuesta: "✅ **SALARIOS 2026 - JORNADA SDF (Servicios Discontinuos)**\n\n• Peón limpiador: 950€/mes\n• Oficial: 1.050€/mes\n• Capataz: 1.160€/mes\n\n**GARANTÍAS SDF:**\n• Mínimo 25 días/mes garantizados\n• Máximo 30 horas/semana (media anual)\n• Turnos rotativos\n\n**PLUS ESPECIALES (igual que Diario):**\n• Turno noche: +25%\n• Dominical: +50%\n• Festivo: +100%\n• Antigüedad: +2% cada 5 años\n\n⚠️ SDF gana menos base porque trabaja menos horas garantizadas.",
+                respuesta: "✅ **SALARIOS 2026 - JORNADA SDF (Servicios Discontinuos)**\n\n[Datos a actualizar con información exacta del documento]\n\n**GARANTÍAS SDF:**\n• Turnos rotativos\n• Máximo 30 horas/semana (media anual)\n\n**PLUS ESPECIALES:**\n• Turno noche: +25%\n• Dominical: +50%\n• Festivo: +100%\n• Antigüedad: +2% cada 5 años",
                 siguiente_pregunta: true
             },
 
@@ -155,20 +162,20 @@
             horarios: {
                 pregunta: "¿Cuál es tu jornada?",
                 opciones: [
-                    { texto: "📅 Diario (40h/semana)", siguiente: "horarios_diario" },
+                    { texto: "📅 Diario (35h/semana)", siguiente: "horarios_diario" },
                     { texto: "🔄 SDF (≤30h/semana)", siguiente: "horarios_sdf" }
                 ]
             },
 
             horarios_diario: {
                 pregunta: "Horarios Diario",
-                respuesta: "✅ **HORARIOS - JORNADA DIARIA (40h/semana)**\n\n• Turno Mañana: 06:00 - 14:30 (8h 30min)\n• Turno Tarde: 14:30 - 23:00 (8h 30min)\n• Turno Noche: 23:00 - 06:00 (7h)\n\n**DESCANSO:**\n• 2 días consecutivos por semana\n• No cambian sin tu consentimiento (inamovibles por antigüedad)\n\n⚠️ Turno noche paga +25% sobre salario base",
+                respuesta: "✅ **HORARIOS - JORNADA DIARIA (35h/semana)**\n\n[Datos a actualizar con horarios exactos del documento]\n\n**DESCANSO:**\n• 2 días consecutivos por semana\n• No cambian sin tu consentimiento\n\n⚠️ Turno noche paga +25% sobre salario base",
                 siguiente_pregunta: true
             },
 
             horarios_sdf: {
                 pregunta: "Horarios SDF",
-                respuesta: "✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**\n\n• Mañana: 06:00 - 14:30\n• Tarde: 14:30 - 23:00\n• Noche: 23:00 - 06:00\n\n**CARACTERÍSTICAS SDF:**\n• Turnos rotativos (cambias entre mañana, tarde, noche)\n• Máximo 30 horas/semana (media anual)\n• Mínimo 25 días/mes garantizados\n• 2 días descanso consecutivos por semana\n\n⚠️ En SDF los turnos rotan, no son fijos como en Diario",
+                respuesta: "✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**\n\n[Datos a actualizar con horarios exactos del documento]\n\n**CARACTERÍSTICAS SDF:**\n• Turnos rotativos\n• Máximo 30 horas/semana (media anual)\n• 2 días descanso consecutivos por semana\n\n⚠️ En SDF los turnos rotan, no son fijos como en Diario",
                 siguiente_pregunta: true
             }
         };
@@ -254,7 +261,6 @@
             const nodoActual = ARBOL_PREGUNTAS[appState.nodoPregunta];
             const nodoSiguiente = ARBOL_PREGUNTAS[siguienteNodo];
 
-            // Agregar opción del usuario al chat
             const textoOpcion = event.target.innerText;
             appState.chat.push({
                 tipo: 'user',
@@ -262,19 +268,15 @@
                 timestamp: new Date()
             });
 
-            // Cambiar nodo
             appState.nodoPregunta = siguienteNodo;
 
-            // Agregar respuesta/pregunta siguiente
             if (nodoSiguiente.respuesta) {
-                // Es una respuesta final
                 appState.chat.push({
                     tipo: 'assistant',
                     contenido: nodoSiguiente.respuesta,
                     timestamp: new Date()
                 });
             } else {
-                // Es otra pregunta
                 appState.chat.push({
                     tipo: 'assistant',
                     contenido: nodoSiguiente.pregunta,
@@ -451,6 +453,7 @@
                         <div class="text-center py-12">
                             <p class="text-gray-700 text-lg font-medium">Bienvenido, ${appState.worker.name}</p>
                             <p class="text-gray-500 text-sm mt-2">Vamos a guiarte hacia la respuesta exacta</p>
+                            <p class="text-gray-400 text-xs mt-4">Jornada: <strong>${appState.worker.jornada}</strong> | Turno: <strong>${appState.worker.turno}</strong></p>
                         </div>
                     ` : ''}
                     
@@ -476,7 +479,7 @@
                     </div>
 
                     <div class="flex gap-2">
-                        <button onclick="window.handleVolver()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-medium text-sm">↩️ Volver al inicio</button>
+                        <button onclick="window.handleVolver()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-medium text-sm">↩️ Volver</button>
                         ${appState.chat.length > 2 ? `<button onclick="window.handleExportarResumen()" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium text-sm">📥 Exportar</button>` : ''}
                     </div>
                 </div>
