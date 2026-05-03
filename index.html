@@ -22,6 +22,239 @@
 
     <script>
         // ============================================
+        // FUNCIONES AUXILIARES PARA RESPUESTAS CONTEXTUALES
+        // ============================================
+        function getRespuestaSegunJornada(tipoRespuesta, jornada) {
+            const respuestas = {
+                salarios: {
+                    Diario: `✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Categoría</th>
+      <th>Salario Mensual</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Peón Limpiador</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Oficial</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Capataz</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+  </tbody>
+</table>
+
+**PLUS ESPECIALES (se suman al salario base):**
+
+<table>
+  <thead>
+    <tr>
+      <th>Plus</th>
+      <th>Incremento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Turno Noche (23:00-06:00)</td>
+      <td>+25%</td>
+    </tr>
+    <tr>
+      <td>Dominical (domingo)</td>
+      <td>+50%</td>
+    </tr>
+    <tr>
+      <td>Festivo trabajado</td>
+      <td>+100% (doble)</td>
+    </tr>
+    <tr>
+      <td>Antigüedad</td>
+      <td>+2% cada 5 años (máximo 20%)</td>
+    </tr>
+  </tbody>
+</table>`,
+                    SDF: `✅ **SALARIOS 2026 - JORNADA SDF (Servicios Discontinuos)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Categoría</th>
+      <th>Salario Mensual</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Peón Limpiador</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Oficial</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Capataz</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+  </tbody>
+</table>
+
+**GARANTÍAS SDF:**
+
+<table>
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mínimo días/mes garantizados</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Máximo horas/semana (media anual)</td>
+      <td>30 horas</td>
+    </tr>
+    <tr>
+      <td>Turnos</td>
+      <td>Rotativos</td>
+    </tr>
+  </tbody>
+</table>
+
+**PLUS ESPECIALES (igual que Diario):**
+
+<table>
+  <thead>
+    <tr>
+      <th>Plus</th>
+      <th>Incremento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Turno Noche</td>
+      <td>+25%</td>
+    </tr>
+    <tr>
+      <td>Dominical</td>
+      <td>+50%</td>
+    </tr>
+    <tr>
+      <td>Festivo</td>
+      <td>+100%</td>
+    </tr>
+    <tr>
+      <td>Antigüedad</td>
+      <td>+2% cada 5 años</td>
+    </tr>
+  </tbody>
+</table>`
+                },
+                horarios: {
+                    Diario: `✅ **HORARIOS - JORNADA DIARIA (35h/semana)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Turno</th>
+      <th>Horario</th>
+      <th>Horas/Día</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mañana</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>7h</td>
+    </tr>
+    <tr>
+      <td>Tarde</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>7h</td>
+    </tr>
+    <tr>
+      <td>Noche</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+      <td>7h</td>
+    </tr>
+  </tbody>
+</table>
+
+**DESCANSO:**
+• 2 días consecutivos por semana
+• No cambian sin tu consentimiento
+
+⚠️ Turno noche paga +25% sobre salario base`,
+                    SDF: `✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**
+
+<table>
+  <thead>
+    <tr>
+      <th>Turno</th>
+      <th>Horario</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mañana</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Tarde</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Noche</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+  </tbody>
+</table>
+
+**CARACTERÍSTICAS SDF:**
+
+<table>
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Turnos</td>
+      <td>Rotativos (cambias entre mañana, tarde, noche)</td>
+    </tr>
+    <tr>
+      <td>Máximo horas/semana</td>
+      <td>30 (media anual)</td>
+    </tr>
+    <tr>
+      <td>Mínimo días/mes</td>
+      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
+    </tr>
+    <tr>
+      <td>Descanso</td>
+      <td>2 días consecutivos por semana</td>
+    </tr>
+  </tbody>
+</table>
+
+⚠️ En SDF los turnos rotan, no son fijos como en Diario`
+                }
+            };
+            return respuestas[tipoRespuesta]?.[jornada] || respuestas[tipoRespuesta]?.Diario || '';
+        }
+
+        // ============================================
         // ÁRBOL DE DECISIÓN CONVERSACIONAL
         // ============================================
         const ARBOL_PREGUNTAS = {
@@ -464,142 +697,13 @@
 
             salarios_diario: {
                 pregunta: "Salarios Diario 2026",
-                respuesta: `✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Categoría</th>
-      <th>Salario Mensual</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Peón Limpiador</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Oficial</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Capataz</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-  </tbody>
-</table>
-
-**PLUS ESPECIALES (se suman al salario base):**
-
-<table>
-  <thead>
-    <tr>
-      <th>Plus</th>
-      <th>Incremento</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Turno Noche (23:00-06:00)</td>
-      <td>+25%</td>
-    </tr>
-    <tr>
-      <td>Dominical (domingo)</td>
-      <td>+50%</td>
-    </tr>
-    <tr>
-      <td>Festivo trabajado</td>
-      <td>+100% (doble)</td>
-    </tr>
-    <tr>
-      <td>Antigüedad</td>
-      <td>+2% cada 5 años (máximo 20%)</td>
-    </tr>
-  </tbody>
-</table>`,
+                contextual: "salarios",
                 siguiente_pregunta: true
             },
 
             salarios_sdf: {
                 pregunta: "Salarios SDF 2026",
-                respuesta: `✅ **SALARIOS 2026 - JORNADA SDF (Servicios Discontinuos)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Categoría</th>
-      <th>Salario Mensual</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Peón Limpiador</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Oficial</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Capataz</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-  </tbody>
-</table>
-
-**GARANTÍAS SDF:**
-
-<table>
-  <thead>
-    <tr>
-      <th>Característica</th>
-      <th>Valor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Mínimo días/mes garantizados</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Máximo horas/semana (media anual)</td>
-      <td>30 horas</td>
-    </tr>
-    <tr>
-      <td>Turnos</td>
-      <td>Rotativos</td>
-    </tr>
-  </tbody>
-</table>
-
-**PLUS ESPECIALES (igual que Diario):**
-
-<table>
-  <thead>
-    <tr>
-      <th>Plus</th>
-      <th>Incremento</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Turno Noche</td>
-      <td>+25%</td>
-    </tr>
-    <tr>
-      <td>Dominical</td>
-      <td>+50%</td>
-    </tr>
-    <tr>
-      <td>Festivo</td>
-      <td>+100%</td>
-    </tr>
-    <tr>
-      <td>Antigüedad</td>
-      <td>+2% cada 5 años</td>
-    </tr>
-  </tbody>
-</table>`,
+                contextual: "salarios",
                 siguiente_pregunta: true
             },
 
@@ -614,100 +718,13 @@
 
             horarios_diario: {
                 pregunta: "Horarios Diario",
-                respuesta: `✅ **HORARIOS - JORNADA DIARIA (35h/semana)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Turno</th>
-      <th>Horario</th>
-      <th>Horas/Día</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Mañana</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-      <td>7h</td>
-    </tr>
-    <tr>
-      <td>Tarde</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-      <td>7h</td>
-    </tr>
-    <tr>
-      <td>Noche</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-      <td>7h</td>
-    </tr>
-  </tbody>
-</table>
-
-**DESCANSO:**
-• 2 días consecutivos por semana
-• No cambian sin tu consentimiento
-
-⚠️ Turno noche paga +25% sobre salario base`,
+                contextual: "horarios",
                 siguiente_pregunta: true
             },
 
             horarios_sdf: {
                 pregunta: "Horarios SDF",
-                respuesta: `✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Turno</th>
-      <th>Horario</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Mañana</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Tarde</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Noche</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-  </tbody>
-</table>
-
-**CARACTERÍSTICAS SDF:**
-
-<table>
-  <thead>
-    <tr>
-      <th>Característica</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Turnos</td>
-      <td>Rotativos (cambias entre mañana, tarde, noche)</td>
-    </tr>
-    <tr>
-      <td>Máximo horas/semana</td>
-      <td>30 (media anual)</td>
-    </tr>
-    <tr>
-      <td>Mínimo días/mes</td>
-      <td>[DATOS PENDIENTES DEL DOCUMENTO]</td>
-    </tr>
-    <tr>
-      <td>Descanso</td>
-      <td>2 días consecutivos por semana</td>
-    </tr>
-  </tbody>
-</table>
-
-⚠️ En SDF los turnos rotan, no son fijos como en Diario`,
+                contextual: "horarios",
                 siguiente_pregunta: true
             }
         };
@@ -802,19 +819,22 @@
 
             appState.nodoPregunta = siguienteNodo;
 
-            if (nodoSiguiente.respuesta) {
-                appState.chat.push({
-                    tipo: 'assistant',
-                    contenido: nodoSiguiente.respuesta,
-                    timestamp: new Date()
-                });
+            let respuesta = '';
+            
+            // Si es una respuesta contextual (depende de la jornada)
+            if (nodoSiguiente.contextual) {
+                respuesta = getRespuestaSegunJornada(nodoSiguiente.contextual, appState.worker.jornada);
+            } else if (nodoSiguiente.respuesta) {
+                respuesta = nodoSiguiente.respuesta;
             } else {
-                appState.chat.push({
-                    tipo: 'assistant',
-                    contenido: nodoSiguiente.pregunta,
-                    timestamp: new Date()
-                });
+                respuesta = nodoSiguiente.pregunta;
             }
+
+            appState.chat.push({
+                tipo: 'assistant',
+                contenido: respuesta,
+                timestamp: new Date()
+            });
 
             guardarEstado();
             renderApp();
@@ -953,7 +973,7 @@
                         <div class="text-4xl font-bold">UGT</div>
                         <div>
                             <h1 class="text-lg font-bold">Convenio Colectivo LPV de Madrid Capital 2026-31</h1>
-                            <p class="text-xs text-red-100">${appState.role === 'admin' ? '👤 Admin' : '👷 ' + appState.worker.name}</p>
+                            <p class="text-xs text-red-100">${appState.role === 'admin' ? '👤 Admin' : '👷 ' + appState.worker.name + ' (' + appState.worker.jornada + ')'}</p>
                         </div>
                     </div>
                     <button onclick="window.handleLogout()" class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg text-sm font-medium">Desloguear</button>
