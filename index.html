@@ -4,6 +4,7 @@
     <meta charSet="UTF-8" />
     <title>Convenio LPV Madrid 2026-31</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- Tailwind Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,34 +12,62 @@
         theme: {
           extend: {
             colors: {
-              primary: "#C8102E", // rojo
+              primary: "#C8102E",
             },
           },
         },
       };
     </script>
+
     <!-- React / ReactDOM / Babel -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Lucide React UMD -->
-    <script src="https://unpkg.com/lucide-react/dist/lucide-react.umd.js"></script>
   </head>
+
   <body class="bg-white text-gray-900">
     <div id="root"></div>
 
     <script type="text/babel">
       const { useState, useEffect } = React;
-      const {
-        Shield,
-        LogOut,
-        Upload,
-        FileText,
-        MessageCircle,
-        FileDown,
-        X,
-      } = LucideReact;
 
+      // === ICONOS SVG ESTILO MATERIAL (OPCIÓN B) ===
+      const IconShield = () => (
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+        </svg>
+      );
+
+      const IconLogout = () => (
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+        </svg>
+      );
+
+      const IconUpload = () => (
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M5 20h14v-2H5m7-9l5 5h-3v4h-4v-4H7l5-5m0-9L2 7v2h20V7"/>
+        </svg>
+      );
+
+      const IconFile = () => (
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        </svg>
+      );
+
+      const IconDownload = () => (
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M5 20h14v-2H5m7-14v10l4-4h-3V6h-2v6H8l4 4z"/>
+        </svg>
+      );
+
+      const IconClose = () => (
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 
+                   12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      );
       // === Datos del convenio (JSON estructurado del .md) ===
       const CONVENIO_DATA = {
         datos_generales: {
@@ -275,233 +304,84 @@
         }
         return "";
       };
-
-      // Búsqueda semántica muy simple por palabras clave + jornada
+      // Búsqueda semántica simple
       const searchConvenio = (question, jornadaKey) => {
         const q = question.toLowerCase();
-
         const matches = [];
 
-        const pushMatch = (section, key, value, extra = "") => {
-          matches.push({
-            section,
-            key,
-            value,
-            extra,
-          });
-        };
-
-        // Normalización básica de sinónimos
         const containsAny = (words) => words.some((w) => q.includes(w));
+        const pushMatch = (section, key, value) =>
+          matches.push({ section, key, value });
 
-        // Jornada / horario
-        if (containsAny(["jornada", "horario", "horas", "semanales", "bocadillo", "descanso"])) {
-          const j = CONVENIO_DATA.jornada[jornadaKey];
-          if (j) {
-            pushMatch(
-              "jornada",
-              jornadaKey,
-              j,
-              "Condiciones de jornada para tu tipo de jornada."
-            );
-          }
+        if (containsAny(["jornada", "horario", "horas", "bocadillo"])) {
+          pushMatch("jornada", jornadaKey, CONVENIO_DATA.jornada[jornadaKey]);
         }
 
-        // Vacaciones
-        if (containsAny(["vacaciones", "verano", "días de vacaciones", "dias de vacaciones"])) {
-          const v = CONVENIO_DATA.vacaciones[jornadaKey];
-          if (v) {
-            pushMatch(
-              "vacaciones",
-              jornadaKey,
-              v,
-              "Régimen de vacaciones según tu jornada."
-            );
-          }
+        if (containsAny(["vacaciones", "verano"])) {
+          pushMatch("vacaciones", jornadaKey, CONVENIO_DATA.vacaciones[jornadaKey]);
         }
 
-        // Horas extra
-        if (containsAny(["horas extra", "extraordinarias", "extras"])) {
-          pushMatch(
-            "horas_extraordinarias",
-            "general",
-            CONVENIO_DATA.horas_extraordinarias,
-            "Regulación general de horas extraordinarias."
-          );
+        if (containsAny(["horas extra", "extraordinarias"])) {
+          pushMatch("horas_extraordinarias", "general", CONVENIO_DATA.horas_extraordinarias);
         }
 
-        // Excedencias
-        if (containsAny(["excedencia", "excedencias"])) {
-          pushMatch(
-            "excedencias",
-            "general",
-            CONVENIO_DATA.excedencias,
-            "Tipos de excedencias y requisitos."
-          );
+        if (containsAny(["permiso", "permisos", "fallecimiento", "hospital"])) {
+          pushMatch("permisos", "general", CONVENIO_DATA.permisos);
         }
 
-        // Permisos
-        if (
-          containsAny([
-            "permiso",
-            "permisos",
-            "matrimonio",
-            "fallecimiento",
-            "hospitalización",
-            "hospitalizacion",
-            "traslado de domicilio",
-            "dni",
-            "carnet de conducir",
-          ])
-        ) {
-          pushMatch(
-            "permisos",
-            "general",
-            CONVENIO_DATA.permisos,
-            "Permisos retribuidos y condiciones."
-          );
+        if (containsAny(["excedencia"])) {
+          pushMatch("excedencias", "general", CONVENIO_DATA.excedencias);
         }
 
-        // Conductores
-        if (
-          containsAny([
-            "conductor",
-            "carnet",
-            "carné",
-            "camión",
-            "camion",
-            "barredora",
-            "baldeadora",
-          ])
-        ) {
-          pushMatch(
-            "conductores",
-            "general",
-            CONVENIO_DATA.conductores,
-            "Condiciones específicas para conductores."
-          );
+        if (containsAny(["traslado"])) {
+          pushMatch("traslados", "general", CONVENIO_DATA.traslados);
         }
 
-        // Traslados
-        if (containsAny(["traslado", "traslados", "cambio de centro"])) {
-          pushMatch(
-            "traslados",
-            "general",
-            CONVENIO_DATA.traslados,
-            "Normas sobre traslados."
-          );
+        if (containsAny(["sancion", "sanción"])) {
+          pushMatch("sanciones", "general", CONVENIO_DATA.sanciones);
         }
 
-        // Sanciones
-        if (containsAny(["sanción", "sancion", "sanciones", "falta grave", "falta muy grave"])) {
-          pushMatch(
-            "sanciones",
-            "general",
-            CONVENIO_DATA.sanciones,
-            "Comunicación de sanciones al comité."
-          );
+        if (containsAny(["ascenso"])) {
+          pushMatch("ascensos", "general", CONVENIO_DATA.ascensos);
         }
 
-        // Ascensos
-        if (containsAny(["ascenso", "ascensos", "promoción", "promocion"])) {
-          pushMatch(
-            "ascensos",
-            "general",
-            CONVENIO_DATA.ascensos,
-            "Sistema de ascensos y requisitos."
-          );
-        }
-
-        // Contratación
-        if (
-          containsAny([
-            "contratación",
-            "contratacion",
-            "eventualidad",
-            "contrato",
-            "circunstancias",
-          ])
-        ) {
-          pushMatch(
-            "contratacion",
-            "general",
-            CONVENIO_DATA.contratacion,
-            "Normas de contratación y eventualidad."
-          );
-        }
-
-        // Datos generales
-        if (containsAny(["ámbito", "ambito", "vigencia", "entrada en vigor", "denuncia"])) {
-          pushMatch(
-            "datos_generales",
-            "general",
-            CONVENIO_DATA.datos_generales,
-            "Ámbito y vigencia del convenio."
-          );
+        if (containsAny(["contrato", "contratacion"])) {
+          pushMatch("contratacion", "general", CONVENIO_DATA.contratacion);
         }
 
         return matches;
       };
 
-      const buildAnswerFromMatches = (matches, jornadaKey) => {
-        if (!matches || matches.length === 0) {
-          return {
-            needsClarification: true,
-            text:
-              "Analizando documento...\n\n" +
-              "Verificando puntos A y B...\n\n" +
-              "Conclusión: No encuentro información clara y directa para tu pregunta. " +
-              "¿Puedes concretar un poco más lo que necesitas (por ejemplo: vacaciones, permisos, jornada, excedencias...)?",
-          };
+      const buildAnswer = (matches, jornadaKey) => {
+        if (matches.length === 0) {
+          return (
+            "Analizando documento...\n\n" +
+            "Verificando puntos A y B...\n\n" +
+            "Conclusión: No encuentro información clara. ¿Puedes concretar un poco más?"
+          );
         }
 
         if (matches.length > 4) {
-          return {
-            needsClarification: true,
-            text:
-              "Analizando documento...\n\n" +
-              "Verificando puntos A y B...\n\n" +
-              "Conclusión: Tu pregunta afecta a varios bloques del convenio (por ejemplo: " +
-              matches
-                .slice(0, 4)
-                .map((m) => m.section)
-                .join(", ") +
-              "). ¿Podrías indicar exactamente sobre qué tema quieres la respuesta?",
-          };
+          return (
+            "Analizando documento...\n\n" +
+            "Verificando puntos A y B...\n\n" +
+            "Conclusión: Tu pregunta afecta a varios bloques. ¿Puedes especificar el tema exacto?"
+          );
         }
 
-        const lines = [];
-        lines.push("Analizando documento...");
-        lines.push("");
-        lines.push("Verificando puntos A y B...");
+        let text = "Analizando documento...\n\nVerificando puntos A y B...\n\n";
 
-        const detalle = matches
-          .map((m, idx) => {
-            const label = `Bloque ${idx + 1} (${m.section}${m.key !== "general" ? " - " + m.key : ""
-              }):`;
-            return `${label}\n${prettyPrint(m.value)}`;
-          })
-          .join("\n\n");
+        matches.forEach((m, i) => {
+          text += `Bloque ${i + 1} (${m.section}):\n${prettyPrint(m.value)}\n\n`;
+        });
 
-        lines.push("");
-        lines.push(detalle);
-        lines.push("");
-        lines.push("Conclusión:");
+        text += `Conclusión: Respuesta aplicada a tu jornada (${jornadaKey}).`;
 
-        const jornadaLabel = jornadaKey === "TT" ? "jornada diaria (TT)" : "jornada SDF";
-
-        lines.push(
-          `La respuesta se basa en el bloque o bloques anteriores, aplicados específicamente a tu ${jornadaLabel}.`
-        );
-
-        return {
-          needsClarification: false,
-          text: lines.join("\n"),
-        };
+        return text;
       };
 
       const App = () => {
-        const [role, setRole] = useState("guest"); // guest | user | admin
+        const [role, setRole] = useState("guest");
         const [adminCode, setAdminCode] = useState("");
         const [authError, setAuthError] = useState("");
 
@@ -512,8 +392,7 @@
           jornada: "",
         });
 
-        const [activeTab, setActiveTab] = useState("consulta"); // consulta | docs
-
+        const [activeTab, setActiveTab] = useState("consulta");
         const [chatMessages, setChatMessages] = useState([]);
         const [currentQuestion, setCurrentQuestion] = useState("");
         const [isThinking, setIsThinking] = useState(false);
@@ -523,7 +402,12 @@
         const [selectedDoc, setSelectedDoc] = useState(null);
         const [selectedDocContent, setSelectedDocContent] = useState("");
 
-        const jornadaKey = formData.jornada === "SDF" ? "SDF" : formData.jornada === "Diario" ? "TT" : null;
+        const jornadaKey =
+          formData.jornada === "SDF"
+            ? "SDF"
+            : formData.jornada === "Diario"
+            ? "TT"
+            : null;
 
         const isFormComplete =
           formData.nombre &&
@@ -534,7 +418,7 @@
 
         const handleLoginAsUser = () => {
           if (!formData.nombre || !formData.empresa || !formData.turno || !formData.jornada) {
-            alert("Rellena todos los campos del formulario antes de continuar.");
+            alert("Rellena todos los campos antes de continuar.");
             return;
           }
           setRole("user");
@@ -552,610 +436,361 @@
         const handleLogout = () => {
           setRole("guest");
           setAdminCode("");
-          setAuthError("");
         };
 
-        const handleFormChange = (field, value) => {
-          setFormData((prev) => ({ ...prev, [field]: value }));
-        };
-
-        const handleAskQuestion = () => {
+        const handleAsk = () => {
           if (!isFormComplete) {
-            alert("Debes completar el formulario y estar logueado como usuario o admin.");
+            alert("Debes completar el formulario.");
             return;
           }
           if (!currentQuestion.trim()) return;
 
-          const question = currentQuestion.trim();
+          const q = currentQuestion.trim();
           setCurrentQuestion("");
 
-          const newMessages = [
-            ...chatMessages,
-            {
-              id: Date.now(),
-              role: "user",
-              text: question,
-            },
-          ];
-          setChatMessages(newMessages);
+          setChatMessages((prev) => [...prev, { role: "user", text: q }]);
           setIsThinking(true);
 
           setTimeout(() => {
-            const matches = searchConvenio(question, jornadaKey || "TT");
-            const answerObj = buildAnswerFromMatches(matches, jornadaKey || "TT");
+            const matches = searchConvenio(q, jornadaKey);
+            const answer = buildAnswer(matches, jornadaKey);
 
-            const assistantMessage = {
-              id: Date.now() + 1,
-              role: "assistant",
-              text: answerObj.text,
-            };
-
-            setChatMessages((prev) => [...prev, assistantMessage]);
+            setChatMessages((prev) => [...prev, { role: "assistant", text: answer }]);
+            setLastAnswer(answer);
             setIsThinking(false);
-            setLastAnswer(answerObj.text);
           }, 900);
         };
 
-        const handleKeyDown = (e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            handleAskQuestion();
-          }
-        };
-
         const handleFiles = (files) => {
-          const arr = Array.from(files);
-          const withMeta = arr.map((file) => ({
-            id: `${file.name}-${file.lastModified}-${Math.random()}`,
+          const arr = Array.from(files).map((file) => ({
+            id: Math.random(),
             file,
             name: file.name,
             type: file.type,
           }));
-          setUploadedDocs((prev) => [...prev, ...withMeta]);
-        };
-
-        const handleDrop = (e) => {
-          e.preventDefault();
-          const files = e.dataTransfer.files;
-          handleFiles(files);
-        };
-
-        const handleDragOver = (e) => {
-          e.preventDefault();
-        };
-
-        const handleFileInputChange = (e) => {
-          const files = e.target.files;
-          handleFiles(files);
-        };
-
-        const handleDeleteDoc = (id) => {
-          setUploadedDocs((prev) => prev.filter((d) => d.id !== id));
-          if (selectedDoc && selectedDoc.id === id) {
-            setSelectedDoc(null);
-            setSelectedDocContent("");
-          }
+          setUploadedDocs((prev) => [...prev, ...arr]);
         };
 
         const handleViewDoc = (doc) => {
           setSelectedDoc(doc);
-          setSelectedDocContent("");
 
-          if (
-            doc.file.type === "text/markdown" ||
-            doc.file.type === "text/plain" ||
-            doc.name.endsWith(".md") ||
-            doc.name.endsWith(".txt")
-          ) {
+          if (doc.name.endsWith(".md") || doc.name.endsWith(".txt")) {
             const reader = new FileReader();
-            reader.onload = (ev) => {
-              setSelectedDocContent(ev.target.result);
-            };
+            reader.onload = (e) => setSelectedDocContent(e.target.result);
             reader.readAsText(doc.file);
           } else {
             setSelectedDocContent("");
           }
         };
 
-        const handleExportSummary = () => {
+        const exportSummary = () => {
           if (!lastAnswer) {
-            alert("No hay ninguna respuesta reciente para exportar.");
+            alert("No hay respuesta para exportar.");
             return;
           }
-          const header = `Resumen de consulta - Convenio Colectivo LPV de Madrid Capital 2026-31\n\n`;
-          const workerInfo = `Trabajador: ${formData.nombre || "-"}\nEmpresa: ${
-            formData.empresa || "-"
-          }\nTurno: ${formData.turno || "-"}\nJornada: ${
-            formData.jornada || "-"
-          }\n\n`;
-          const content = header + workerInfo + lastAnswer;
 
-          const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+          const content =
+            `Resumen de consulta\n\n` +
+            `Trabajador: ${formData.nombre}\n` +
+            `Empresa: ${formData.empresa}\n` +
+            `Turno: ${formData.turno}\n` +
+            `Jornada: ${formData.jornada}\n\n` +
+            lastAnswer;
+
+          const blob = new Blob([content], { type: "text/plain" });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = "resumen_consulta_convenio.txt";
-          document.body.appendChild(a);
+          a.download = "resumen.txt";
           a.click();
-          document.body.removeChild(a);
           URL.revokeObjectURL(url);
         };
 
         return (
-          <div className="min-h-screen flex flex-col bg-white">
-            {/* Header */}
-            <header className="w-full border-b border-gray-200 bg-white">
-              <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="min-h-screen flex flex-col">
+            <header className="border-b bg-white">
+              <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
                 <div className="flex items-center space-x-3">
-                  <img
-                    src="image_0.png"
-                    alt="Logo"
-                    className="h-10 w-auto object-contain"
-                  />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-primary uppercase tracking-wide">
-                      Convenio Colectivo LPV de Madrid Capital 2026-31
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      Herramienta de consulta para trabajadores
-                    </span>
-                  </div>
+                  <img src="image_0.png" className="h-10" />
+                  <span className="text-primary font-bold">
+                    Convenio Colectivo LPV de Madrid Capital 2026-31
+                  </span>
                 </div>
 
-                <div className="flex items-center space-x-3">
-                  {/* Campo código admin */}
-                  <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
-                    <input
-                      type="password"
-                      value={adminCode}
-                      onChange={(e) => setAdminCode(e.target.value)}
-                      placeholder="Código admin"
-                      className="px-2 py-1 text-sm outline-none"
-                    />
-                    <button
-                      onClick={handleAdminAccess}
-                      className="px-2 py-1 bg-primary text-white hover:bg-red-700 flex items-center justify-center"
-                      title="Acceder como ADMIN"
-                    >
-                      <Shield className="w-4 h-4" />
-                    </button>
-                  </div>
-                  {authError && (
-                    <span className="text-xs text-red-600">{authError}</span>
-                  )}
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="password"
+                    placeholder="Código admin"
+                    value={adminCode}
+                    onChange={(e) => setAdminCode(e.target.value)}
+                    className="border px-2 py-1 text-sm"
+                  />
+                  <button
+                    onClick={handleAdminAccess}
+                    className="bg-primary text-white px-2 py-1 rounded"
+                  >
+                    <IconShield />
+                  </button>
 
-                  {/* Logout */}
                   {(role === "user" || role === "admin") && (
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-1 text-xs text-gray-700 border border-gray-300 rounded-md px-2 py-1 hover:bg-gray-100"
+                      className="border px-2 py-1 text-xs rounded flex items-center"
                     >
-                      <LogOut className="w-4 h-4" />
-                      <span>Deslogarse</span>
+                      <IconLogout /> <span className="ml-1">Salir</span>
                     </button>
                   )}
                 </div>
               </div>
             </header>
 
-            {/* Main */}
-            <main className="flex-1">
-              <div className="max-w-6xl mx-auto px-4 py-4">
-                {/* Formulario de acceso */}
-                <section className="mb-4 border border-gray-200 rounded-lg p-4 bg-red-50">
-                  <h2 className="text-lg font-semibold text-primary mb-2">
-                    Hola, Compañero!!
-                  </h2>
-                  <p className="text-xs text-gray-700 mb-3">
-                    Rellena tus datos para poder realizar consultas. Si introduces el
-                    código correcto, accederás como ADMIN y podrás gestionar
-                    documentación.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium text-gray-700 mb-1">
-                        Nombre
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.nombre}
-                        onChange={(e) =>
-                          handleFormChange("nombre", e.target.value)
-                        }
-                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                        placeholder="Tu nombre"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium text-gray-700 mb-1">
-                        Empresa
-                      </label>
-                      <select
-                        value={formData.empresa}
-                        onChange={(e) =>
-                          handleFormChange("empresa", e.target.value)
-                        }
-                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                      >
-                        <option value="">Selecciona empresa</option>
-                        <option value="Prezero">Prezero</option>
-                        <option value="Urbaser">Urbaser</option>
-                        <option value="Valoriza">Valoriza</option>
-                        <option value="FCC">FCC</option>
-                      </select>
-                    </div>
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium text-gray-700 mb-1">
-                        Turno
-                      </label>
-                      <select
-                        value={formData.turno}
-                        onChange={(e) =>
-                          handleFormChange("turno", e.target.value)
-                        }
-                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                      >
-                        <option value="">Selecciona turno</option>
-                        <option value="Mañana">Mañana</option>
-                        <option value="Tarde">Tarde</option>
-                        <option value="Noche">Noche</option>
-                      </select>
-                    </div>
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium text-gray-700 mb-1">
-                        Jornada
-                      </label>
-                      <select
-                        value={formData.jornada}
-                        onChange={(e) =>
-                          handleFormChange("jornada", e.target.value)
-                        }
-                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                      >
-                        <option value="">Selecciona jornada</option>
-                        <option value="Diario">Diario</option>
-                        <option value="SDF">SDF</option>
-                      </select>
-                    </div>
-                  </div>
+            <main className="max-w-6xl mx-auto px-4 py-4 flex-1">
+              <section className="bg-red-50 border p-4 rounded mb-4">
+                <h2 className="text-primary font-bold mb-2">Hola, Compañero!!</h2>
 
-                  <div className="mt-3 flex items-center justify-between">
-                    <div className="text-xs text-gray-600">
-                      Rol actual:{" "}
-                      <span className="font-semibold text-primary">
-                        {role === "guest"
-                          ? "Invitado (sin acceso a consulta)"
-                          : role === "user"
-                          ? "Usuario"
-                          : "ADMIN"}
-                      </span>
-                    </div>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={handleLoginAsUser}
-                        className="px-3 py-1 text-xs rounded-md bg-primary text-white hover:bg-red-700 flex items-center space-x-1"
-                      >
-                        <MessageCircle className="w-4 h-4" />
-                        <span>Acceder como Usuario</span>
-                      </button>
-                    </div>
-                  </div>
-                </section>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    value={formData.nombre}
+                    onChange={(e) =>
+                      setFormData({ ...formData, nombre: e.target.value })
+                    }
+                    className="border px-2 py-1"
+                  />
 
-                {/* Tabs */}
-                <div className="border-b border-gray-200 mb-4">
-                  <nav className="-mb-px flex space-x-4">
-                    <button
-                      onClick={() => setActiveTab("consulta")}
-                      className={`px-3 py-2 text-sm font-medium border-b-2 ${
-                        activeTab === "consulta"
-                          ? "border-primary text-primary"
-                          : "border-transparent text-gray-500 hover:text-gray-700"
-                      }`}
-                    >
-                      Consulta
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("docs")}
-                      className={`px-3 py-2 text-sm font-medium border-b-2 ${
-                        activeTab === "docs"
-                          ? "border-primary text-primary"
-                          : "border-transparent text-gray-500 hover:text-gray-700"
-                      }`}
-                    >
-                      Documentación
-                    </button>
-                  </nav>
+                  <select
+                    value={formData.empresa}
+                    onChange={(e) =>
+                      setFormData({ ...formData, empresa: e.target.value })
+                    }
+                    className="border px-2 py-1"
+                  >
+                    <option value="">Empresa</option>
+                    <option>Prezero</option>
+                    <option>Urbaser</option>
+                    <option>Valoriza</option>
+                    <option>FCC</option>
+                  </select>
+
+                  <select
+                    value={formData.turno}
+                    onChange={(e) =>
+                      setFormData({ ...formData, turno: e.target.value })
+                    }
+                    className="border px-2 py-1"
+                  >
+                    <option value="">Turno</option>
+                    <option>Mañana</option>
+                    <option>Tarde</option>
+                    <option>Noche</option>
+                  </select>
+
+                  <select
+                    value={formData.jornada}
+                    onChange={(e) =>
+                      setFormData({ ...formData, jornada: e.target.value })
+                    }
+                    className="border px-2 py-1"
+                  >
+                    <option value="">Jornada</option>
+                    <option>Diario</option>
+                    <option>SDF</option>
+                  </select>
                 </div>
 
-                {/* Contenido pestañas */}
-                {activeTab === "consulta" && (
-                  <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    {/* Chat */}
-                    <div className="lg:col-span-2 border border-gray-200 rounded-lg flex flex-col h-[480px]">
-                      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200 bg-gray-50">
-                        <div className="flex items-center space-x-2">
-                          <MessageCircle className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-semibold">
-                            Chat de consulta
-                          </span>
-                        </div>
-                        <button
-                          onClick={handleExportSummary}
-                          className="flex items-center space-x-1 text-xs text-primary border border-primary rounded-md px-2 py-1 hover:bg-primary hover:text-white"
+                <div className="mt-3">
+                  <button
+                    onClick={handleLoginAsUser}
+                    className="bg-primary text-white px-3 py-1 rounded text-sm"
+                  >
+                    Acceder como Usuario
+                  </button>
+                </div>
+              </section>
+
+              <div className="border-b mb-4">
+                <button
+                  onClick={() => setActiveTab("consulta")}
+                  className={`px-3 py-2 ${
+                    activeTab === "consulta"
+                      ? "border-b-2 border-primary text-primary"
+                      : "text-gray-500"
+                  }`}
+                >
+                  Consulta
+                </button>
+
+                <button
+                  onClick={() => setActiveTab("docs")}
+                  className={`px-3 py-2 ${
+                    activeTab === "docs"
+                      ? "border-b-2 border-primary text-primary"
+                      : "text-gray-500"
+                  }`}
+                >
+                  Documentación
+                </button>
+              </div>
+
+              {activeTab === "consulta" && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="lg:col-span-2 border rounded p-3 flex flex-col h-[480px]">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold text-primary">
+                        Chat de consulta
+                      </span>
+                      <button
+                        onClick={exportSummary}
+                        className="border border-primary text-primary px-2 py-1 rounded text-xs flex items-center"
+                      >
+                        <IconDownload /> <span className="ml-1">Exportar</span>
+                      </button>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto space-y-2 text-sm">
+                      {chatMessages.map((m, i) => (
+                        <div
+                          key={i}
+                          className={`flex ${
+                            m.role === "user" ? "justify-end" : "justify-start"
+                          }`}
                         >
-                          <FileDown className="w-4 h-4" />
-                          <span>Exportar Resumen</span>
-                        </button>
-                      </div>
-                      <div className="flex-1 overflow-y-auto p-3 space-y-2 text-sm">
-                        {chatMessages.length === 0 && (
-                          <div className="text-xs text-gray-500">
-                            Escribe tu pregunta sobre el convenio (por ejemplo:
-                            vacaciones, permisos, jornada, excedencias...). La
-                            respuesta se basará únicamente en el documento.
-                          </div>
-                        )}
-                        {chatMessages.map((msg) => (
                           <div
-                            key={msg.id}
-                            className={`flex ${
-                              msg.role === "user"
-                                ? "justify-end"
-                                : "justify-start"
+                            className={`px-3 py-2 rounded max-w-[80%] whitespace-pre-wrap ${
+                              m.role === "user"
+                                ? "bg-primary text-white"
+                                : "bg-gray-100"
                             }`}
                           >
-                            <div
-                              className={`max-w-[80%] rounded-lg px-3 py-2 whitespace-pre-wrap ${
-                                msg.role === "user"
-                                  ? "bg-primary text-white"
-                                  : "bg-gray-100 text-gray-900"
-                              }`}
-                            >
-                              {msg.text}
-                            </div>
+                            {m.text}
                           </div>
-                        ))}
-                        {isThinking && (
-                          <div className="flex justify-start">
-                            <div className="bg-gray-100 text-gray-700 rounded-lg px-3 py-2 text-xs">
-                              Analizando documento...
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="border-t border-gray-200 p-2">
-                        <textarea
-                          value={currentQuestion}
-                          onChange={(e) => setCurrentQuestion(e.target.value)}
-                          onKeyDown={handleKeyDown}
-                          rows={2}
-                          className="w-full border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                          placeholder="Escribe tu pregunta aquí..."
+                        </div>
+                      ))}
+
+                      {isThinking && (
+                        <div className="text-xs text-gray-500">
+                          Analizando documento...
+                        </div>
+                      )}
+                    </div>
+
+                    <textarea
+                      value={currentQuestion}
+                      onChange={(e) => setCurrentQuestion(e.target.value)}
+                      className="border px-2 py-1 text-sm mt-2"
+                      rows={2}
+                      placeholder="Escribe tu pregunta..."
+                    ></textarea>
+
+                    <button
+                      onClick={handleAsk}
+                      className="bg-primary text-white px-3 py-1 rounded mt-2"
+                    >
+                      Preguntar
+                    </button>
+                  </div>
+
+                  <div className="border rounded p-3 text-xs bg-gray-50">
+                    <h3 className="text-primary font-semibold mb-2">
+                      Contexto
+                    </h3>
+                    <p><b>Nombre:</b> {formData.nombre || "-"}</p>
+                    <p><b>Empresa:</b> {formData.empresa || "-"}</p>
+                    <p><b>Turno:</b> {formData.turno || "-"}</p>
+                    <p><b>Jornada:</b> {formData.jornada || "-"}</p>
+                    <p><b>Rol:</b> {role}</p>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "docs" && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="border rounded p-3">
+                    <h3 className="text-primary font-semibold mb-2">
+                      Gestión de documentación
+                    </h3>
+
+                    {role !== "admin" && (
+                      <p className="text-xs text-gray-600">
+                        Solo ADMIN puede subir archivos.
+                      </p>
+                    )}
+
+                    {role === "admin" && (
+                      <>
+                        <div
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            handleFiles(e.dataTransfer.files);
+                          }}
+                          onDragOver={(e) => e.preventDefault()}
+                          className="border-2 border-dashed p-4 text-center text-xs"
+                        >
+                          Arrastra archivos aquí
+                        </div>
+
+                        <input
+                          type="file"
+                          multiple
+                          className="mt-2 text-xs"
+                          onChange={(e) => handleFiles(e.target.files)}
                         />
-                        <div className="mt-2 flex justify-end">
-                          <button
-                            onClick={handleAskQuestion}
-                            className="px-3 py-1 text-sm rounded-md bg-primary text-white hover:bg-red-700"
-                          >
-                            Preguntar
-                          </button>
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Panel lateral: contexto */}
-                    <div className="border border-gray-200 rounded-lg p-3 bg-gray-50 text-xs space-y-2">
-                      <h3 className="text-sm font-semibold text-primary mb-1">
-                        Contexto de la consulta
-                      </h3>
-                      <div>
-                        <span className="font-semibold">Nombre:</span>{" "}
-                        {formData.nombre || "-"}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Empresa:</span>{" "}
-                        {formData.empresa || "-"}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Turno:</span>{" "}
-                        {formData.turno || "-"}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Jornada:</span>{" "}
-                        {formData.jornada || "-"}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Rol:</span>{" "}
-                        {role === "guest"
-                          ? "Invitado"
-                          : role === "user"
-                          ? "Usuario"
-                          : "ADMIN"}
-                      </div>
-                      <hr className="my-2" />
-                      <p className="text-[11px] text-gray-600">
-                        REGLA DE ORO: La herramienta no inventa información. Si
-                        la respuesta no es clara en el documento, se te pedirá
-                        que concretes más la pregunta antes de dar una
-                        conclusión.
+                        <ul className="mt-3 text-xs max-h-48 overflow-y-auto space-y-1">
+                          {uploadedDocs.map((doc) => (
+                            <li
+                              key={doc.id}
+                              className="border px-2 py-1 rounded flex justify-between"
+                            >
+                              <span className="flex items-center">
+                                <IconFile /> <span className="ml-1">{doc.name}</span>
+                              </span>
+                              <button
+                                onClick={() => handleViewDoc(doc)}
+                                className="text-primary text-xs"
+                              >
+                                Ver
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="lg:col-span-2 border rounded p-3">
+                    <h3 className="text-primary font-semibold mb-2">
+                      Visor
+                    </h3>
+
+                    {!selectedDoc && (
+                      <p className="text-xs text-gray-600">
+                        Selecciona un archivo para visualizarlo.
                       </p>
-                      <p className="text-[11px] text-gray-600">
-                        Recuerda indicar siempre tu tipo de jornada (Diario o
-                        SDF) en el formulario, ya que algunas condiciones
-                        cambian según el colectivo.
-                      </p>
-                    </div>
-                  </section>
-                )}
+                    )}
 
-                {activeTab === "docs" && (
-                  <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    {/* Gestión de documentos (solo admin) */}
-                    <div className="lg:col-span-1 border border-gray-200 rounded-lg p-3">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Upload className="w-4 h-4 text-primary" />
-                        <h3 className="text-sm font-semibold text-primary">
-                          Gestión de documentación
-                        </h3>
-                      </div>
-                      {role !== "admin" && (
-                        <p className="text-xs text-gray-600">
-                          Solo el rol ADMIN puede subir, modificar o eliminar
-                          archivos. Introduce el código en el header para
-                          acceder como ADMIN.
-                        </p>
-                      )}
-                      {role === "admin" && (
-                        <>
-                          <div
-                            onDrop={handleDrop}
-                            onDragOver={handleDragOver}
-                            className="mt-2 border-2 border-dashed border-gray-300 rounded-md p-4 text-center text-xs text-gray-600 hover:border-primary cursor-pointer"
-                          >
-                            Arrastra aquí tus archivos .md, .pdf o .txt
-                          </div>
-                          <div className="mt-2">
-                            <input
-                              type="file"
-                              multiple
-                              accept=".md,.pdf,.txt,text/plain,application/pdf"
-                              onChange={handleFileInputChange}
-                              className="text-xs"
-                            />
-                          </div>
-                          <div className="mt-3">
-                            <h4 className="text-xs font-semibold mb-1">
-                              Archivos subidos
-                            </h4>
-                            {uploadedDocs.length === 0 && (
-                              <p className="text-xs text-gray-500">
-                                No hay archivos subidos todavía.
-                              </p>
-                            )}
-                            <ul className="space-y-1 max-h-48 overflow-y-auto text-xs">
-                              {uploadedDocs.map((doc) => (
-                                <li
-                                  key={doc.id}
-                                  className="flex items-center justify-between border border-gray-200 rounded-md px-2 py-1 bg-gray-50"
-                                >
-                                  <div className="flex items-center space-x-1">
-                                    <FileText className="w-3 h-3 text-primary" />
-                                    <span className="truncate max-w-[120px]">
-                                      {doc.name}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center space-x-1">
-                                    <button
-                                      onClick={() => handleViewDoc(doc)}
-                                      className="text-[11px] text-primary hover:underline"
-                                    >
-                                      Ver
-                                    </button>
-                                    <button
-                                      onClick={() => handleDeleteDoc(doc.id)}
-                                      className="text-[11px] text-red-600 hover:underline"
-                                    >
-                                      Eliminar
-                                    </button>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Visor de documentos (solo admin) */}
-                    <div className="lg:col-span-2 border border-gray-200 rounded-lg p-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-2">
-                          <FileText className="w-4 h-4 text-primary" />
-                          <h3 className="text-sm font-semibold text-primary">
-                            Visor de documentación
-                          </h3>
-                        </div>
-                        {selectedDoc && (
-                          <button
-                            onClick={() => {
-                              setSelectedDoc(null);
-                              setSelectedDocContent("");
-                            }}
-                            className="flex items-center space-x-1 text-xs text-gray-600 hover:text-gray-900"
-                          >
-                            <X className="w-3 h-3" />
-                            <span>Cerrar</span>
-                          </button>
+                    {selectedDoc && (
+                      <div className="h-[420px] overflow-auto border p-2 bg-white">
+                        {selectedDoc.name.endsWith(".pdf") ? (
+                          <iframe
+                            src={URL.createObjectURL(selectedDoc.file)}
+                            className="w-full h-full"
+                          ></iframe>
+                        ) : (
+                          <pre className="text-xs whitespace-pre-wrap">
+                            {selectedDocContent}
+                          </pre>
                         )}
                       </div>
-                      {role !== "admin" && (
-                        <p className="text-xs text-gray-600">
-                          Solo el rol ADMIN puede visualizar los archivos
-                          subidos. Introduce el código en el header para acceder
-                          como ADMIN.
-                        </p>
-                      )}
-                      {role === "admin" && (
-                        <div className="h-[420px] border border-gray-200 rounded-md overflow-hidden bg-gray-50">
-                          {!selectedDoc && (
-                            <div className="h-full flex items-center justify-center text-xs text-gray-500 px-4 text-center">
-                              Selecciona un archivo de la lista para visualizar
-                              su contenido. Los archivos .md y .txt se mostrarán
-                              como texto; los .pdf se abrirán en un visor
-                              embebido del navegador.
-                            </div>
-                          )}
-                          {selectedDoc && (
-                            <div className="h-full flex flex-col">
-                              <div className="px-3 py-2 border-b border-gray-200 bg-white text-xs flex justify-between items-center">
-                                <span className="font-semibold">
-                                  {selectedDoc.name}
-                                </span>
-                                <span className="text-gray-500">
-                                  {selectedDoc.type || "tipo desconocido"}
-                                </span>
-                              </div>
-                              <div className="flex-1 overflow-auto bg-white">
-                                {(selectedDoc.file.type === "application/pdf" ||
-                                  selectedDoc.name.endsWith(".pdf")) && (
-                                  <iframe
-                                    title={selectedDoc.name}
-                                    src={URL.createObjectURL(selectedDoc.file)}
-                                    className="w-full h-full"
-                                  />
-                                )}
-                                {(selectedDoc.file.type === "text/markdown" ||
-                                  selectedDoc.file.type === "text/plain" ||
-                                  selectedDoc.name.endsWith(".md") ||
-                                  selectedDoc.name.endsWith(".txt")) && (
-                                  <pre className="p-3 text-[11px] whitespace-pre-wrap">
-                                    {selectedDocContent ||
-                                      "Cargando contenido..."}
-                                  </pre>
-                                )}
-                                {!selectedDoc.name.match(/\.(pdf|md|txt)$/i) &&
-                                  !selectedDoc.file.type && (
-                                    <div className="p-3 text-xs text-gray-500">
-                                      Tipo de archivo no soportado para vista
-                                      previa.
-                                    </div>
-                                  )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </section>
-                )}
-              </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </main>
 
-            {/* Footer */}
-            <footer className="border-t border-gray-200 py-2 text-center text-[11px] text-gray-500">
-              Convenio Colectivo LPV de Madrid Capital 2026-31 · Herramienta de
-              consulta interna
+            <footer className="text-center text-xs text-gray-500 py-2 border-t">
+              Convenio LPV Madrid 2026-31 · Herramienta interna
             </footer>
           </div>
         );
