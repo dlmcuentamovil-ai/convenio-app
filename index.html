@@ -1,1200 +1,1168 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convenio Colectivo LPV Madrid 2026-31</title>
+  <head>
+    <meta charSet="UTF-8" />
+    <title>Convenio LPV Madrid 2026-31</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        .chat-message { animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .btn-opcion { transition: all 0.2s; }
-        .btn-opcion:hover { transform: scale(1.02); }
-        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-        th { background-color: #dc2626; color: white; padding: 10px; border: 1px solid #ccc; text-align: left; }
-        td { border: 1px solid #ccc; padding: 10px; }
-        tr:nth-child(even) { background-color: #f3f4f6; }
-    </style>
-</head>
-<body class="bg-white">
-    <div id="app"></div>
-
     <script>
-        // ============================================
-        // FUNCIONES AUXILIARES PARA RESPUESTAS CONTEXTUALES
-        // ============================================
-        function getRespuestaSegunJornada(tipoRespuesta, jornada) {
-            const respuestas = {
-                vacaciones: {
-                    Diario: `✅ **VACACIONES - JORNADA DIARIA**
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#C8102E", // rojo
+            },
+          },
+        },
+      };
+    </script>
+    <!-- React / ReactDOM / Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide React UMD -->
+    <script src="https://unpkg.com/lucide-react/dist/lucide-react.umd.js"></script>
+  </head>
+  <body class="bg-white text-gray-900">
+    <div id="root"></div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>31 días naturales al año</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (son retribuidas)</td>
-    </tr>
-    <tr>
-      <td>Acumulación</td>
-      <td>No son acumulables entre años</td>
-    </tr>
-    <tr>
-      <td>Disfrute</td>
-      <td>Según calendario empresa con tu acuerdo</td>
-    </tr>
-  </tbody>
-</table>
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+      const {
+        Shield,
+        LogOut,
+        Upload,
+        FileText,
+        MessageCircle,
+        FileDown,
+        X,
+      } = LucideReact;
 
-⚠️ Diferencia: Las vacaciones SON PAGADAS y son diferentes de los permisos.`,
-                    SDF: `✅ **VACACIONES - JORNADA SDF**
+      // === Datos del convenio (JSON estructurado del .md) ===
+      const CONVENIO_DATA = {
+        datos_generales: {
+          ambito_territorial: "Término municipal de Madrid (incluye interbloques)",
+          vigencia: {
+            inicio: "01-01-2026",
+            fin: "31-12-2031",
+            duracion_anios: 6,
+          },
+          entrada_en_vigor: "Desde el momento de su firma",
+          denuncia: "Automática al finalizar su vigencia",
+          parte_empresarial: "ASELIP",
+          parte_social: ["UGT Servicios Públicos", "CCOO Hábitat Madrid"],
+          unidad_electoral: [
+            "Distritos municipales",
+            "SELUR",
+            "Aeropuerto Adolfo Suárez",
+            "Interbloques",
+          ],
+        },
+        colectivos: {
+          TT: {
+            nombre: "Jornada completa / Diario",
+            abreviatura: "TT",
+          },
+          SDF: {
+            nombre: "Jornada parcial / Sábados, domingos y festivos",
+            abreviatura: "SDF",
+          },
+        },
+        jornada: {
+          TT: {
+            horas_semanales: 35,
+            dias_trabajo: ["lunes", "martes", "miércoles", "jueves", "viernes"],
+            bocadillo: {
+              minutos: 30,
+              computado_como_trabajo: true,
+            },
+            descansos: ["sábado", "domingo", "festivos"],
+            sabados_no_festivos: "Se abonan como día efectivo de trabajo",
+            hora_mensual_nomina: true,
+            licencias_retribuidas_anuales: {
+              dias: 2,
+              condiciones: {
+                preferencia: "unir a festivo navideño",
+                maximo_consecutivo: 3,
+                maximo_plantilla: "25%",
+                disfrute_hasta: "30-11 del año siguiente",
+              },
+            },
+          },
+          SDF: {
+            jornada_diaria_horas: 7,
+            bocadillo: {
+              minutos: 30,
+              computado_como_trabajo: true,
+            },
+            servicio: ["sábado", "domingo", "festivos"],
+            hora_mensual_nomina: true,
+            licencias_retribuidas_anuales: {
+              dias: 1,
+              maximo_plantilla: "33%",
+              disfrute_hasta: "30-11 del año siguiente",
+            },
+            san_martin_porres: {
+              paga: true,
+              importe_2026: 36.17,
+            },
+          },
+          turno_nocturno: {
+            voluntario: true,
+            no_rotativo: true,
+            si_no_hay_voluntarios: "rotación entre personal de día",
+            excepcion: "mayores de 60 años (voluntario)",
+          },
+          requisitos_turno_voluntario: [
+            "Estar apuntado al turno voluntario",
+            "Relación laboral no suspendida",
+            "Solicitar con 1 mes de antelación",
+            "No solicitar en periodo vacacional",
+            "No superar 15% plantilla por turno/categoría",
+            "Sorteo si hay más solicitudes que plazas",
+          ],
+        },
+        vacaciones: {
+          TT: {
+            duracion_dias_naturales: 31,
+            periodo_2026: [
+              "1 julio - 31 julio",
+              "1 agosto - 31 agosto",
+              "1 septiembre - 1 octubre",
+            ],
+            periodo_desde_2027: ["1 julio - 31 agosto"],
+            turno_publicado_minimo_meses: 2,
+            cambios_entre_trabajadores_hasta: "15 junio",
+            IT_embarazo_parto_lactancia:
+              "se disfrutan al finalizar la suspensión",
+            limite_disfrute: "31 diciembre salvo IT",
+            complemento_empresa_si_no_disfruta_por_IT: true,
+          },
+          SDF: {
+            duracion_dias_efectivos: 10,
+            periodo_2026: "1 julio - 1 octubre",
+            periodo_desde_2027: "1 julio - 31 agosto",
+            ampliacion_si_menos_de_20_festivos: true,
+          },
+        },
+        horas_extraordinarias: {
+          permitidas_solo: "casos excepcionales",
+          ejemplos: ["daños extraordinarios", "urgencias"],
+          referencia_legal: "Orden Ministerial 1 marzo 1983",
+          acuerdos_con_comite: true,
+        },
+        traslados: {
+          solicitud_trabajador: "por escrito",
+          empresa_puede_disponer: true,
+          excepcion: "turno nocturno",
+          prohibido_por_sancion: true,
+          comunicacion_comite: "obligatoria",
+          sorteo_en_horas: 72,
+        },
+        sanciones: {
+          graves_muy_graves: {
+            comunicacion_comite_minimo_horas: 48,
+          },
+          resto_sanciones: {
+            comunicacion_comite_maximo_horas: 18,
+          },
+        },
+        excedencias: {
+          voluntaria: {
+            requisito_antiguedad: "1 año",
+            duracion: {
+              minimo_meses: 4,
+              maximo_anios: 5,
+            },
+            prorroga: "año a año",
+            reingreso_preaviso: "1 mes",
+            cargos_publicos_sindicales: "sin requisito de antigüedad",
+          },
+          cuidado_familiares: {
+            familiares: "primer grado o cónyuge",
+            periodos_minimos_dias: 15,
+            solicitud_preaviso_dias: 10,
+            maximo_meses: 4,
+            renovable: true,
+            limitacion_si_dos_trabajadores: true,
+          },
+        },
+        permisos: {
+          examenes_estudios_oficiales: 10,
+          matrimonio_pareja_hecho: 15,
+          accidente_grave: 5,
+          hospitalizacion: 5,
+          cirugia_con_reposo: 5,
+          intervencion_ambulatoria: {
+            dias: 1,
+            extra_por_desplazamiento: 2,
+          },
+          fallecimiento: {
+            parientes: "hasta 2º grado",
+            dias: 3,
+            extra_por_desplazamiento: 2,
+          },
+          traslado_domicilio: 2,
+          matrimonio_familiares: 1,
+          dni_carnet_conducir: "horas necesarias",
+          urgencias_hospitalarias: "tiempo indispensable",
+        },
+        conductores: {
+          carnet_minimo: "C",
+          vehiculos_exclusivos_conductores: [
+            "camiones recolectores",
+            "vehículos > 3500 kg",
+            "barredoras > 2000 kg",
+            "baldeadoras",
+          ],
+          vehiculos_peinado: "carnet B",
+          retirada_carnet: {
+            mantiene_categoria_salario: true,
+            excepcion: "embriaguez o toxicomanía",
+          },
+          tiempo_examen_carnet: "jornada de trabajo",
+        },
+        ascensos: {
+          libre_designacion: [
+            "Jefe de Servicio",
+            "Encargado General",
+            "Subencargado General",
+          ],
+          resto: {
+            criterios: ["concurso", "examen", "antigüedad"],
+            peso: "50% cada uno",
+          },
+          requisito_antiguedad_meses: 6,
+          convocatoria_publicada_minimo_dias: 10,
+        },
+        contratacion: {
+          maximo_eventualidad: {
+            TT: "10%",
+            SDF: "18%",
+          },
+          no_computan: [
+            "eventuales verano",
+            "relevo",
+            "campañas especiales",
+            "interinidades",
+            "excedencias",
+            "sustituciones",
+          ],
+          contrato_circunstancias: {
+            maximo_meses: 12,
+            periodo_referencia_meses: 18,
+          },
+          transformaciones_SDF_a_TT: {
+            ratio: "7 de cada 10",
+            requisito_antiguedad_meses: 6,
+          },
+        },
+      };
 
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>10 días naturales al año</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (son retribuidas)</td>
-    </tr>
-    <tr>
-      <td>Acumulación</td>
-      <td>No son acumulables entre años</td>
-    </tr>
-    <tr>
-      <td>Disfrute</td>
-      <td>Según calendario empresa con tu acuerdo</td>
-    </tr>
-  </tbody>
-</table>
-
-⚠️ Diferencia: Las vacaciones SON PAGADAS y son diferentes de los permisos.`
-                },
-                salarios: {
-                    Diario: `✅ **SALARIOS 2026 - JORNADA DIARIA (35h/semana, 7h/día)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Categoría</th>
-      <th>Salario Mensual</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Peón Limpiador</td>
-      <td>[Pendiente de publicar]</td>
-    </tr>
-    <tr>
-      <td>Oficial</td>
-      <td>[Pendiente de publicar]</td>
-    </tr>
-    <tr>
-      <td>Capataz</td>
-      <td>[Pendiente de publicar]</td>
-    </tr>
-  </tbody>
-</table>
-
-**PLUS ESPECIALES (se suman al salario base):**
-
-<table>
-  <thead>
-    <tr>
-      <th>Plus</th>
-      <th>Incremento</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Turno Noche</td>
-      <td>+25%</td>
-    </tr>
-    <tr>
-      <td>Dominical</td>
-      <td>+50%</td>
-    </tr>
-    <tr>
-      <td>Festivo trabajado</td>
-      <td>+100%</td>
-    </tr>
-    <tr>
-      <td>Antigüedad</td>
-      <td>+2% cada 5 años (máx 20%)</td>
-    </tr>
-  </tbody>
-</table>`,
-                    SDF: `✅ **SALARIOS 2026 - JORNADA SDF (≤30h/semana)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Categoría</th>
-      <th>Salario Mensual</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Peón Limpiador</td>
-      <td>[Pendiente de publicar]</td>
-    </tr>
-    <tr>
-      <td>Oficial</td>
-      <td>[Pendiente de publicar]</td>
-    </tr>
-    <tr>
-      <td>Capataz</td>
-      <td>[Pendiente de publicar]</td>
-    </tr>
-  </tbody>
-</table>
-
-**PLUS ESPECIALES (igual que Diario):**
-
-<table>
-  <thead>
-    <tr>
-      <th>Plus</th>
-      <th>Incremento</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Turno Noche</td>
-      <td>+25%</td>
-    </tr>
-    <tr>
-      <td>Dominical</td>
-      <td>+50%</td>
-    </tr>
-    <tr>
-      <td>Festivo</td>
-      <td>+100%</td>
-    </tr>
-    <tr>
-      <td>Antigüedad</td>
-      <td>+2% cada 5 años</td>
-    </tr>
-  </tbody>
-</table>`
-                },
-                horarios: {
-                    Diario: `✅ **HORARIOS - JORNADA DIARIA**
-
-<table>
-  <thead>
-    <tr>
-      <th>Característica</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Jornada semanal</td>
-      <td>35 horas</td>
-    </tr>
-    <tr>
-      <td>Horas por día</td>
-      <td>7 horas</td>
-    </tr>
-    <tr>
-      <td>Turnos</td>
-      <td>Mañana, Tarde, Noche</td>
-    </tr>
-    <tr>
-      <td>Descanso semanal</td>
-      <td>2 días consecutivos</td>
-    </tr>
-  </tbody>
-</table>
-
-⚠️ Turno noche paga +25% sobre salario base`,
-                    SDF: `✅ **HORARIOS - JORNADA SDF (Servicios Discontinuos)**
-
-<table>
-  <thead>
-    <tr>
-      <th>Característica</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Máximo semanal</td>
-      <td>30 horas/semana (media anual)</td>
-    </tr>
-    <tr>
-      <td>Horas por día</td>
-      <td>7 horas</td>
-    </tr>
-    <tr>
-      <td>Turnos</td>
-      <td>Rotativos (Mañana, Tarde, Noche)</td>
-    </tr>
-    <tr>
-      <td>Descanso semanal</td>
-      <td>2 días consecutivos</td>
-    </tr>
-  </tbody>
-</table>
-
-⚠️ En SDF los turnos rotan, no son fijos como en Diario`
-                }
-            };
-            return respuestas[tipoRespuesta]?.[jornada] || respuestas[tipoRespuesta]?.Diario || '';
+      // Utilidad: convertir objeto a texto legible
+      const prettyPrint = (obj) => {
+        if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
+          return String(obj);
         }
+        if (Array.isArray(obj)) {
+          return obj.join(", ");
+        }
+        if (obj && typeof obj === "object") {
+          return Object.entries(obj)
+            .map(([k, v]) => `${k}: ${prettyPrint(v)}`)
+            .join(" | ");
+        }
+        return "";
+      };
 
-        // ============================================
-        // ÁRBOL DE DECISIÓN CONVERSACIONAL
-        // ============================================
-        const ARBOL_PREGUNTAS = {
-            inicio: {
-                pregunta: "¿Qué información necesitas?",
-                opciones: [
-                    { texto: "📅 Vacaciones", siguiente: "vacaciones" },
-                    { texto: "✋ Permisos", siguiente: "permisos_tipo" },
-                    { texto: "🏥 Bajas Médicas", siguiente: "bajas" },
-                    { texto: "💰 Salarios", siguiente: "salarios" },
-                    { texto: "🕐 Horarios", siguiente: "horarios" }
-                ]
-            },
+      // Búsqueda semántica muy simple por palabras clave + jornada
+      const searchConvenio = (question, jornadaKey) => {
+        const q = question.toLowerCase();
 
-            // ============ VACACIONES ============
-            vacaciones: {
-                pregunta: "¿Sobre vacaciones?",
-                contextual: "vacaciones",
-                siguiente_pregunta: true
-            },
+        const matches = [];
 
-            // ============ PERMISOS ============
-            permisos_tipo: {
-                pregunta: "¿Qué tipo de permiso?",
-                opciones: [
-                    { texto: "💍 Matrimonio/Pareja", siguiente: "permiso_matrimonio" },
-                    { texto: "👶 Nacimiento de hijo", siguiente: "permiso_nacimiento" },
-                    { texto: "⚰️ Defunción/Fallecimiento", siguiente: "permiso_defuncion" },
-                    { texto: "🏥 Urgencia médica", siguiente: "permiso_medico" },
-                    { texto: "🏥 Hospitalización", siguiente: "permiso_hospitalizacion" },
-                    { texto: "🤒 Enfermedad grave", siguiente: "permiso_enfermedad_grave" },
-                    { texto: "🛏️ Intervención + reposo", siguiente: "permiso_intervencion" },
-                    { texto: "📄 Carnet/DNI", siguiente: "permiso_carnet" },
-                    { texto: "🩺 Asistencia médica", siguiente: "permiso_asistencia_medica" },
-                    { texto: "❌ Sin paga (30 días)", siguiente: "permiso_no_retribuido" }
-                ]
-            },
-
-            permiso_matrimonio: {
-                pregunta: "Matrimonio/Pareja de hecho",
-                respuesta: `✅ **PERMISO POR MATRIMONIO**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>3 días hábiles consecutivos</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Matrimonio legal o pareja de hecho registrada</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Certificado matrimonio o inscripción pareja</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_nacimiento: {
-                pregunta: "Nacimiento de hijo",
-                respuesta: `✅ **PERMISO POR NACIMIENTO**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>3 días hábiles consecutivos</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Ambos progenitores (padre y madre)</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Acta de nacimiento</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_defuncion: {
-                pregunta: "¿Parentesco del fallecido?",
-                opciones: [
-                    { texto: "💑 Cónyuge/Pareja", siguiente: "defuncion_conyugue" },
-                    { texto: "👨‍👩‍👧 Padres/Suegros", siguiente: "defuncion_padres" },
-                    { texto: "👫 Hermanos", siguiente: "defuncion_hermanos" },
-                    { texto: "📚 Matrimonio hijos/hermanos/padres", siguiente: "defuncion_matrimonio" },
-                    { texto: "👨‍👦 Tíos/Sobrinos", siguiente: "defuncion_otros" }
-                ]
-            },
-
-            defuncion_conyugue: {
-                pregunta: "Fallecimiento de cónyuge/pareja",
-                respuesta: `✅ **PERMISO POR FALLECIMIENTO - CÓNYUGE/PAREJA**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>3 días hábiles</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Cónyuge o pareja de hecho registrada</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            defuncion_padres: {
-                pregunta: "Fallecimiento de padres/suegros",
-                respuesta: `✅ **PERMISO POR FALLECIMIENTO - PADRES/SUEGROS**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>2 días hábiles</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            defuncion_hermanos: {
-                pregunta: "Fallecimiento de hermanos",
-                respuesta: `✅ **PERMISO POR FALLECIMIENTO - HERMANOS**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>2 días hábiles</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            defuncion_matrimonio: {
-                pregunta: "Matrimonio de hijos/hermanos/padres",
-                respuesta: `✅ **PERMISO POR MATRIMONIO DE FAMILIARES**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>1 día hábil (2 días si es en distinta provincia)</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Matrimonio de hijos, hermanos o padres</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            defuncion_otros: {
-                pregunta: "Fallecimiento de tíos/sobrinos",
-                respuesta: `✅ **PERMISO POR FALLECIMIENTO - TÍOS/SOBRINOS**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>1 día hábil (2 días si ocurre fuera de provincia)</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_medico: {
-                pregunta: "Urgencia médica",
-                respuesta: `✅ **PERMISO POR URGENCIA MÉDICA**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>Tiempo indispensable (no días fijos)</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Justificante médico obligatorio</td>
-    </tr>
-    <tr>
-      <td>Aviso</td>
-      <td>Preavisar cuando sea posible (salvo urgencias)</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_hospitalizacion: {
-                pregunta: "Hospitalización",
-                respuesta: `✅ **PERMISO POR HOSPITALIZACIÓN**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>Días naturales y consecutivos según hospitalización</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Justificante de hospitalización obligatorio</td>
-    </tr>
-    <tr>
-      <td>Aviso</td>
-      <td>Obligatorio comunicar a la empresa</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_enfermedad_grave: {
-                pregunta: "Enfermedad grave",
-                respuesta: `✅ **PERMISO POR ENFERMEDAD GRAVE**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>5 días</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Justificante médico obligatorio</td>
-    </tr>
-    <tr>
-      <td>Aviso</td>
-      <td>Obligatorio comunicar a la empresa</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_intervencion: {
-                pregunta: "Intervención quirúrgica + reposo domiciliario",
-                respuesta: `✅ **PERMISO POR INTERVENCIÓN CON REPOSO DOMICILIARIO**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>5 días</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Cónyuge, pareja de hecho, familiares 1er grado</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Justificante médico obligatorio</td>
-    </tr>
-    <tr>
-      <td>Aviso</td>
-      <td>Obligatorio comunicar a la empresa</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_carnet: {
-                pregunta: "Carnet/DNI",
-                respuesta: `✅ **PERMISO PARA CARNET/DNI**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>Horas estrictamente necesarias</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Exámenes carnet conducir, renovación DNI</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Justificante de la cita</td>
-    </tr>
-    <tr>
-      <td>Nota</td>
-      <td>También incluye: Examen CAP (tiempo indispensable si coincide con jornada)</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_asistencia_medica: {
-                pregunta: "Asistencia médica",
-                respuesta: `✅ **PERMISO PARA ASISTENCIA MÉDICA**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>Tiempo necesario</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>SÍ (permiso retribuido)</td>
-    </tr>
-    <tr>
-      <td>Aplicable a</td>
-      <td>Asistencia a médico especialista y/o pruebas médicas</td>
-    </tr>
-    <tr>
-      <td>Documentación</td>
-      <td>Justificante médico obligatorio</td>
-    </tr>
-    <tr>
-      <td>Aviso</td>
-      <td>Preavisar cuando sea posible</td>
-    </tr>
-  </tbody>
-</table>`,
-                siguiente_pregunta: true
-            },
-
-            permiso_no_retribuido: {
-                pregunta: "Permisos sin paga",
-                respuesta: `✅ **PERMISOS NO RETRIBUIDOS**
-
-<table>
-  <thead>
-    <tr>
-      <th>Concepto</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Duración</td>
-      <td>Hasta 30 días al año</td>
-    </tr>
-    <tr>
-      <td>Se pagan</td>
-      <td>NO (sin retribución)</td>
-    </tr>
-    <tr>
-      <td>Motivos</td>
-      <td>Familiares, sociales, de estudio, etc.</td>
-    </tr>
-    <tr>
-      <td>Requisito</td>
-      <td>Acuerdo previo con la empresa</td>
-    </tr>
-  </tbody>
-</table>
-
-⚠️ IMPORTANTE: Estos NO se pagan. Diferente de permisos retribuidos.`,
-                siguiente_pregunta: true
-            },
-
-            // ============ BAJAS ============
-            bajas: {
-                pregunta: "Bajas médicas",
-                respuesta: `✅ **BAJAS MÉDICAS / INCAPACIDAD TEMPORAL**
-
-<table>
-  <thead>
-    <tr>
-      <th>Período</th>
-      <th>Quién Paga</th>
-      <th>Porcentaje</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Primeros 3 días</td>
-      <td>Empresa</td>
-      <td>60% del salario</td>
-    </tr>
-    <tr>
-      <td>Desde día 4 en adelante</td>
-      <td>Mutua</td>
-      <td>75% del salario</td>
-    </tr>
-  </tbody>
-</table>
-
-**Requisito:** Parte médico oficial necesario
-
-⚠️ DIFERENCIA: Baja ≠ Permiso. La baja es por enfermedad acreditada.`,
-                siguiente_pregunta: true
-            },
-
-            // ============ SALARIOS ============
-            salarios: {
-                pregunta: "¿Cuál es tu jornada?",
-                opciones: [
-                    { texto: "📅 Diario (35h/semana)", siguiente: "salarios_diario" },
-                    { texto: "🔄 SDF (≤30h/semana)", siguiente: "salarios_sdf" }
-                ]
-            },
-
-            salarios_diario: {
-                pregunta: "Salarios Diario 2026",
-                contextual: "salarios",
-                siguiente_pregunta: true
-            },
-
-            salarios_sdf: {
-                pregunta: "Salarios SDF 2026",
-                contextual: "salarios",
-                siguiente_pregunta: true
-            },
-
-            // ============ HORARIOS ============
-            horarios: {
-                pregunta: "¿Cuál es tu jornada?",
-                opciones: [
-                    { texto: "📅 Diario (35h/semana)", siguiente: "horarios_diario" },
-                    { texto: "🔄 SDF (≤30h/semana)", siguiente: "horarios_sdf" }
-                ]
-            },
-
-            horarios_diario: {
-                pregunta: "Horarios Diario",
-                contextual: "horarios",
-                siguiente_pregunta: true
-            },
-
-            horarios_sdf: {
-                pregunta: "Horarios SDF",
-                contextual: "horarios",
-                siguiente_pregunta: true
-            }
+        const pushMatch = (section, key, value, extra = "") => {
+          matches.push({
+            section,
+            key,
+            value,
+            extra,
+          });
         };
 
-        // ============================================
-        // ESTADO GLOBAL
-        // ============================================
-        let appState = {
-            isLoggedIn: false,
-            role: null,
-            worker: { name: '', empresa: '', turno: '', jornada: '' },
-            chat: [],
-            uploadedFiles: [],
-            currentTab: 'consulta',
-            nodoPregunta: 'inicio'
+        // Normalización básica de sinónimos
+        const containsAny = (words) => words.some((w) => q.includes(w));
+
+        // Jornada / horario
+        if (containsAny(["jornada", "horario", "horas", "semanales", "bocadillo", "descanso"])) {
+          const j = CONVENIO_DATA.jornada[jornadaKey];
+          if (j) {
+            pushMatch(
+              "jornada",
+              jornadaKey,
+              j,
+              "Condiciones de jornada para tu tipo de jornada."
+            );
+          }
+        }
+
+        // Vacaciones
+        if (containsAny(["vacaciones", "verano", "días de vacaciones", "dias de vacaciones"])) {
+          const v = CONVENIO_DATA.vacaciones[jornadaKey];
+          if (v) {
+            pushMatch(
+              "vacaciones",
+              jornadaKey,
+              v,
+              "Régimen de vacaciones según tu jornada."
+            );
+          }
+        }
+
+        // Horas extra
+        if (containsAny(["horas extra", "extraordinarias", "extras"])) {
+          pushMatch(
+            "horas_extraordinarias",
+            "general",
+            CONVENIO_DATA.horas_extraordinarias,
+            "Regulación general de horas extraordinarias."
+          );
+        }
+
+        // Excedencias
+        if (containsAny(["excedencia", "excedencias"])) {
+          pushMatch(
+            "excedencias",
+            "general",
+            CONVENIO_DATA.excedencias,
+            "Tipos de excedencias y requisitos."
+          );
+        }
+
+        // Permisos
+        if (
+          containsAny([
+            "permiso",
+            "permisos",
+            "matrimonio",
+            "fallecimiento",
+            "hospitalización",
+            "hospitalizacion",
+            "traslado de domicilio",
+            "dni",
+            "carnet de conducir",
+          ])
+        ) {
+          pushMatch(
+            "permisos",
+            "general",
+            CONVENIO_DATA.permisos,
+            "Permisos retribuidos y condiciones."
+          );
+        }
+
+        // Conductores
+        if (
+          containsAny([
+            "conductor",
+            "carnet",
+            "carné",
+            "camión",
+            "camion",
+            "barredora",
+            "baldeadora",
+          ])
+        ) {
+          pushMatch(
+            "conductores",
+            "general",
+            CONVENIO_DATA.conductores,
+            "Condiciones específicas para conductores."
+          );
+        }
+
+        // Traslados
+        if (containsAny(["traslado", "traslados", "cambio de centro"])) {
+          pushMatch(
+            "traslados",
+            "general",
+            CONVENIO_DATA.traslados,
+            "Normas sobre traslados."
+          );
+        }
+
+        // Sanciones
+        if (containsAny(["sanción", "sancion", "sanciones", "falta grave", "falta muy grave"])) {
+          pushMatch(
+            "sanciones",
+            "general",
+            CONVENIO_DATA.sanciones,
+            "Comunicación de sanciones al comité."
+          );
+        }
+
+        // Ascensos
+        if (containsAny(["ascenso", "ascensos", "promoción", "promocion"])) {
+          pushMatch(
+            "ascensos",
+            "general",
+            CONVENIO_DATA.ascensos,
+            "Sistema de ascensos y requisitos."
+          );
+        }
+
+        // Contratación
+        if (
+          containsAny([
+            "contratación",
+            "contratacion",
+            "eventualidad",
+            "contrato",
+            "circunstancias",
+          ])
+        ) {
+          pushMatch(
+            "contratacion",
+            "general",
+            CONVENIO_DATA.contratacion,
+            "Normas de contratación y eventualidad."
+          );
+        }
+
+        // Datos generales
+        if (containsAny(["ámbito", "ambito", "vigencia", "entrada en vigor", "denuncia"])) {
+          pushMatch(
+            "datos_generales",
+            "general",
+            CONVENIO_DATA.datos_generales,
+            "Ámbito y vigencia del convenio."
+          );
+        }
+
+        return matches;
+      };
+
+      const buildAnswerFromMatches = (matches, jornadaKey) => {
+        if (!matches || matches.length === 0) {
+          return {
+            needsClarification: true,
+            text:
+              "Analizando documento...\n\n" +
+              "Verificando puntos A y B...\n\n" +
+              "Conclusión: No encuentro información clara y directa para tu pregunta. " +
+              "¿Puedes concretar un poco más lo que necesitas (por ejemplo: vacaciones, permisos, jornada, excedencias...)?",
+          };
+        }
+
+        if (matches.length > 4) {
+          return {
+            needsClarification: true,
+            text:
+              "Analizando documento...\n\n" +
+              "Verificando puntos A y B...\n\n" +
+              "Conclusión: Tu pregunta afecta a varios bloques del convenio (por ejemplo: " +
+              matches
+                .slice(0, 4)
+                .map((m) => m.section)
+                .join(", ") +
+              "). ¿Podrías indicar exactamente sobre qué tema quieres la respuesta?",
+          };
+        }
+
+        const lines = [];
+        lines.push("Analizando documento...");
+        lines.push("");
+        lines.push("Verificando puntos A y B...");
+
+        const detalle = matches
+          .map((m, idx) => {
+            const label = `Bloque ${idx + 1} (${m.section}${m.key !== "general" ? " - " + m.key : ""
+              }):`;
+            return `${label}\n${prettyPrint(m.value)}`;
+          })
+          .join("\n\n");
+
+        lines.push("");
+        lines.push(detalle);
+        lines.push("");
+        lines.push("Conclusión:");
+
+        const jornadaLabel = jornadaKey === "TT" ? "jornada diaria (TT)" : "jornada SDF";
+
+        lines.push(
+          `La respuesta se basa en el bloque o bloques anteriores, aplicados específicamente a tu ${jornadaLabel}.`
+        );
+
+        return {
+          needsClarification: false,
+          text: lines.join("\n"),
         };
+      };
 
-        // ============================================
-        // FUNCIONES CORE
-        // ============================================
-        function guardarEstado() {
-            localStorage.setItem('convenioState', JSON.stringify({
-                worker: appState.worker,
-                chat: appState.chat,
-                uploadedFiles: appState.uploadedFiles,
-                nodoPregunta: appState.nodoPregunta
-            }));
-        }
+      const App = () => {
+        const [role, setRole] = useState("guest"); // guest | user | admin
+        const [adminCode, setAdminCode] = useState("");
+        const [authError, setAuthError] = useState("");
 
-        function cargarEstado() {
-            const datos = localStorage.getItem('convenioState');
-            if (datos) {
-                const parsed = JSON.parse(datos);
-                appState.worker = parsed.worker || {};
-                appState.chat = parsed.chat || [];
-                appState.uploadedFiles = parsed.uploadedFiles || [];
-                appState.nodoPregunta = parsed.nodoPregunta || 'inicio';
-            }
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const form = e.target;
-            const nombre = form.querySelector('[name="nombre"]').value;
-            const empresa = form.querySelector('[name="empresa"]').value;
-            const turno = form.querySelector('[name="turno"]').value;
-            const jornada = form.querySelector('[name="jornada"]').value;
-
-            if (nombre && empresa && turno && jornada) {
-                appState.worker = { name: nombre, empresa, turno, jornada };
-                appState.isLoggedIn = true;
-                appState.role = 'worker';
-                appState.nodoPregunta = 'inicio';
-                appState.chat = [];
-                guardarEstado();
-                renderApp();
-            }
-        }
-
-        function handleAdminLogin(codigo) {
-            if (codigo === 'selur2212@') {
-                appState.isLoggedIn = true;
-                appState.role = 'admin';
-                appState.worker = { name: 'Administrador', empresa: 'ADMIN', turno: '-', jornada: '-' };
-                guardarEstado();
-                renderApp();
-            } else {
-                alert('❌ Código incorrecto');
-            }
-        }
-
-        function handleLogout() {
-            appState.isLoggedIn = false;
-            appState.role = null;
-            appState.chat = [];
-            appState.worker = {};
-            appState.nodoPregunta = 'inicio';
-            localStorage.removeItem('convenioState');
-            renderApp();
-        }
-
-        function handleOpcion(siguienteNodo) {
-            const nodoActual = ARBOL_PREGUNTAS[appState.nodoPregunta];
-            const nodoSiguiente = ARBOL_PREGUNTAS[siguienteNodo];
-
-            const textoOpcion = event.target.innerText;
-            appState.chat.push({
-                tipo: 'user',
-                contenido: textoOpcion,
-                timestamp: new Date()
-            });
-
-            appState.nodoPregunta = siguienteNodo;
-
-            let respuesta = '';
-            
-            if (nodoSiguiente.contextual) {
-                respuesta = getRespuestaSegunJornada(nodoSiguiente.contextual, appState.worker.jornada);
-            } else if (nodoSiguiente.respuesta) {
-                respuesta = nodoSiguiente.respuesta;
-            } else {
-                respuesta = nodoSiguiente.pregunta;
-            }
-
-            appState.chat.push({
-                tipo: 'assistant',
-                contenido: respuesta,
-                timestamp: new Date()
-            });
-
-            guardarEstado();
-            renderApp();
-        }
-
-        function handleVolver() {
-            appState.chat = [];
-            appState.nodoPregunta = 'inicio';
-            guardarEstado();
-            renderApp();
-        }
-
-        function handleExportarResumen() {
-            let resumen = `=== RESUMEN CONSULTA CONVENIO COLECTIVO ===\nFecha: ${new Date().toLocaleString('es-ES')}\n`;
-            resumen += `Trabajador: ${appState.worker.name}\nEmpresa: ${appState.worker.empresa}\nTurno: ${appState.worker.turno}\nJornada: ${appState.worker.jornada}\n\n`;
-            resumen += `--- CONVERSACIÓN ---\n`;
-            
-            appState.chat.forEach(msg => {
-                const tipo = msg.tipo === 'user' ? 'TÚ' : 'SISTEMA';
-                resumen += `\n[${tipo}]\n${msg.contenido}\n`;
-            });
-
-            const blob = new Blob([resumen], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `resumen-convenio-${Date.now()}.txt`;
-            a.click();
-        }
-
-        function handleFileUpload(e) {
-            const files = Array.from(e.target.files);
-            files.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = (evt) => {
-                    appState.uploadedFiles.push({
-                        name: file.name,
-                        size: file.size,
-                        id: Date.now() + Math.random()
-                    });
-                    guardarEstado();
-                    renderApp();
-                };
-                reader.readAsText(file);
-            });
-        }
-
-        function handleDeleteFile(id) {
-            appState.uploadedFiles = appState.uploadedFiles.filter(f => f.id !== id);
-            guardarEstado();
-            renderApp();
-        }
-
-        // ============================================
-        // RENDERIZADO
-        // ============================================
-        function renderLogin() {
-            return `
-            <div class="min-h-screen bg-gradient-to-b from-red-50 to-white flex items-center justify-center p-4">
-                <div class="w-full max-w-md">
-                    <div class="bg-white rounded-lg shadow-xl p-8">
-                        <div class="text-center mb-8">
-                            <div class="text-6xl font-bold text-red-600 mb-2">UGT</div>
-                            <h1 class="text-2xl font-bold text-gray-800">Convenio Colectivo</h1>
-                            <p class="text-sm text-gray-600 mt-2">LPV de Madrid Capital 2026-31</p>
-                        </div>
-
-                        <div class="space-y-6">
-                            <div class="bg-gray-50 p-6 rounded-lg">
-                                <h2 class="text-lg font-bold text-gray-800 mb-4">¡Hola, Compañero!!</h2>
-                                <form id="loginForm">
-                                    <div class="mb-4">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
-                                        <input type="text" name="nombre" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Empresa</label>
-                                        <select name="empresa" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
-                                            <option value="">Selecciona...</option>
-                                            <option value="Prezero">Prezero</option>
-                                            <option value="Urbaser">Urbaser</option>
-                                            <option value="Valoriza">Valoriza</option>
-                                            <option value="FCC">FCC</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Turno</label>
-                                        <select name="turno" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
-                                            <option value="">Selecciona...</option>
-                                            <option value="Mañana">Mañana</option>
-                                            <option value="Tarde">Tarde</option>
-                                            <option value="Noche">Noche</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Jornada</label>
-                                        <select name="jornada" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
-                                            <option value="">Selecciona...</option>
-                                            <option value="Diario">Diario</option>
-                                            <option value="SDF">SDF</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="w-full bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700">Acceder</button>
-                                </form>
-                            </div>
-
-                            <div class="border-t pt-6">
-                                <p class="text-xs text-gray-500 mb-2">Administrador</p>
-                                <div class="flex gap-2">
-                                    <input type="password" id="adminCode" placeholder="Código..." class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 text-sm">
-                                    <button onclick="window.handleAdminLogin(document.getElementById('adminCode').value)" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">🛡️</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `;
-        }
-
-        function renderApp() {
-            const root = document.getElementById('app');
-
-            if (!appState.isLoggedIn) {
-                root.innerHTML = renderLogin();
-                document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
-                return;
-            }
-
-            let contenido = appState.currentTab === 'consulta' ? renderConsulta() : renderDocumentacion();
-
-            root.innerHTML = `
-            <div class="flex flex-col h-screen bg-white">
-                <header class="bg-red-600 text-white px-6 py-4 shadow-lg flex justify-between items-center">
-                    <div class="flex items-center gap-4">
-                        <div class="text-4xl font-bold">UGT</div>
-                        <div>
-                            <h1 class="text-lg font-bold">Convenio Colectivo LPV de Madrid Capital 2026-31</h1>
-                            <p class="text-xs text-red-100">${appState.role === 'admin' ? '👤 Admin' : '👷 ' + appState.worker.name + ' (' + appState.worker.jornada + ')'}</p>
-                        </div>
-                    </div>
-                    <button onclick="window.handleLogout()" class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg text-sm font-medium">Desloguear</button>
-                </header>
-
-                <div class="bg-gray-100 border-b border-gray-300 flex">
-                    <button onclick="(() => { appState.currentTab = 'consulta'; window.renderApp(); })()" class="px-6 py-3 font-medium ${appState.currentTab === 'consulta' ? 'border-b-4 border-red-600 text-red-600' : 'text-gray-600'} hover:bg-gray-200">
-                        💬 Consulta
-                    </button>
-                    ${appState.role === 'admin' ? `<button onclick="(() => { appState.currentTab = 'documentacion'; window.renderApp(); })()" class="px-6 py-3 font-medium ${appState.currentTab === 'documentacion' ? 'border-b-4 border-red-600 text-red-600' : 'text-gray-600'} hover:bg-gray-200">
-                        📄 Documentación
-                    </button>` : ''}
-                </div>
-
-                <div class="flex-1 overflow-auto">
-                    ${contenido}
-                </div>
-            </div>
-            `;
-        }
-
-        function renderConsulta() {
-            const nodoActual = ARBOL_PREGUNTAS[appState.nodoPregunta];
-
-            return `
-            <div class="flex flex-col h-full">
-                <div class="flex-1 overflow-auto p-6 space-y-4 bg-gray-50">
-                    ${appState.chat.length === 0 ? `
-                        <div class="text-center py-12">
-                            <p class="text-gray-700 text-lg font-medium">Bienvenido, ${appState.worker.name}</p>
-                            <p class="text-gray-500 text-sm mt-2">Vamos a guiarte hacia la respuesta exacta</p>
-                            <p class="text-gray-400 text-xs mt-4">Jornada: <strong>${appState.worker.jornada}</strong> | Turno: <strong>${appState.worker.turno}</strong></p>
-                        </div>
-                    ` : ''}
-                    
-                    ${appState.chat.map(msg => `
-                        <div class="chat-message ${msg.tipo === 'user' ? 'flex justify-end' : 'flex justify-start'}">
-                            <div class="max-w-4xl ${msg.tipo === 'user' ? 'bg-red-600 text-white' : 'bg-white border border-gray-300'} rounded-lg p-4 text-sm overflow-auto">
-                                ${msg.contenido.includes('<table>') ? msg.contenido : msg.contenido.split('\n').map(line => `<p>${line}</p>`).join('')}
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div class="bg-white border-t border-gray-300 p-4">
-                    <div class="mb-4">
-                        <p class="font-bold text-gray-800 mb-3">${nodoActual.pregunta}</p>
-                        <div class="grid grid-cols-1 gap-2">
-                            ${nodoActual.opciones ? nodoActual.opciones.map(opcion => `
-                                <button onclick="window.handleOpcion('${opcion.siguiente}')" class="btn-opcion bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg text-left font-medium">
-                                    ${opcion.texto}
-                                </button>
-                            `).join('') : ''}
-                        </div>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <button onclick="window.handleVolver()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-medium text-sm">↩️ Volver</button>
-                        ${appState.chat.length > 2 ? `<button onclick="window.handleExportarResumen()" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium text-sm">📥 Exportar</button>` : ''}
-                    </div>
-                </div>
-            </div>
-            `;
-        }
-
-        function renderDocumentacion() {
-            return `
-            <div class="p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">📄 Documentos</h2>
-                <div class="bg-red-50 border-2 border-dashed border-red-300 rounded-lg p-8 text-center mb-8 cursor-pointer hover:bg-red-100" onclick="document.getElementById('fileInput').click()">
-                    <p class="text-gray-700 font-medium">Arrastra o haz clic</p>
-                    <p class="text-gray-600 text-sm mt-2">.md, .pdf, .txt</p>
-                    <input type="file" id="fileInput" multiple accept=".md,.pdf,.txt" class="hidden" onchange="window.handleFileUpload(event)">
-                </div>
-
-                <div class="space-y-3">
-                    ${appState.uploadedFiles.length === 0 ? `<p class="text-gray-400 text-center py-8">Sin archivos</p>` : appState.uploadedFiles.map(file => `
-                        <div class="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
-                            <div>
-                                <p class="font-medium text-gray-800">${file.name}</p>
-                                <p class="text-xs text-gray-600">${(file.size / 1024).toFixed(2)} KB</p>
-                            </div>
-                            <button onclick="window.handleDeleteFile(${file.id})" class="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700">Eliminar</button>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-            `;
-        }
-
-        // ============================================
-        // INICIALIZACIÓN
-        // ============================================
-        document.addEventListener('DOMContentLoaded', () => {
-            cargarEstado();
-            renderApp();
+        const [formData, setFormData] = useState({
+          nombre: "",
+          empresa: "",
+          turno: "",
+          jornada: "",
         });
 
-        window.handleLogin = handleLogin;
-        window.handleAdminLogin = handleAdminLogin;
-        window.handleLogout = handleLogout;
-        window.handleOpcion = handleOpcion;
-        window.handleVolver = handleVolver;
-        window.handleExportarResumen = handleExportarResumen;
-        window.handleFileUpload = handleFileUpload;
-        window.handleDeleteFile = handleDeleteFile;
-        window.renderApp = renderApp;
+        const [activeTab, setActiveTab] = useState("consulta"); // consulta | docs
+
+        const [chatMessages, setChatMessages] = useState([]);
+        const [currentQuestion, setCurrentQuestion] = useState("");
+        const [isThinking, setIsThinking] = useState(false);
+        const [lastAnswer, setLastAnswer] = useState("");
+
+        const [uploadedDocs, setUploadedDocs] = useState([]);
+        const [selectedDoc, setSelectedDoc] = useState(null);
+        const [selectedDocContent, setSelectedDocContent] = useState("");
+
+        const jornadaKey = formData.jornada === "SDF" ? "SDF" : formData.jornada === "Diario" ? "TT" : null;
+
+        const isFormComplete =
+          formData.nombre &&
+          formData.empresa &&
+          formData.turno &&
+          formData.jornada &&
+          (role === "user" || role === "admin");
+
+        const handleLoginAsUser = () => {
+          if (!formData.nombre || !formData.empresa || !formData.turno || !formData.jornada) {
+            alert("Rellena todos los campos del formulario antes de continuar.");
+            return;
+          }
+          setRole("user");
+        };
+
+        const handleAdminAccess = () => {
+          if (adminCode === "selur2212@") {
+            setRole("admin");
+            setAuthError("");
+          } else {
+            setAuthError("Código incorrecto.");
+          }
+        };
+
+        const handleLogout = () => {
+          setRole("guest");
+          setAdminCode("");
+          setAuthError("");
+        };
+
+        const handleFormChange = (field, value) => {
+          setFormData((prev) => ({ ...prev, [field]: value }));
+        };
+
+        const handleAskQuestion = () => {
+          if (!isFormComplete) {
+            alert("Debes completar el formulario y estar logueado como usuario o admin.");
+            return;
+          }
+          if (!currentQuestion.trim()) return;
+
+          const question = currentQuestion.trim();
+          setCurrentQuestion("");
+
+          const newMessages = [
+            ...chatMessages,
+            {
+              id: Date.now(),
+              role: "user",
+              text: question,
+            },
+          ];
+          setChatMessages(newMessages);
+          setIsThinking(true);
+
+          setTimeout(() => {
+            const matches = searchConvenio(question, jornadaKey || "TT");
+            const answerObj = buildAnswerFromMatches(matches, jornadaKey || "TT");
+
+            const assistantMessage = {
+              id: Date.now() + 1,
+              role: "assistant",
+              text: answerObj.text,
+            };
+
+            setChatMessages((prev) => [...prev, assistantMessage]);
+            setIsThinking(false);
+            setLastAnswer(answerObj.text);
+          }, 900);
+        };
+
+        const handleKeyDown = (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleAskQuestion();
+          }
+        };
+
+        const handleFiles = (files) => {
+          const arr = Array.from(files);
+          const withMeta = arr.map((file) => ({
+            id: `${file.name}-${file.lastModified}-${Math.random()}`,
+            file,
+            name: file.name,
+            type: file.type,
+          }));
+          setUploadedDocs((prev) => [...prev, ...withMeta]);
+        };
+
+        const handleDrop = (e) => {
+          e.preventDefault();
+          const files = e.dataTransfer.files;
+          handleFiles(files);
+        };
+
+        const handleDragOver = (e) => {
+          e.preventDefault();
+        };
+
+        const handleFileInputChange = (e) => {
+          const files = e.target.files;
+          handleFiles(files);
+        };
+
+        const handleDeleteDoc = (id) => {
+          setUploadedDocs((prev) => prev.filter((d) => d.id !== id));
+          if (selectedDoc && selectedDoc.id === id) {
+            setSelectedDoc(null);
+            setSelectedDocContent("");
+          }
+        };
+
+        const handleViewDoc = (doc) => {
+          setSelectedDoc(doc);
+          setSelectedDocContent("");
+
+          if (
+            doc.file.type === "text/markdown" ||
+            doc.file.type === "text/plain" ||
+            doc.name.endsWith(".md") ||
+            doc.name.endsWith(".txt")
+          ) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              setSelectedDocContent(ev.target.result);
+            };
+            reader.readAsText(doc.file);
+          } else {
+            setSelectedDocContent("");
+          }
+        };
+
+        const handleExportSummary = () => {
+          if (!lastAnswer) {
+            alert("No hay ninguna respuesta reciente para exportar.");
+            return;
+          }
+          const header = `Resumen de consulta - Convenio Colectivo LPV de Madrid Capital 2026-31\n\n`;
+          const workerInfo = `Trabajador: ${formData.nombre || "-"}\nEmpresa: ${
+            formData.empresa || "-"
+          }\nTurno: ${formData.turno || "-"}\nJornada: ${
+            formData.jornada || "-"
+          }\n\n`;
+          const content = header + workerInfo + lastAnswer;
+
+          const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "resumen_consulta_convenio.txt";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        };
+
+        return (
+          <div className="min-h-screen flex flex-col bg-white">
+            {/* Header */}
+            <header className="w-full border-b border-gray-200 bg-white">
+              <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <img
+                    src="image_0.png"
+                    alt="Logo"
+                    className="h-10 w-auto object-contain"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                      Convenio Colectivo LPV de Madrid Capital 2026-31
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      Herramienta de consulta para trabajadores
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  {/* Campo código admin */}
+                  <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                    <input
+                      type="password"
+                      value={adminCode}
+                      onChange={(e) => setAdminCode(e.target.value)}
+                      placeholder="Código admin"
+                      className="px-2 py-1 text-sm outline-none"
+                    />
+                    <button
+                      onClick={handleAdminAccess}
+                      className="px-2 py-1 bg-primary text-white hover:bg-red-700 flex items-center justify-center"
+                      title="Acceder como ADMIN"
+                    >
+                      <Shield className="w-4 h-4" />
+                    </button>
+                  </div>
+                  {authError && (
+                    <span className="text-xs text-red-600">{authError}</span>
+                  )}
+
+                  {/* Logout */}
+                  {(role === "user" || role === "admin") && (
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center space-x-1 text-xs text-gray-700 border border-gray-300 rounded-md px-2 py-1 hover:bg-gray-100"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Deslogarse</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </header>
+
+            {/* Main */}
+            <main className="flex-1">
+              <div className="max-w-6xl mx-auto px-4 py-4">
+                {/* Formulario de acceso */}
+                <section className="mb-4 border border-gray-200 rounded-lg p-4 bg-red-50">
+                  <h2 className="text-lg font-semibold text-primary mb-2">
+                    Hola, Compañero!!
+                  </h2>
+                  <p className="text-xs text-gray-700 mb-3">
+                    Rellena tus datos para poder realizar consultas. Si introduces el
+                    código correcto, accederás como ADMIN y podrás gestionar
+                    documentación.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div className="flex flex-col">
+                      <label className="text-xs font-medium text-gray-700 mb-1">
+                        Nombre
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.nombre}
+                        onChange={(e) =>
+                          handleFormChange("nombre", e.target.value)
+                        }
+                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                        placeholder="Tu nombre"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-xs font-medium text-gray-700 mb-1">
+                        Empresa
+                      </label>
+                      <select
+                        value={formData.empresa}
+                        onChange={(e) =>
+                          handleFormChange("empresa", e.target.value)
+                        }
+                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="">Selecciona empresa</option>
+                        <option value="Prezero">Prezero</option>
+                        <option value="Urbaser">Urbaser</option>
+                        <option value="Valoriza">Valoriza</option>
+                        <option value="FCC">FCC</option>
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-xs font-medium text-gray-700 mb-1">
+                        Turno
+                      </label>
+                      <select
+                        value={formData.turno}
+                        onChange={(e) =>
+                          handleFormChange("turno", e.target.value)
+                        }
+                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="">Selecciona turno</option>
+                        <option value="Mañana">Mañana</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noche">Noche</option>
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-xs font-medium text-gray-700 mb-1">
+                        Jornada
+                      </label>
+                      <select
+                        value={formData.jornada}
+                        onChange={(e) =>
+                          handleFormChange("jornada", e.target.value)
+                        }
+                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="">Selecciona jornada</option>
+                        <option value="Diario">Diario</option>
+                        <option value="SDF">SDF</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 flex items-center justify-between">
+                    <div className="text-xs text-gray-600">
+                      Rol actual:{" "}
+                      <span className="font-semibold text-primary">
+                        {role === "guest"
+                          ? "Invitado (sin acceso a consulta)"
+                          : role === "user"
+                          ? "Usuario"
+                          : "ADMIN"}
+                      </span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={handleLoginAsUser}
+                        className="px-3 py-1 text-xs rounded-md bg-primary text-white hover:bg-red-700 flex items-center space-x-1"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        <span>Acceder como Usuario</span>
+                      </button>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Tabs */}
+                <div className="border-b border-gray-200 mb-4">
+                  <nav className="-mb-px flex space-x-4">
+                    <button
+                      onClick={() => setActiveTab("consulta")}
+                      className={`px-3 py-2 text-sm font-medium border-b-2 ${
+                        activeTab === "consulta"
+                          ? "border-primary text-primary"
+                          : "border-transparent text-gray-500 hover:text-gray-700"
+                      }`}
+                    >
+                      Consulta
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("docs")}
+                      className={`px-3 py-2 text-sm font-medium border-b-2 ${
+                        activeTab === "docs"
+                          ? "border-primary text-primary"
+                          : "border-transparent text-gray-500 hover:text-gray-700"
+                      }`}
+                    >
+                      Documentación
+                    </button>
+                  </nav>
+                </div>
+
+                {/* Contenido pestañas */}
+                {activeTab === "consulta" && (
+                  <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {/* Chat */}
+                    <div className="lg:col-span-2 border border-gray-200 rounded-lg flex flex-col h-[480px]">
+                      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200 bg-gray-50">
+                        <div className="flex items-center space-x-2">
+                          <MessageCircle className="w-4 h-4 text-primary" />
+                          <span className="text-sm font-semibold">
+                            Chat de consulta
+                          </span>
+                        </div>
+                        <button
+                          onClick={handleExportSummary}
+                          className="flex items-center space-x-1 text-xs text-primary border border-primary rounded-md px-2 py-1 hover:bg-primary hover:text-white"
+                        >
+                          <FileDown className="w-4 h-4" />
+                          <span>Exportar Resumen</span>
+                        </button>
+                      </div>
+                      <div className="flex-1 overflow-y-auto p-3 space-y-2 text-sm">
+                        {chatMessages.length === 0 && (
+                          <div className="text-xs text-gray-500">
+                            Escribe tu pregunta sobre el convenio (por ejemplo:
+                            vacaciones, permisos, jornada, excedencias...). La
+                            respuesta se basará únicamente en el documento.
+                          </div>
+                        )}
+                        {chatMessages.map((msg) => (
+                          <div
+                            key={msg.id}
+                            className={`flex ${
+                              msg.role === "user"
+                                ? "justify-end"
+                                : "justify-start"
+                            }`}
+                          >
+                            <div
+                              className={`max-w-[80%] rounded-lg px-3 py-2 whitespace-pre-wrap ${
+                                msg.role === "user"
+                                  ? "bg-primary text-white"
+                                  : "bg-gray-100 text-gray-900"
+                              }`}
+                            >
+                              {msg.text}
+                            </div>
+                          </div>
+                        ))}
+                        {isThinking && (
+                          <div className="flex justify-start">
+                            <div className="bg-gray-100 text-gray-700 rounded-lg px-3 py-2 text-xs">
+                              Analizando documento...
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="border-t border-gray-200 p-2">
+                        <textarea
+                          value={currentQuestion}
+                          onChange={(e) => setCurrentQuestion(e.target.value)}
+                          onKeyDown={handleKeyDown}
+                          rows={2}
+                          className="w-full border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                          placeholder="Escribe tu pregunta aquí..."
+                        />
+                        <div className="mt-2 flex justify-end">
+                          <button
+                            onClick={handleAskQuestion}
+                            className="px-3 py-1 text-sm rounded-md bg-primary text-white hover:bg-red-700"
+                          >
+                            Preguntar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Panel lateral: contexto */}
+                    <div className="border border-gray-200 rounded-lg p-3 bg-gray-50 text-xs space-y-2">
+                      <h3 className="text-sm font-semibold text-primary mb-1">
+                        Contexto de la consulta
+                      </h3>
+                      <div>
+                        <span className="font-semibold">Nombre:</span>{" "}
+                        {formData.nombre || "-"}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Empresa:</span>{" "}
+                        {formData.empresa || "-"}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Turno:</span>{" "}
+                        {formData.turno || "-"}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Jornada:</span>{" "}
+                        {formData.jornada || "-"}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Rol:</span>{" "}
+                        {role === "guest"
+                          ? "Invitado"
+                          : role === "user"
+                          ? "Usuario"
+                          : "ADMIN"}
+                      </div>
+                      <hr className="my-2" />
+                      <p className="text-[11px] text-gray-600">
+                        REGLA DE ORO: La herramienta no inventa información. Si
+                        la respuesta no es clara en el documento, se te pedirá
+                        que concretes más la pregunta antes de dar una
+                        conclusión.
+                      </p>
+                      <p className="text-[11px] text-gray-600">
+                        Recuerda indicar siempre tu tipo de jornada (Diario o
+                        SDF) en el formulario, ya que algunas condiciones
+                        cambian según el colectivo.
+                      </p>
+                    </div>
+                  </section>
+                )}
+
+                {activeTab === "docs" && (
+                  <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {/* Gestión de documentos (solo admin) */}
+                    <div className="lg:col-span-1 border border-gray-200 rounded-lg p-3">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Upload className="w-4 h-4 text-primary" />
+                        <h3 className="text-sm font-semibold text-primary">
+                          Gestión de documentación
+                        </h3>
+                      </div>
+                      {role !== "admin" && (
+                        <p className="text-xs text-gray-600">
+                          Solo el rol ADMIN puede subir, modificar o eliminar
+                          archivos. Introduce el código en el header para
+                          acceder como ADMIN.
+                        </p>
+                      )}
+                      {role === "admin" && (
+                        <>
+                          <div
+                            onDrop={handleDrop}
+                            onDragOver={handleDragOver}
+                            className="mt-2 border-2 border-dashed border-gray-300 rounded-md p-4 text-center text-xs text-gray-600 hover:border-primary cursor-pointer"
+                          >
+                            Arrastra aquí tus archivos .md, .pdf o .txt
+                          </div>
+                          <div className="mt-2">
+                            <input
+                              type="file"
+                              multiple
+                              accept=".md,.pdf,.txt,text/plain,application/pdf"
+                              onChange={handleFileInputChange}
+                              className="text-xs"
+                            />
+                          </div>
+                          <div className="mt-3">
+                            <h4 className="text-xs font-semibold mb-1">
+                              Archivos subidos
+                            </h4>
+                            {uploadedDocs.length === 0 && (
+                              <p className="text-xs text-gray-500">
+                                No hay archivos subidos todavía.
+                              </p>
+                            )}
+                            <ul className="space-y-1 max-h-48 overflow-y-auto text-xs">
+                              {uploadedDocs.map((doc) => (
+                                <li
+                                  key={doc.id}
+                                  className="flex items-center justify-between border border-gray-200 rounded-md px-2 py-1 bg-gray-50"
+                                >
+                                  <div className="flex items-center space-x-1">
+                                    <FileText className="w-3 h-3 text-primary" />
+                                    <span className="truncate max-w-[120px]">
+                                      {doc.name}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center space-x-1">
+                                    <button
+                                      onClick={() => handleViewDoc(doc)}
+                                      className="text-[11px] text-primary hover:underline"
+                                    >
+                                      Ver
+                                    </button>
+                                    <button
+                                      onClick={() => handleDeleteDoc(doc.id)}
+                                      className="text-[11px] text-red-600 hover:underline"
+                                    >
+                                      Eliminar
+                                    </button>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Visor de documentos (solo admin) */}
+                    <div className="lg:col-span-2 border border-gray-200 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          <FileText className="w-4 h-4 text-primary" />
+                          <h3 className="text-sm font-semibold text-primary">
+                            Visor de documentación
+                          </h3>
+                        </div>
+                        {selectedDoc && (
+                          <button
+                            onClick={() => {
+                              setSelectedDoc(null);
+                              setSelectedDocContent("");
+                            }}
+                            className="flex items-center space-x-1 text-xs text-gray-600 hover:text-gray-900"
+                          >
+                            <X className="w-3 h-3" />
+                            <span>Cerrar</span>
+                          </button>
+                        )}
+                      </div>
+                      {role !== "admin" && (
+                        <p className="text-xs text-gray-600">
+                          Solo el rol ADMIN puede visualizar los archivos
+                          subidos. Introduce el código en el header para acceder
+                          como ADMIN.
+                        </p>
+                      )}
+                      {role === "admin" && (
+                        <div className="h-[420px] border border-gray-200 rounded-md overflow-hidden bg-gray-50">
+                          {!selectedDoc && (
+                            <div className="h-full flex items-center justify-center text-xs text-gray-500 px-4 text-center">
+                              Selecciona un archivo de la lista para visualizar
+                              su contenido. Los archivos .md y .txt se mostrarán
+                              como texto; los .pdf se abrirán en un visor
+                              embebido del navegador.
+                            </div>
+                          )}
+                          {selectedDoc && (
+                            <div className="h-full flex flex-col">
+                              <div className="px-3 py-2 border-b border-gray-200 bg-white text-xs flex justify-between items-center">
+                                <span className="font-semibold">
+                                  {selectedDoc.name}
+                                </span>
+                                <span className="text-gray-500">
+                                  {selectedDoc.type || "tipo desconocido"}
+                                </span>
+                              </div>
+                              <div className="flex-1 overflow-auto bg-white">
+                                {(selectedDoc.file.type === "application/pdf" ||
+                                  selectedDoc.name.endsWith(".pdf")) && (
+                                  <iframe
+                                    title={selectedDoc.name}
+                                    src={URL.createObjectURL(selectedDoc.file)}
+                                    className="w-full h-full"
+                                  />
+                                )}
+                                {(selectedDoc.file.type === "text/markdown" ||
+                                  selectedDoc.file.type === "text/plain" ||
+                                  selectedDoc.name.endsWith(".md") ||
+                                  selectedDoc.name.endsWith(".txt")) && (
+                                  <pre className="p-3 text-[11px] whitespace-pre-wrap">
+                                    {selectedDocContent ||
+                                      "Cargando contenido..."}
+                                  </pre>
+                                )}
+                                {!selectedDoc.name.match(/\.(pdf|md|txt)$/i) &&
+                                  !selectedDoc.file.type && (
+                                    <div className="p-3 text-xs text-gray-500">
+                                      Tipo de archivo no soportado para vista
+                                      previa.
+                                    </div>
+                                  )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </section>
+                )}
+              </div>
+            </main>
+
+            {/* Footer */}
+            <footer className="border-t border-gray-200 py-2 text-center text-[11px] text-gray-500">
+              Convenio Colectivo LPV de Madrid Capital 2026-31 · Herramienta de
+              consulta interna
+            </footer>
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
     </script>
-</body>
+  </body>
 </html>
