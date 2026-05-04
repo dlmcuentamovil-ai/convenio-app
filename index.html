@@ -23,73 +23,75 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<style>
-  /* Animación suave de aparición */
-  .fade-in {
-    animation: fadeIn 0.25s ease-out;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 
-  /* Burbujas del usuario */
-  .bubble-user {
-    background: #C8102E;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 14px;
-    max-width: 80%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  }
+    <!-- Estilos del chat -->
+    <style>
+      .fade-in {
+        animation: fadeIn 0.25s ease-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
 
-  /* Burbujas de la IA */
-  .bubble-ai {
-    background: #f3f4f6;
-    color: #333;
-    padding: 10px 14px;
-    border-radius: 14px;
-    max-width: 80%;
-    border-left: 4px solid #C8102E;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
+      .bubble-user {
+        background: #C8102E;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 14px;
+        max-width: 80%;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      }
 
-  /* Input del chat */
-  .chat-input {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 8px;
-    resize: none;
-    transition: 0.2s;
-  }
-  .chat-input:focus {
-    border-color: #C8102E;
-    box-shadow: 0 0 0 2px rgba(200,16,46,0.2);
-    outline: none;
-  }
+      .bubble-ai {
+        background: #f3f4f6;
+        color: #333;
+        padding: 10px 14px;
+        border-radius: 14px;
+        max-width: 80%;
+        border-left: 4px solid #C8102E;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
 
-  /* Botón moderno */
-  .btn-primary {
-    background: #C8102E;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 10px;
-    transition: 0.2s;
-  }
-  .btn-primary:hover {
-    background: #a50d26;
-  }
-</style>
+      .chat-input {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 8px;
+        resize: none;
+        transition: 0.2s;
+      }
+      .chat-input:focus {
+        border-color: #C8102E;
+        box-shadow: 0 0 0 2px rgba(200,16,46,0.2);
+        outline: none;
+      }
 
+      .btn-primary {
+        background: #C8102E;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 10px;
+        transition: 0.2s;
+      }
+      .btn-primary:hover {
+        background: #a50d26;
+      }
+    </style>
   </head>
 
   <body class="bg-white text-gray-900">
     <div id="root"></div>
 
     <script type="text/babel">
-      const { useState, useEffect } = React;
+      const { useState } = React;
 
-      // === ICONOS SVG ESTILO MATERIAL (OPCIÓN B) ===
+      /* ICONOS SVG */
+      const IconDownload = () => (
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M5 20h14v-2H5m7-14v10l4-4h-3V6h-2v6H8l4 4z"/>
+        </svg>
+      );
+
       const IconShield = () => (
         <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
@@ -102,403 +104,84 @@
         </svg>
       );
 
-      const IconUpload = () => (
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M5 20h14v-2H5m7-9l5 5h-3v4h-4v-4H7l5-5m0-9L2 7v2h20V7"/>
-        </svg>
-      );
-
-      const IconFile = () => (
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        </svg>
-      );
-
-      const IconDownload = () => (
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M5 20h14v-2H5m7-14v10l4-4h-3V6h-2v6H8l4 4z"/>
-        </svg>
-      );
-
-      const IconClose = () => (
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 
-                   12 13.41 17.59 19 19 17.59 13.41 12z"/>
-        </svg>
-      );
-      // === Datos del convenio (JSON estructurado del .md) ===
+      /* JSON DEL CONVENIO */
       const CONVENIO_DATA = {
-        datos_generales: {
-          ambito_territorial: "Término municipal de Madrid (incluye interbloques)",
-          vigencia: {
-            inicio: "01-01-2026",
-            fin: "31-12-2031",
-            duracion_anios: 6,
-          },
-          entrada_en_vigor: "Desde el momento de su firma",
-          denuncia: "Automática al finalizar su vigencia",
-          parte_empresarial: "ASELIP",
-          parte_social: ["UGT Servicios Públicos", "CCOO Hábitat Madrid"],
-          unidad_electoral: [
-            "Distritos municipales",
-            "SELUR",
-            "Aeropuerto Adolfo Suárez",
-            "Interbloques",
-          ],
-        },
-        colectivos: {
-          TT: {
-            nombre: "Jornada completa / Diario",
-            abreviatura: "TT",
-          },
-          SDF: {
-            nombre: "Jornada parcial / Sábados, domingos y festivos",
-            abreviatura: "SDF",
-          },
+        vacaciones: {
+          TT: { dias: 31, periodo: "julio-agosto" },
+          SDF: { dias: 10, periodo: "julio-agosto" }
         },
         jornada: {
-          TT: {
-            horas_semanales: 35,
-            dias_trabajo: ["lunes", "martes", "miércoles", "jueves", "viernes"],
-            bocadillo: {
-              minutos: 30,
-              computado_como_trabajo: true,
-            },
-            descansos: ["sábado", "domingo", "festivos"],
-            sabados_no_festivos: "Se abonan como día efectivo de trabajo",
-            hora_mensual_nomina: true,
-            licencias_retribuidas_anuales: {
-              dias: 2,
-              condiciones: {
-                preferencia: "unir a festivo navideño",
-                maximo_consecutivo: 3,
-                maximo_plantilla: "25%",
-                disfrute_hasta: "30-11 del año siguiente",
-              },
-            },
-          },
-          SDF: {
-            jornada_diaria_horas: 7,
-            bocadillo: {
-              minutos: 30,
-              computado_como_trabajo: true,
-            },
-            servicio: ["sábado", "domingo", "festivos"],
-            hora_mensual_nomina: true,
-            licencias_retribuidas_anuales: {
-              dias: 1,
-              maximo_plantilla: "33%",
-              disfrute_hasta: "30-11 del año siguiente",
-            },
-            san_martin_porres: {
-              paga: true,
-              importe_2026: 36.17,
-            },
-          },
-          turno_nocturno: {
-            voluntario: true,
-            no_rotativo: true,
-            si_no_hay_voluntarios: "rotación entre personal de día",
-            excepcion: "mayores de 60 años (voluntario)",
-          },
-          requisitos_turno_voluntario: [
-            "Estar apuntado al turno voluntario",
-            "Relación laboral no suspendida",
-            "Solicitar con 1 mes de antelación",
-            "No solicitar en periodo vacacional",
-            "No superar 15% plantilla por turno/categoría",
-            "Sorteo si hay más solicitudes que plazas",
-          ],
-        },
-        vacaciones: {
-          TT: {
-            duracion_dias_naturales: 31,
-            periodo_2026: [
-              "1 julio - 31 julio",
-              "1 agosto - 31 agosto",
-              "1 septiembre - 1 octubre",
-            ],
-            periodo_desde_2027: ["1 julio - 31 agosto"],
-            turno_publicado_minimo_meses: 2,
-            cambios_entre_trabajadores_hasta: "15 junio",
-            IT_embarazo_parto_lactancia:
-              "se disfrutan al finalizar la suspensión",
-            limite_disfrute: "31 diciembre salvo IT",
-            complemento_empresa_si_no_disfruta_por_IT: true,
-          },
-          SDF: {
-            duracion_dias_efectivos: 10,
-            periodo_2026: "1 julio - 1 octubre",
-            periodo_desde_2027: "1 julio - 31 agosto",
-            ampliacion_si_menos_de_20_festivos: true,
-          },
-        },
-        horas_extraordinarias: {
-          permitidas_solo: "casos excepcionales",
-          ejemplos: ["daños extraordinarios", "urgencias"],
-          referencia_legal: "Orden Ministerial 1 marzo 1983",
-          acuerdos_con_comite: true,
-        },
-        traslados: {
-          solicitud_trabajador: "por escrito",
-          empresa_puede_disponer: true,
-          excepcion: "turno nocturno",
-          prohibido_por_sancion: true,
-          comunicacion_comite: "obligatoria",
-          sorteo_en_horas: 72,
-        },
-        sanciones: {
-          graves_muy_graves: {
-            comunicacion_comite_minimo_horas: 48,
-          },
-          resto_sanciones: {
-            comunicacion_comite_maximo_horas: 18,
-          },
-        },
-        excedencias: {
-          voluntaria: {
-            requisito_antiguedad: "1 año",
-            duracion: {
-              minimo_meses: 4,
-              maximo_anios: 5,
-            },
-            prorroga: "año a año",
-            reingreso_preaviso: "1 mes",
-            cargos_publicos_sindicales: "sin requisito de antigüedad",
-          },
-          cuidado_familiares: {
-            familiares: "primer grado o cónyuge",
-            periodos_minimos_dias: 15,
-            solicitud_preaviso_dias: 10,
-            maximo_meses: 4,
-            renovable: true,
-            limitacion_si_dos_trabajadores: true,
-          },
-        },
-        permisos: {
-          examenes_estudios_oficiales: 10,
-          matrimonio_pareja_hecho: 15,
-          accidente_grave: 5,
-          hospitalizacion: 5,
-          cirugia_con_reposo: 5,
-          intervencion_ambulatoria: {
-            dias: 1,
-            extra_por_desplazamiento: 2,
-          },
-          fallecimiento: {
-            parientes: "hasta 2º grado",
-            dias: 3,
-            extra_por_desplazamiento: 2,
-          },
-          traslado_domicilio: 2,
-          matrimonio_familiares: 1,
-          dni_carnet_conducir: "horas necesarias",
-          urgencias_hospitalarias: "tiempo indispensable",
-        },
-        conductores: {
-          carnet_minimo: "C",
-          vehiculos_exclusivos_conductores: [
-            "camiones recolectores",
-            "vehículos > 3500 kg",
-            "barredoras > 2000 kg",
-            "baldeadoras",
-          ],
-          vehiculos_peinado: "carnet B",
-          retirada_carnet: {
-            mantiene_categoria_salario: true,
-            excepcion: "embriaguez o toxicomanía",
-          },
-          tiempo_examen_carnet: "jornada de trabajo",
-        },
-        ascensos: {
-          libre_designacion: [
-            "Jefe de Servicio",
-            "Encargado General",
-            "Subencargado General",
-          ],
-          resto: {
-            criterios: ["concurso", "examen", "antigüedad"],
-            peso: "50% cada uno",
-          },
-          requisito_antiguedad_meses: 6,
-          convocatoria_publicada_minimo_dias: 10,
-        },
-        contratacion: {
-          maximo_eventualidad: {
-            TT: "10%",
-            SDF: "18%",
-          },
-          no_computan: [
-            "eventuales verano",
-            "relevo",
-            "campañas especiales",
-            "interinidades",
-            "excedencias",
-            "sustituciones",
-          ],
-          contrato_circunstancias: {
-            maximo_meses: 12,
-            periodo_referencia_meses: 18,
-          },
-          transformaciones_SDF_a_TT: {
-            ratio: "7 de cada 10",
-            requisito_antiguedad_meses: 6,
-          },
-        },
+          TT: { horas: "35h semanales", bocadillo: "30 min computables" },
+          SDF: { horas: "7h/día", bocadillo: "30 min computables" }
+        }
       };
 
-      // Utilidad: convertir objeto a texto legible
-      const prettyPrint = (obj) => {
-        if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
-          return String(obj);
-        }
-        if (Array.isArray(obj)) {
-          return obj.join(", ");
-        }
-        if (obj && typeof obj === "object") {
-          return Object.entries(obj)
-            .map(([k, v]) => `${k}: ${prettyPrint(v)}`)
-            .join(" | ");
-        }
-        return "";
-      };
-      // Búsqueda semántica simple
-      const searchConvenio = (question, jornadaKey) => {
-        const q = question.toLowerCase();
+      const prettyPrint = (obj) => JSON.stringify(obj, null, 2);
+
+      /* BUSCADOR */
+      const searchConvenio = (q, jornadaKey) => {
+        q = q.toLowerCase();
         const matches = [];
 
-        const containsAny = (words) => words.some((w) => q.includes(w));
-        const pushMatch = (section, key, value) =>
-          matches.push({ section, key, value });
-
-        if (containsAny(["jornada", "horario", "horas", "bocadillo"])) {
-          pushMatch("jornada", jornadaKey, CONVENIO_DATA.jornada[jornadaKey]);
+        if (q.includes("vacaciones")) {
+          matches.push({ section: "vacaciones", value: CONVENIO_DATA.vacaciones[jornadaKey] });
         }
-
-        if (containsAny(["vacaciones", "verano"])) {
-          pushMatch("vacaciones", jornadaKey, CONVENIO_DATA.vacaciones[jornadaKey]);
-        }
-
-        if (containsAny(["horas extra", "extraordinarias"])) {
-          pushMatch("horas_extraordinarias", "general", CONVENIO_DATA.horas_extraordinarias);
-        }
-
-        if (containsAny(["permiso", "permisos", "fallecimiento", "hospital"])) {
-          pushMatch("permisos", "general", CONVENIO_DATA.permisos);
-        }
-
-        if (containsAny(["excedencia"])) {
-          pushMatch("excedencias", "general", CONVENIO_DATA.excedencias);
-        }
-
-        if (containsAny(["traslado"])) {
-          pushMatch("traslados", "general", CONVENIO_DATA.traslados);
-        }
-
-        if (containsAny(["sancion", "sanción"])) {
-          pushMatch("sanciones", "general", CONVENIO_DATA.sanciones);
-        }
-
-        if (containsAny(["ascenso"])) {
-          pushMatch("ascensos", "general", CONVENIO_DATA.ascensos);
-        }
-
-        if (containsAny(["contrato", "contratacion"])) {
-          pushMatch("contratacion", "general", CONVENIO_DATA.contratacion);
+        if (q.includes("jornada") || q.includes("horas")) {
+          matches.push({ section: "jornada", value: CONVENIO_DATA.jornada[jornadaKey] });
         }
 
         return matches;
       };
 
+      /* RESPUESTA VISUAL */
       const buildAnswer = (matches, jornadaKey) => {
         if (matches.length === 0) {
           return (
-            "Analizando documento...\n\n" +
-            "Verificando puntos A y B...\n\n" +
-            "Conclusión: No encuentro información clara. ¿Puedes concretar un poco más?"
+            "⚠️ *Falta un dato clave.*\n" +
+            "Indica si hablas de **vacaciones**, **permisos**, **jornada** o **otro tema**."
           );
         }
 
-        if (matches.length > 4) {
-          return (
-            "Analizando documento...\n\n" +
-            "Verificando puntos A y B...\n\n" +
-            "Conclusión: Tu pregunta afecta a varios bloques. ¿Puedes especificar el tema exacto?"
-          );
-        }
+        let text = "🔍 **Análisis del documento**\nHe revisado los apartados relacionados.\n\n";
 
-        let text = "Analizando documento...\n\nVerificando puntos A y B...\n\n";
-
-        matches.forEach((m, i) => {
-          text += `Bloque ${i + 1} (${m.section}):\n${prettyPrint(m.value)}\n\n`;
+        text += "📄 **Información encontrada**\n";
+        matches.forEach((m) => {
+          text += `• **${m.section.toUpperCase()}** → ${prettyPrint(m.value)}\n`;
         });
 
-        text += `Conclusión: Respuesta aplicada a tu jornada (${jornadaKey}).`;
+        text += "\n📌 **Aplicado a tu jornada**\n";
+        text += jornadaKey === "TT"
+          ? "• Jornada seleccionada: **TT (Diario)**\n"
+          : "• Jornada seleccionada: **SDF (Sábados, Domingos y Festivos)**\n";
+
+        text += "\n🧠 **Conclusión**\nLa información anterior resume lo que indica el convenio para tu caso.\n";
 
         return text;
       };
 
+      /* APP */
       const App = () => {
         const [role, setRole] = useState("guest");
         const [adminCode, setAdminCode] = useState("");
-        const [authError, setAuthError] = useState("");
-
         const [formData, setFormData] = useState({
           nombre: "",
           empresa: "",
           turno: "",
-          jornada: "",
+          jornada: ""
         });
 
-        const [activeTab, setActiveTab] = useState("consulta");
         const [chatMessages, setChatMessages] = useState([]);
         const [currentQuestion, setCurrentQuestion] = useState("");
         const [isThinking, setIsThinking] = useState(false);
         const [lastAnswer, setLastAnswer] = useState("");
 
-        const [uploadedDocs, setUploadedDocs] = useState([]);
-        const [selectedDoc, setSelectedDoc] = useState(null);
-        const [selectedDocContent, setSelectedDocContent] = useState("");
-
         const jornadaKey =
-          formData.jornada === "SDF"
-            ? "SDF"
-            : formData.jornada === "Diario"
-            ? "TT"
-            : null;
-
-        const isFormComplete =
-          formData.nombre &&
-          formData.empresa &&
-          formData.turno &&
-          formData.jornada &&
-          (role === "user" || role === "admin");
-
-        const handleLoginAsUser = () => {
-          if (!formData.nombre || !formData.empresa || !formData.turno || !formData.jornada) {
-            alert("Rellena todos los campos antes de continuar.");
-            return;
-          }
-          setRole("user");
-        };
-
-        const handleAdminAccess = () => {
-          if (adminCode === "selur2212@") {
-            setRole("admin");
-            setAuthError("");
-          } else {
-            setAuthError("Código incorrecto.");
-          }
-        };
-
-        const handleLogout = () => {
-          setRole("guest");
-          setAdminCode("");
-        };
+          formData.jornada === "SDF" ? "SDF" :
+          formData.jornada === "Diario" ? "TT" : null;
 
         const handleAsk = () => {
-          if (!isFormComplete) {
-            alert("Debes completar el formulario.");
+          if (!jornadaKey) {
+            alert("Selecciona tu jornada.");
             return;
           }
           if (!currentQuestion.trim()) return;
@@ -516,36 +199,11 @@
             setChatMessages((prev) => [...prev, { role: "assistant", text: answer }]);
             setLastAnswer(answer);
             setIsThinking(false);
-          }, 900);
-        };
-
-        const handleFiles = (files) => {
-          const arr = Array.from(files).map((file) => ({
-            id: Math.random(),
-            file,
-            name: file.name,
-            type: file.type,
-          }));
-          setUploadedDocs((prev) => [...prev, ...arr]);
-        };
-
-        const handleViewDoc = (doc) => {
-          setSelectedDoc(doc);
-
-          if (doc.name.endsWith(".md") || doc.name.endsWith(".txt")) {
-            const reader = new FileReader();
-            reader.onload = (e) => setSelectedDocContent(e.target.result);
-            reader.readAsText(doc.file);
-          } else {
-            setSelectedDocContent("");
-          }
+          }, 700);
         };
 
         const exportSummary = () => {
-          if (!lastAnswer) {
-            alert("No hay respuesta para exportar.");
-            return;
-          }
+          if (!lastAnswer) return alert("No hay respuesta para exportar.");
 
           const content =
             `Resumen de consulta\n\n` +
@@ -566,14 +224,12 @@
 
         return (
           <div className="min-h-screen flex flex-col">
+
             <header className="border-b bg-white">
               <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-                <div className="flex items-center space-x-3">
-                  <img src="image_0.png" className="h-10" />
-                  <span className="text-primary font-bold">
-                    Convenio Colectivo LPV de Madrid Capital 2026-31
-                  </span>
-                </div>
+                <span className="text-primary font-bold">
+                  Convenio LPV Madrid 2026-31
+                </span>
 
                 <div className="flex items-center space-x-2">
                   <input
@@ -584,15 +240,15 @@
                     className="border px-2 py-1 text-sm"
                   />
                   <button
-                    onClick={handleAdminAccess}
+                    onClick={() => adminCode === "selur2212@" && setRole("admin")}
                     className="bg-primary text-white px-2 py-1 rounded"
                   >
                     <IconShield />
                   </button>
 
-                  {(role === "user" || role === "admin") && (
+                  {role !== "guest" && (
                     <button
-                      onClick={handleLogout}
+                      onClick={() => setRole("guest")}
                       className="border px-2 py-1 text-xs rounded flex items-center"
                     >
                       <IconLogout /> <span className="ml-1">Salir</span>
@@ -603,6 +259,8 @@
             </header>
 
             <main className="max-w-6xl mx-auto px-4 py-4 flex-1">
+
+              {/* FORMULARIO */}
               <section className="bg-red-50 border p-4 rounded mb-4">
                 <h2 className="text-primary font-bold mb-2">Hola, Compañero!!</h2>
 
@@ -611,17 +269,13 @@
                     type="text"
                     placeholder="Nombre"
                     value={formData.nombre}
-                    onChange={(e) =>
-                      setFormData({ ...formData, nombre: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
                     className="border px-2 py-1"
                   />
 
                   <select
                     value={formData.empresa}
-                    onChange={(e) =>
-                      setFormData({ ...formData, empresa: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
                     className="border px-2 py-1"
                   >
                     <option value="">Empresa</option>
@@ -633,9 +287,7 @@
 
                   <select
                     value={formData.turno}
-                    onChange={(e) =>
-                      setFormData({ ...formData, turno: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, turno: e.target.value })}
                     className="border px-2 py-1"
                   >
                     <option value="">Turno</option>
@@ -646,9 +298,7 @@
 
                   <select
                     value={formData.jornada}
-                    onChange={(e) =>
-                      setFormData({ ...formData, jornada: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, jornada: e.target.value })}
                     className="border px-2 py-1"
                   >
                     <option value="">Jornada</option>
@@ -656,255 +306,75 @@
                     <option>SDF</option>
                   </select>
                 </div>
-
-                <div className="mt-3">
-                  <button
-                    onClick={handleLoginAsUser}
-                    className="bg-primary text-white px-3 py-1 rounded text-sm"
-                  >
-                    Acceder como Usuario
-                  </button>
-                </div>
               </section>
 
-              <div className="border-b mb-4">
-                <button
-                  onClick={() => setActiveTab("consulta")}
-                  className={`px-3 py-2 ${
-                    activeTab === "consulta"
-                      ? "border-b-2 border-primary text-primary"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Consulta
-                </button>
+              {/* CONSULTA */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-                <button
-                  onClick={() => setActiveTab("docs")}
-                  className={`px-3 py-2 ${
-                    activeTab === "docs"
-                      ? "border-b-2 border-primary text-primary"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Documentación
-                </button>
-              </div>
+                {/* CHAT */}
+                <div className="lg:col-span-2 border rounded p-3 flex flex-col h-[480px]">
 
-              {activeTab === "consulta" && (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                  <div className="lg:col-span-2 border rounded p-3 flex flex-col h-[480px]">
-
-  <div className="flex justify-between items-center mb-2">
-    <span className="font-semibold text-primary">Chat de consulta</span>
-
-    <button
-      onClick={exportSummary}
-      className="border border-primary text-primary px-2 py-1 rounded text-xs flex items-center"
-    >
-      <IconDownload /> <span className="ml-1">Exportar</span>
-    </button>
-  </div>
-
-  {/* Área de mensajes */}
-  <div className="flex-1 overflow-y-auto space-y-3 text-sm pr-1">
-
-    {chatMessages.map((m, i) => (
-      <div
-        key={i}
-        className={`flex fade-in ${
-          m.role === "user" ? "justify-end" : "justify-start"
-        }`}
-      >
-        <div
-          className={
-            m.role === "user"
-              ? "bubble-user"
-              : "bubble-ai"
-          }
-        >
-          <div className="whitespace-pre-wrap leading-relaxed">
-            {m.text}
-          </div>
-        </div>
-      </div>
-    ))}
-
-    {isThinking && (
-      <div className="text-xs text-gray-500 fade-in">
-        ⏳ Analizando documento…
-      </div>
-    )}
-  </div>
-
-  {/* Input */}
-  <textarea
-    value={currentQuestion}
-    onChange={(e) => setCurrentQuestion(e.target.value)}
-    className="chat-input mt-3 text-sm"
-    rows={2}
-    placeholder="Escribe tu pregunta…"
-  ></textarea>
-
-  <button
-    onClick={handleAsk}
-    className="btn-primary mt-2 text-sm"
-  >
-    Preguntar
-  </button>
-</div>
-
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold text-primary">
-                        Chat de consulta
-                      </span>
-                      <button
-                        onClick={exportSummary}
-                        className="border border-primary text-primary px-2 py-1 rounded text-xs flex items-center"
-                      >
-                        <IconDownload /> <span className="ml-1">Exportar</span>
-                      </button>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto space-y-2 text-sm">
-                      {chatMessages.map((m, i) => (
-                        <div
-                          key={i}
-                          className={`flex ${
-                            m.role === "user" ? "justify-end" : "justify-start"
-                          }`}
-                        >
-                          <div
-                            className={`px-3 py-2 rounded max-w-[80%] whitespace-pre-wrap ${
-                              m.role === "user"
-                                ? "bg-primary text-white"
-                                : "bg-gray-100"
-                            }`}
-                          >
-                            {m.text}
-                          </div>
-                        </div>
-                      ))}
-
-                      {isThinking && (
-                        <div className="text-xs text-gray-500">
-                          Analizando documento...
-                        </div>
-                      )}
-                    </div>
-
-                    <textarea
-                      value={currentQuestion}
-                      onChange={(e) => setCurrentQuestion(e.target.value)}
-                      className="border px-2 py-1 text-sm mt-2"
-                      rows={2}
-                      placeholder="Escribe tu pregunta..."
-                    ></textarea>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-semibold text-primary">Chat de consulta</span>
 
                     <button
-                      onClick={handleAsk}
-                      className="bg-primary text-white px-3 py-1 rounded mt-2"
+                      onClick={exportSummary}
+                      className="border border-primary text-primary px-2 py-1 rounded text-xs flex items-center"
                     >
-                      Preguntar
+                      <IconDownload /> <span className="ml-1">Exportar</span>
                     </button>
                   </div>
 
-                  <div className="border rounded p-3 text-xs bg-gray-50">
-                    <h3 className="text-primary font-semibold mb-2">
-                      Contexto
-                    </h3>
-                    <p><b>Nombre:</b> {formData.nombre || "-"}</p>
-                    <p><b>Empresa:</b> {formData.empresa || "-"}</p>
-                    <p><b>Turno:</b> {formData.turno || "-"}</p>
-                    <p><b>Jornada:</b> {formData.jornada || "-"}</p>
-                    <p><b>Rol:</b> {role}</p>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === "docs" && (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                  <div className="border rounded p-3">
-                    <h3 className="text-primary font-semibold mb-2">
-                      Gestión de documentación
-                    </h3>
-
-                    {role !== "admin" && (
-                      <p className="text-xs text-gray-600">
-                        Solo ADMIN puede subir archivos.
-                      </p>
-                    )}
-
-                    {role === "admin" && (
-                      <>
-                        <div
-                          onDrop={(e) => {
-                            e.preventDefault();
-                            handleFiles(e.dataTransfer.files);
-                          }}
-                          onDragOver={(e) => e.preventDefault()}
-                          className="border-2 border-dashed p-4 text-center text-xs"
-                        >
-                          Arrastra archivos aquí
+                  <div className="flex-1 overflow-y-auto space-y-3 text-sm pr-1">
+                    {chatMessages.map((m, i) => (
+                      <div
+                        key={i}
+                        className={`flex fade-in ${
+                          m.role === "user" ? "justify-end" : "justify-start"
+                        }`}
+                      >
+                        <div className={m.role === "user" ? "bubble-user" : "bubble-ai"}>
+                          <div className="whitespace-pre-wrap leading-relaxed">
+                            {m.text}
+                          </div>
                         </div>
+                      </div>
+                    ))}
 
-                        <input
-                          type="file"
-                          multiple
-                          className="mt-2 text-xs"
-                          onChange={(e) => handleFiles(e.target.files)}
-                        />
-
-                        <ul className="mt-3 text-xs max-h-48 overflow-y-auto space-y-1">
-                          {uploadedDocs.map((doc) => (
-                            <li
-                              key={doc.id}
-                              className="border px-2 py-1 rounded flex justify-between"
-                            >
-                              <span className="flex items-center">
-                                <IconFile /> <span className="ml-1">{doc.name}</span>
-                              </span>
-                              <button
-                                onClick={() => handleViewDoc(doc)}
-                                className="text-primary text-xs"
-                              >
-                                Ver
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="lg:col-span-2 border rounded p-3">
-                    <h3 className="text-primary font-semibold mb-2">
-                      Visor
-                    </h3>
-
-                    {!selectedDoc && (
-                      <p className="text-xs text-gray-600">
-                        Selecciona un archivo para visualizarlo.
-                      </p>
-                    )}
-
-                    {selectedDoc && (
-                      <div className="h-[420px] overflow-auto border p-2 bg-white">
-                        {selectedDoc.name.endsWith(".pdf") ? (
-                          <iframe
-                            src={URL.createObjectURL(selectedDoc.file)}
-                            className="w-full h-full"
-                          ></iframe>
-                        ) : (
-                          <pre className="text-xs whitespace-pre-wrap">
-                            {selectedDocContent}
-                          </pre>
-                        )}
+                    {isThinking && (
+                      <div className="text-xs text-gray-500 fade-in">
+                        ⏳ Analizando documento…
                       </div>
                     )}
                   </div>
+
+                  <textarea
+                    value={currentQuestion}
+                    onChange={(e) => setCurrentQuestion(e.target.value)}
+                    className="chat-input mt-3 text-sm"
+                    rows={2}
+                    placeholder="Escribe tu pregunta…"
+                  ></textarea>
+
+                  <button
+                    onClick={handleAsk}
+                    className="btn-primary mt-2 text-sm"
+                  >
+                    Preguntar
+                  </button>
                 </div>
-              )}
+
+                {/* CONTEXTO */}
+                <div className="border rounded p-3 text-xs bg-gray-50">
+                  <h3 className="text-primary font-semibold mb-2">Contexto</h3>
+                  <p><b>Nombre:</b> {formData.nombre || "-"}</p>
+                  <p><b>Empresa:</b> {formData.empresa || "-"}</p>
+                  <p><b>Turno:</b> {formData.turno || "-"}</p>
+                  <p><b>Jornada:</b> {formData.jornada || "-"}</p>
+                  <p><b>Rol:</b> {role}</p>
+                </div>
+
+              </div>
             </main>
 
             <footer className="text-center text-xs text-gray-500 py-2 border-t">
