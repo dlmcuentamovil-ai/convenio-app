@@ -23,6 +23,64 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  /* Animación suave de aparición */
+  .fade-in {
+    animation: fadeIn 0.25s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Burbujas del usuario */
+  .bubble-user {
+    background: #C8102E;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 14px;
+    max-width: 80%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  /* Burbujas de la IA */
+  .bubble-ai {
+    background: #f3f4f6;
+    color: #333;
+    padding: 10px 14px;
+    border-radius: 14px;
+    max-width: 80%;
+    border-left: 4px solid #C8102E;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  /* Input del chat */
+  .chat-input {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 8px;
+    resize: none;
+    transition: 0.2s;
+  }
+  .chat-input:focus {
+    border-color: #C8102E;
+    box-shadow: 0 0 0 2px rgba(200,16,46,0.2);
+    outline: none;
+  }
+
+  /* Botón moderno */
+  .btn-primary {
+    background: #C8102E;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: 0.2s;
+  }
+  .btn-primary:hover {
+    background: #a50d26;
+  }
+</style>
+
   </head>
 
   <body class="bg-white text-gray-900">
@@ -636,6 +694,66 @@
               {activeTab === "consulta" && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="lg:col-span-2 border rounded p-3 flex flex-col h-[480px]">
+
+  <div className="flex justify-between items-center mb-2">
+    <span className="font-semibold text-primary">Chat de consulta</span>
+
+    <button
+      onClick={exportSummary}
+      className="border border-primary text-primary px-2 py-1 rounded text-xs flex items-center"
+    >
+      <IconDownload /> <span className="ml-1">Exportar</span>
+    </button>
+  </div>
+
+  {/* Área de mensajes */}
+  <div className="flex-1 overflow-y-auto space-y-3 text-sm pr-1">
+
+    {chatMessages.map((m, i) => (
+      <div
+        key={i}
+        className={`flex fade-in ${
+          m.role === "user" ? "justify-end" : "justify-start"
+        }`}
+      >
+        <div
+          className={
+            m.role === "user"
+              ? "bubble-user"
+              : "bubble-ai"
+          }
+        >
+          <div className="whitespace-pre-wrap leading-relaxed">
+            {m.text}
+          </div>
+        </div>
+      </div>
+    ))}
+
+    {isThinking && (
+      <div className="text-xs text-gray-500 fade-in">
+        ⏳ Analizando documento…
+      </div>
+    )}
+  </div>
+
+  {/* Input */}
+  <textarea
+    value={currentQuestion}
+    onChange={(e) => setCurrentQuestion(e.target.value)}
+    className="chat-input mt-3 text-sm"
+    rows={2}
+    placeholder="Escribe tu pregunta…"
+  ></textarea>
+
+  <button
+    onClick={handleAsk}
+    className="btn-primary mt-2 text-sm"
+  >
+    Preguntar
+  </button>
+</div>
+
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold text-primary">
                         Chat de consulta
