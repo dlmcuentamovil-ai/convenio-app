@@ -65,21 +65,12 @@
         return true;
       }
 
-      function subVisible(c, s, jornada) {
-        const subNode = window.ESTRUCTURA[c].sub[s];
-
-        if (subNode.sub) {
-          return Object.keys(subNode.sub).some((ss) =>
-            tieneContenido(c, s, ss, jornada)
-          );
-        }
-
-        return tieneContenido(c, s, null, jornada);
-      }
-
-      function subSubVisible(c, s, ss, jornada) {
-        return tieneContenido(c, s, ss, jornada);
-      }
+     function subVisible(c, s, jornada) {
+  return true; // Mostrar SIEMPRE todas las subcarpetas
+}
+     function subSubVisible(c, s, ss, jornada) {
+  return true; // Mostrar SIEMPRE todas las sub-subcarpetas
+}
 
       /* ============================================================
          COMPONENTES BASE
