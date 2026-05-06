@@ -82,7 +82,7 @@
       }
 
       /* ============================================================
-         COMPONENTES
+         COMPONENTES BASE
       ============================================================ */
 
       function Resultado({ categoriaId, subId, subSubId, jornada, onBack }) {
@@ -204,9 +204,26 @@
           </div>
         );
       }
+/* ============================================================
+         CONSULTA MENU (ACTUALIZADO)
+      ============================================================ */
 
       function ConsultaMenu({ jornada, onLogout }) {
         const [categoriaId, setCategoriaId] = useState(null);
+
+        /* Cargar RESPUESTAS guardadas */
+        useEffect(() => {
+          if (localStorage.getItem("RESPUESTAS")) {
+            try {
+              const guardado = JSON.parse(localStorage.getItem("RESPUESTAS"));
+              window.RESPUESTAS = guardado;
+              console.log("RESPUESTAS cargadas desde localStorage");
+            } catch (e) {
+              console.error("Error cargando RESPUESTAS guardadas");
+            }
+          }
+        }, []);
+
         const categorias = Object.entries(window.ESTRUCTURA);
 
         if (categoriaId) {
@@ -257,7 +274,7 @@
       }
 
       /* ============================================================
-         PANEL ADMIN REAL
+         PANEL ADMIN REAL (INICIO)
       ============================================================ */
 
       function AdminEditor({ onLogout }) {
@@ -267,17 +284,35 @@
         const [textoDiario, setTextoDiario] = useState("");
         const [textoSdf, setTextoSdf] = useState("");
 
+        /* ============================================================
+           Cargar texto + CREAR RUTAS AUTOMÁTICAMENTE
+        ============================================================ */
         useEffect(() => {
           if (!categoria || !sub) return;
+
+          // Crear rutas si no existen
+          if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
+          if (!window.RESPUESTAS[categoria][sub]) {
+            window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "" };
+          }
+
+          if (subsub) {
+            if (!window.RESPUESTAS[categoria][sub][subsub]) {
+              window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "" };
+            }
+          }
 
           const nodo = subsub
             ? window.RESPUESTAS[categoria][sub][subsub]
             : window.RESPUESTAS[categoria][sub];
 
-          setTextoDiario(nodo?.diario || "");
-          setTextoSdf(nodo?.sdf || "");
+          setTextoDiario(nodo.diario || "");
+          setTextoSdf(nodo.sdf || "");
         }, [categoria, sub, subsub]);
 
+        /* ============================================================
+           Guardar en memoria
+        ============================================================ */
         const guardar = () => {
           if (subsub) {
             window.RESPUESTAS[categoria][sub][subsub].diario = textoDiario;
@@ -289,23 +324,21 @@
           alert("Guardado en memoria");
         };
 
+        /* ============================================================
+           Guardar TODO en localStorage
+        ============================================================ */
         const guardarTodo = () => {
           localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
           alert("Guardado en localStorage (persistente)");
         };
 
         const categorias = Object.entries(window.ESTRUCTURA);
-
-        const subs = categoria
-          ? Object.entries(window.ESTRUCTURA[categoria].sub)
-          : [];
-
+        const subs = categoria ? Object.entries(window.ESTRUCTURA[categoria].sub) : [];
         const subsubs =
           categoria && sub && window.ESTRUCTURA[categoria].sub[sub].sub
             ? Object.entries(window.ESTRUCTURA[categoria].sub[sub].sub)
             : [];
-
-        return (
+return (
           <div className="p-4">
 
             <div className="flex justify-between mb-4">
@@ -502,8 +535,7 @@
           </div>
         );
       }
-
-      /* ============================================================
+/* ============================================================
          APP PRINCIPAL
       ============================================================ */
 
