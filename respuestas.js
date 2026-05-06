@@ -8,7 +8,7 @@ window.RESPUESTAS = {
   jornada: {
     tt: {
       calculo: {
-        diario: "",
+        diario: "prueba",
         sdf: ""
       },
       casos: {
