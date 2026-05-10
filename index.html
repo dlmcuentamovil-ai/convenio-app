@@ -1,655 +1,367 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Convenio LPV Madrid 2026–2031</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Convenio LPV - Editor</title>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+/* ESTILO MODERNO Y PROFESIONAL */
 
-    <!-- React -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <style>
-      .primary-red { color: #c40000; }
-      .bg-primary-red { background-color: #c40000; }
-      .border-primary-red { border-color: #c40000; }
-    </style>
-  </head>
-
-  <body class="bg-white">
-    <div id="root"></div>
-
-    <!-- ARCHIVOS EXTERNOS -->
-    <script src="config.js"></script>
-    <script src="estructura.js"></script>
-    <script src="respuestas.js"></script>
-
-    <!-- APP -->
-    <script type="text/babel">
-      const { useState, useEffect } = React;
-
-      /* ============================================================
-         CARGAR RESPUESTAS DESDE LOCALSTORAGE SI EXISTEN
-      ============================================================ */
-      if (localStorage.getItem("RESPUESTAS")) {
-        try {
-          const guardado = JSON.parse(localStorage.getItem("RESPUESTAS"));
-          window.RESPUESTAS = guardado;
-        } catch (e) {
-          console.error("Error cargando RESPUESTAS guardadas");
-        }
-      }
-
-      /* ============================================================
-         HELPERS FILTRADO
-      ============================================================ */
-
-      function esNoAplica(txt) {
-        return txt && txt.trim().toLowerCase() === "no aplica";
-      }
-
-      function tieneContenido(c, s, ss, jornada) {
-        const nodo = ss
-          ? window.RESPUESTAS[c]?.[s]?.[ss]
-          : window.RESPUESTAS[c]?.[s];
-
-        if (!nodo) return false;
-
-        const t = nodo[jornada];
-        if (!t || esNoAplica(t)) return false;
-
-        return true;
-      }
-
-     function subVisible(c, s, jornada) {
-  return true; // Mostrar SIEMPRE todas las subcarpetas
-}
-     function subSubVisible(c, s, ss, jornada) {
-  return true; // Mostrar SIEMPRE todas las sub-subcarpetas
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  margin: 0;
+  padding: 20px;
+  background: #fff5f5;
+  color: #222;
 }
 
-      /* ============================================================
-         COMPONENTES BASE
-      ============================================================ */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
 
-      function Resultado({ categoriaId, subId, subSubId, jornada, onBack }) {
-        const texto = subSubId
-          ? window.RESPUESTAS[categoriaId][subId][subSubId][jornada]
-          : window.RESPUESTAS[categoriaId][subId][jornada];
+h1 {
+  margin: 0;
+  font-size: 22px;
+  color: #c40000;
+  font-weight: 700;
+}
 
-        return (
-          <div className="p-4">
-            <button
-              onClick={onBack}
-              className="text-primary-red font-bold mb-4 hover:underline"
-            >
-              ← Volver
-            </button>
+.role-badge {
+  padding: 6px 12px;
+  background: #eee;
+  border-radius: 8px;
+  font-size: 14px;
+}
 
-            <div className="bg-white border border-primary-red p-4 rounded-xl shadow">
-              <pre className="whitespace-pre-wrap text-sm">{texto}</pre>
-            </div>
-          </div>
-        );
-      }
+.logout-btn {
+  background: #444;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
 
-      function SubSubMenu({ categoriaId, subId, jornada, onBack }) {
-        const [subSubId, setSubSubId] = useState(null);
-        const subNode = window.ESTRUCTURA[categoriaId].sub[subId];
+.shield {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  transition: 0.15s;
+}
 
-        if (!subNode.sub) {
-          return (
-            <Resultado
-              categoriaId={categoriaId}
-              subId={subId}
-              subSubId={null}
-              jornada={jornada}
-              onBack={onBack}
-            />
-          );
-        }
+.shield:hover {
+  transform: translateY(-2px);
+}
 
-        if (subSubId) {
-          return (
-            <Resultado
-              categoriaId={categoriaId}
-              subId={subId}
-              subSubId={subSubId}
-              jornada={jornada}
-              onBack={() => setSubSubId(null)}
-            />
-          );
-        }
+.admin-panel {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: #fff;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
+  min-width: 240px;
+  z-index: 999;
+  flex-direction: column;
+  gap: 10px;
+}
 
-        const visibles = Object.keys(subNode.sub).filter((ss) =>
-          subSubVisible(categoriaId, subId, ss, jornada)
-        );
+label {
+  font-weight: 600;
+  margin-top: 12px;
+}
 
-        return (
-          <div className="p-4">
-            <button
-              onClick={onBack}
-              className="text-primary-red font-bold mb-4 hover:underline"
-            >
-              ← Volver
-            </button>
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  background: #fff;
+}
 
-            <div className="grid grid-cols-1 gap-3">
-              {visibles.map((ss) => (
-                <button
-                  key={ss}
-                  onClick={() => setSubSubId(ss)}
-                  className="bg-red-50 border border-primary-red p-4 rounded-lg shadow text-left font-semibold hover:bg-red-100"
-                >
-                  {subNode.sub[ss].titulo}
-                </button>
-              ))}
-            </div>
-          </div>
-        );
-      }
+button {
+  background: #c40000;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.15s;
+}
 
-      function SubMenu({ categoriaId, jornada, onBack }) {
-        const [subId, setSubId] = useState(null);
-        const subs = window.ESTRUCTURA[categoriaId].sub;
+button:hover {
+  background: #a00000;
+}
 
-        if (subId) {
-          return (
-            <SubSubMenu
-              categoriaId={categoriaId}
-              subId={subId}
-              jornada={jornada}
-              onBack={() => setSubId(null)}
-            />
-          );
-        }
+button.secondary {
+  background: #666;
+}
 
-        const visibles = Object.keys(subs).filter((s) =>
-          subVisible(categoriaId, s, jornada)
-        );
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
 
-        return (
-          <div className="p-4">
-            <button
-              onClick={onBack}
-              className="text-primary-red font-bold mb-4 hover:underline"
-            >
-              ← Volver
-            </button>
+.img-wrap {
+  position: relative;
+  border: 1px solid #eee;
+  padding: 6px;
+  border-radius: 8px;
+  background: #fafafa;
+}
 
-            <div className="grid grid-cols-1 gap-3">
-              {visibles.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSubId(s)}
-                  className="bg-red-50 border border-primary-red p-4 rounded-lg shadow text-left font-semibold hover:bg-red-100"
-                >
-                  {subs[s].titulo}
-                </button>
-              ))}
-            </div>
-          </div>
-        );
-      }
-/* ============================================================
-         CONSULTA MENU (ACTUALIZADO)
-      ============================================================ */
+.img-wrap img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
 
-      function ConsultaMenu({ jornada, onLogout }) {
-        const [categoriaId, setCategoriaId] = useState(null);
+.img-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #0008;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+</head>
 
-        /* Cargar RESPUESTAS guardadas */
-        useEffect(() => {
-          if (localStorage.getItem("RESPUESTAS")) {
-            try {
-              const guardado = JSON.parse(localStorage.getItem("RESPUESTAS"));
-              window.RESPUESTAS = guardado;
-              console.log("RESPUESTAS cargadas desde localStorage");
-            } catch (e) {
-              console.error("Error cargando RESPUESTAS guardadas");
-            }
-          }
-        }, []);
+<body>
 
-        const categorias = Object.entries(window.ESTRUCTURA);
+<header style="position:relative;">
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div style="font-size:28px">📚</div>
+    <h1>Convenio LPV</h1>
+  </div>
 
-        if (categoriaId) {
-          return (
-            <SubMenu
-              categoriaId={categoriaId}
-              jornada={jornada}
-              onBack={() => setCategoriaId(null)}
-            />
-          );
-        }
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div class="role-badge">Rol: <span id="roleText">usuario</span></div>
+    <button id="logoutBtn" class="logout-btn" style="display:none">Salir Admin</button>
 
-        return (
-          <div className="p-4">
-
-            <div className="flex justify-end mb-4">
-              <button
-                onClick={onLogout}
-                className="text-xs text-white bg-primary-red px-3 py-1 rounded"
-              >
-                Desconectar
-              </button>
-            </div>
-
-            <h1 className="text-center text-2xl font-bold primary-red mb-1">
-              {window.CONFIG.textos.tituloMenu}
-            </h1>
-            <p className="text-center text-sm text-gray-600 mb-6">
-              {window.CONFIG.textos.subtituloMenu}
-            </p>
-
-            <div className="grid grid-cols-2 gap-4">
-              {categorias.map(([id, cat]) => (
-                <button
-                  key={id}
-                  onClick={() => setCategoriaId(id)}
-                  className="bg-primary-red text-white p-4 rounded-xl shadow-lg flex items-center space-x-2 hover:opacity-90"
-                >
-                  <span className="text-xl">
-                    {window.CONFIG.iconos[id] || "📁"}
-                  </span>
-                  <span className="font-bold text-sm">{cat.titulo}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        );
-      }
-
-      /* ============================================================
-         PANEL ADMIN REAL (INICIO)
-      ============================================================ */
-
-function AdminEditor({ onLogout }) {
-  const [categoria, setCategoria] = useState(null);
-  const [sub, setSub] = useState(null);
-  const [subsub, setSubsub] = useState(null);
-  const [textoDiario, setTextoDiario] = useState("");
-  const [textoSdf, setTextoSdf] = useState("");
-
-  useEffect(() => {
-    if (!categoria || !sub) return;
-    if (!window.RESPUESTAS) window.RESPUESTAS = {};
-    if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
-    if (!window.RESPUESTAS[categoria][sub]) {
-      window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "", imagenes: [] };
-    }
-    if (subsub) {
-      if (!window.RESPUESTAS[categoria][sub][subsub]) {
-        window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "", imagenes: [] };
-      }
-    }
-    const nodo = subsub
-      ? window.RESPUESTAS[categoria][sub][subsub]
-      : window.RESPUESTAS[categoria][sub];
-    setTextoDiario(nodo?.diario || "");
-    setTextoSdf(nodo?.sdf || "");
-  }, [categoria, sub, subsub]);
-
-  const subirImagenes = async (e) => {
-    if (!categoria || !sub) {
-      alert("Selecciona categoría y subcarpeta antes de subir imágenes.");
-      return;
-    }
-    const files = Array.from(e.target.files || []);
-    if (files.length === 0) return;
-    const nuevas = [];
-    for (const file of files) {
-      const maxMB = 6;
-      if (file.size > maxMB * 1024 * 1024) {
-        alert(`El archivo ${file.name} supera ${maxMB} MB y no se subirá.`);
-        continue;
-      }
-      const reader = new FileReader();
-      await new Promise((resolve) => {
-        reader.onload = () => {
-          nuevas.push(reader.result);
-          resolve();
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-    if (!window.RESPUESTAS) window.RESPUESTAS = {};
-    if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
-    if (!window.RESPUESTAS[categoria][sub]) window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "", imagenes: [] };
-    if (subsub && !window.RESPUESTAS[categoria][sub][subsub]) window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "", imagenes: [] };
-    const nodo = subsub
-      ? window.RESPUESTAS[categoria][sub][subsub]
-      : window.RESPUESTAS[categoria][sub];
-    if (!nodo.imagenes) nodo.imagenes = [];
-    nodo.imagenes.push(...nuevas);
-    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-    alert("Imágenes añadidas");
-  };
-
-  const eliminarImagen = (i) => {
-    const nodo = subsub
-      ? window.RESPUESTAS?.[categoria]?.[sub]?.[subsub]
-      : window.RESPUESTAS?.[categoria]?.[sub];
-    if (!nodo || !nodo.imagenes || !nodo.imagenes[i]) {
-      alert("No se encontró la imagen.");
-      return;
-    }
-    nodo.imagenes.splice(i, 1);
-    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-    setTextoDiario((t) => t);
-    alert("Imagen eliminada");
-  };
-
-  const guardar = () => {
-    if (!categoria || !sub) {
-      alert("Selecciona categoría y subcarpeta antes de guardar.");
-      return;
-    }
-    if (!window.RESPUESTAS) window.RESPUESTAS = {};
-    if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
-    if (!window.RESPUESTAS[categoria][sub]) window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "", imagenes: [] };
-    if (subsub && !window.RESPUESTAS[categoria][sub][subsub]) window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "", imagenes: [] };
-    const nodo = subsub
-      ? window.RESPUESTAS[categoria][sub][subsub]
-      : window.RESPUESTAS[categoria][sub];
-    nodo.diario = textoDiario;
-    nodo.sdf = textoSdf;
-    alert("Guardado en memoria");
-  };
-
-  const guardarTodo = () => {
-    if (!window.RESPUESTAS) window.RESPUESTAS = {};
-    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-    alert("Guardado en localStorage (persistente)");
-  };
-
-  const categorias = window.ESTRUCTURA ? Object.entries(window.ESTRUCTURA) : [];
-  const subs = categoria && window.ESTRUCTURA?.[categoria]?.sub ? Object.entries(window.ESTRUCTURA[categoria].sub) : [];
-  const subsubs =
-    categoria && sub && window.ESTRUCTURA?.[categoria]?.sub?.[sub]?.sub
-      ? Object.entries(window.ESTRUCTURA[categoria].sub[sub].sub)
-      : [];
-
-  return (
-    <div className="p-4">
-      <div className="flex justify-between mb-4">
-        <h1 className="text-primary-red font-bold text-xl">Panel Admin</h1>
-        <button
-          onClick={onLogout}
-          className="text-xs text-white bg-primary-red px-3 py-1 rounded"
-        >
-          Salir
-        </button>
+    <div style="position:relative;">
+      <div class="shield" id="shieldBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path d="M12 2L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-3z" fill="#c40000"/>
+          <circle cx="12" cy="12" r="3.5" fill="#fff"/>
+        </svg>
       </div>
 
-      <select
-        className="w-full border border-primary-red p-2 rounded mb-3"
-        value={categoria || ""}
-        onChange={(e) => {
-          setCategoria(e.target.value || null);
-          setSub(null);
-          setSubsub(null);
-        }}
-      >
-        <option value="">Selecciona categoría</option>
-        {categorias.map(([id, cat]) => (
-          <option key={id} value={id}>{cat.titulo}</option>
-        ))}
-      </select>
-
-      {categoria && (
-        <select
-          className="w-full border border-primary-red p-2 rounded mb-3"
-          value={sub || ""}
-          onChange={(e) => {
-            setSub(e.target.value || null);
-            setSubsub(null);
-          }}
-        >
-          <option value="">Selecciona subcarpeta</option>
-          {subs.map(([id, nodo]) => (
-            <option key={id} value={id}>{nodo.titulo}</option>
-          ))}
-        </select>
-      )}
-
-      {categoria && sub && subsubs.length > 0 && (
-        <select
-          className="w-full border border-primary-red p-2 rounded mb-3"
-          value={subsub || ""}
-          onChange={(e) => setSubsub(e.target.value || null)}
-        >
-          <option value="">(Sin sub-subcarpeta)</option>
-          {subsubs.map(([id, nodo]) => (
-            <option key={id} value={id}>{nodo.titulo}</option>
-          ))}
-        </select>
-      )}
-
-      {categoria && sub && (
-        <div>
-          <h2 className="font-bold mb-2">Texto Diario</h2>
-          <textarea
-            className="w-full border border-primary-red p-2 rounded mb-4 h-32"
-            value={textoDiario}
-            onChange={(e) => setTextoDiario(e.target.value)}
-          />
-
-          <h2 className="font-bold mb-2">Texto SDF</h2>
-          <textarea
-            className="w-full border border-primary-red p-2 rounded mb-4 h-32"
-            value={textoSdf}
-            onChange={(e) => setTextoSdf(e.target.value)}
-          />
-
-          <h2 className="font-bold text-primary-red mt-4">Imágenes</h2>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={subirImagenes}
-            className="w-full border border-primary-red p-2 rounded"
-          />
-
-          {(() => {
-            const nodo = subsub
-              ? window.RESPUESTAS?.[categoria]?.[sub]?.[subsub]
-              : window.RESPUESTAS?.[categoria]?.[sub];
-
-            if (!nodo || !nodo.imagenes || nodo.imagenes.length === 0) return null;
-
-            return (
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                {nodo.imagenes.map((img, i) => (
-                  <div key={i} className="relative">
-                    <img
-                      src={img}
-                      className="w-full rounded border shadow"
-                      alt={`img-${i}`}
-                    />
-                    <button
-                      className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded"
-                      onClick={() => eliminarImagen(i)}
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
-              </div>
-            );
-          })()}
-
-          <div className="mt-4">
-            <button
-              onClick={guardar}
-              className="bg-primary-red text-white px-4 py-2 rounded font-bold mr-2"
-            >
-              Guardar
-            </button>
-
-            <button
-              onClick={guardarTodo}
-              className="bg-green-600 text-white px-4 py-2 rounded font-bold"
-            >
-              Guardar TODO (persistente)
-            </button>
-          </div>
-        </div>
-      )}
+      <div id="adminPanel" class="admin-panel">
+        <strong style="color:#c40000;">Acceso Admin</strong>
+        <input id="adminCode" type="password" placeholder="Introduce código">
+        <button id="adminEnter">Entrar</button>
+        <button id="adminCancel" class="secondary">Cerrar</button>
+      </div>
     </div>
-  );
-}
-      /* ============================================================
-         ACCESO ADMIN
-      ============================================================ */
+  </div>
+</header>
 
-      function AdminAccess({ onAdmin }) {
-        const [code, setCode] = useState("");
+<main id="appRoot"></main>
 
-        const check = () => {
-          if (code === "Selur2212@") onAdmin();
-          else alert("Código incorrecto");
-        };
+<script src="config.js"></script>
+<script src="respuestas.js"></script>
 
-        return (
-          <div className="flex items-center space-x-1">
-            <input
-              className="border border-primary-red p-1 rounded text-xs w-24"
-              placeholder="Código"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-            />
-            <button
-              onClick={check}
-              className="bg-primary-red text-white px-2 py-1 rounded text-xs"
-            >
-              🛡️
-            </button>
-          </div>
-        );
+<script>
+(function(){
+
+  const $ = s => document.querySelector(s);
+
+  let estado = {
+    categoria:"",
+    sub:"",
+    role: sessionStorage.getItem("role") || "user"
+  };
+
+  const shieldBtn = $("#shieldBtn");
+  const adminPanel = $("#adminPanel");
+  const adminCode = $("#adminCode");
+  const adminEnter = $("#adminEnter");
+  const adminCancel = $("#adminCancel");
+  const roleText = $("#roleText");
+  const logoutBtn = $("#logoutBtn");
+
+  function setRoleUI(){
+    roleText.textContent = estado.role === "admin" ? "admin" : "usuario";
+    logoutBtn.style.display = estado.role === "admin" ? "inline-block" : "none";
+  }
+
+  shieldBtn.addEventListener("click", ()=>{
+    adminPanel.style.display = adminPanel.style.display === "flex" ? "none" : "flex";
+    adminPanel.style.flexDirection = "column";
+    adminCode.focus();
+  });
+
+  adminCancel.addEventListener("click", ()=>{
+    adminPanel.style.display = "none";
+  });
+
+  adminEnter.addEventListener("click", ()=>{
+    if(adminCode.value === "Selur2212@"){
+      estado.role = "admin";
+      sessionStorage.setItem("role","admin");
+      adminPanel.style.display = "none";
+      adminCode.value = "";
+      setRoleUI();
+      renderApp();
+      alert("Acceso admin concedido");
+    } else {
+      alert("Código incorrecto");
+    }
+  });
+
+  logoutBtn.addEventListener("click", ()=>{
+    estado.role = "user";
+    sessionStorage.setItem("role","user");
+    setRoleUI();
+    renderApp();
+  });
+
+  function renderApp(){
+    const root = $("#appRoot");
+    root.innerHTML = "";
+
+    // Selects
+    const labelCat = document.createElement("label");
+    labelCat.textContent = "Categoría";
+    const selectCat = document.createElement("select");
+    selectCat.innerHTML = "<option value=''>-- Selecciona categoría --</option>";
+    Object.keys(window.RESPUESTAS).forEach(cat=>{
+      const o = document.createElement("option");
+      o.value = cat; o.textContent = cat;
+      selectCat.appendChild(o);
+    });
+    labelCat.appendChild(selectCat);
+    root.appendChild(labelCat);
+
+    const labelSub = document.createElement("label");
+    labelSub.textContent = "Subcategoría";
+    const selectSub = document.createElement("select");
+    selectSub.innerHTML = "<option value=''>-- Selecciona sub --</option>";
+    labelSub.appendChild(selectSub);
+    root.appendChild(labelSub);
+
+    // Editor (solo admin)
+    const editor = document.createElement("div");
+    editor.id = "editorArea";
+    editor.style.marginTop = "20px";
+    editor.style.display = estado.role === "admin" ? "" : "none";
+
+    const lblDiario = document.createElement("label");
+    lblDiario.textContent = "Diario (editar)";
+    const taDiario = document.createElement("textarea");
+    taDiario.id = "taDiario";
+    lblDiario.appendChild(taDiario);
+
+    const lblSdf = document.createElement("label");
+    lblSdf.textContent = "SDF (editar)";
+    const taSdf = document.createElement("textarea");
+    taSdf.id = "taSdf";
+    lblSdf.appendChild(taSdf);
+
+    editor.appendChild(lblDiario);
+    editor.appendChild(lblSdf);
+
+    // Botones admin
+    const btns = document.createElement("div");
+    btns.className = "buttons";
+    const btnGuardar = document.createElement("button");
+    btnGuardar.textContent = "Guardar";
+    const btnGuardarTodo = document.createElement("button");
+    btnGuardarTodo.textContent = "Guardar TODO";
+    btnGuardarTodo.className = "secondary";
+    btns.appendChild(btnGuardar);
+    btns.appendChild(btnGuardarTodo);
+    editor.appendChild(btns);
+
+    root.appendChild(editor);
+
+    // Eventos selects
+    selectCat.addEventListener("change", ()=>{
+      estado.categoria = selectCat.value;
+      estado.sub = "";
+      selectSub.innerHTML = "<option value=''>-- Selecciona sub --</option>";
+      if(estado.categoria){
+        Object.keys(window.RESPUESTAS[estado.categoria]).forEach(s=>{
+          const o = document.createElement("option");
+          o.value = s; o.textContent = s;
+          selectSub.appendChild(o);
+        });
+      }
+      limpiarEditor();
+    });
+
+    selectSub.addEventListener("change", ()=>{
+      estado.sub = selectSub.value;
+      cargarNodo();
+    });
+
+    function limpiarEditor(){
+      taDiario.value = "";
+      taSdf.value = "";
+      lblDiario.style.display = "none";
+      lblSdf.style.display = "none";
+    }
+
+    function cargarNodo(){
+      limpiarEditor();
+      if(estado.role !== "admin") return;
+      if(!estado.categoria || !estado.sub) return;
+
+      const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
+      if(!nodo) return;
+
+      if(nodo.diario !== undefined){
+        lblDiario.style.display = "";
+        taDiario.value = nodo.diario;
       }
 
-      /* ============================================================
-         LOGIN
-      ============================================================ */
-
-      function Login({ onLogin }) {
-        const [nombre, setNombre] = useState("");
-        const [empresa, setEmpresa] = useState("");
-        const [turno, setTurno] = useState("");
-        const [jornada, setJornada] = useState("");
-
-        const handleSubmit = () => {
-          if (!nombre || !empresa || !turno || !jornada) {
-            alert("Completa todos los campos");
-            return;
-          }
-          onLogin({ nombre, empresa, turno, jornada });
-        };
-
-        return (
-          <div className="max-w-md mx-auto mt-10 p-6 border border-primary-red rounded-xl bg-white shadow">
-            <h1 className="text-xl font-bold text-primary-red mb-4">
-              {window.CONFIG.textos.saludoLogin}
-            </h1>
-
-            <div className="space-y-3">
-              <input
-                className="w-full border border-primary-red p-2 rounded"
-                placeholder="Nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
-
-              <select
-                className="w-full border border-primary-red p-2 rounded"
-                value={empresa}
-                onChange={(e) => setEmpresa(e.target.value)}
-              >
-                <option value="">Empresa</option>
-                <option>Prezero</option>
-                <option>Urbaser</option>
-                <option>Valoriza</option>
-                <option>FCC</option>
-              </select>
-
-              <select
-                className="w-full border border-primary-red p-2 rounded"
-                value={turno}
-                onChange={(e) => setTurno(e.target.value)}
-              >
-                <option value="">Turno</option>
-                <option>Mañana</option>
-                <option>Tarde</option>
-                <option>Noche</option>
-              </select>
-
-              <select
-                className="w-full border border-primary-red p-2 rounded"
-                value={jornada}
-                onChange={(e) => setJornada(e.target.value)}
-              >
-                <option value="">Jornada</option>
-                <option value="diario">Diario</option>
-                <option value="sdf">SDF</option>
-              </select>
-
-              <button
-                onClick={handleSubmit}
-                className="w-full bg-primary-red text-white p-2 rounded font-bold"
-              >
-                Entrar
-              </button>
-            </div>
-          </div>
-        );
+      if(nodo.sdf !== undefined){
+        lblSdf.style.display = "";
+        taSdf.value = nodo.sdf;
       }
-/* ============================================================
-         APP PRINCIPAL
-      ============================================================ */
+    }
 
-      function App() {
-        const [user, setUser] = useState(null);
-        const [admin, setAdmin] = useState(false);
+    btnGuardar.addEventListener("click", ()=>{
+      if(!estado.categoria || !estado.sub) return;
+      const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
+      if(nodo.diario !== undefined) nodo.diario = taDiario.value;
+      if(nodo.sdf !== undefined) nodo.sdf = taSdf.value;
+      alert("Guardado en memoria");
+    });
 
-        return (
-          <div>
-            <header className="border-b border-primary-red bg-white px-1 py-2">
-              <div className="max-w-xl mx-auto flex items-center justify-center space-x-3">
-                <div className="flex items-center space-x-2">
-                  <img src="image_0.png" className="h-8 w-auto" />
-                  <span className="font-bold text-primary-red text-base whitespace-nowrap">
-                    {window.CONFIG.appName}
-                  </span>
-                </div>
+    btnGuardarTodo.addEventListener("click", ()=>{
+      localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+      alert("Guardado TODO");
+    });
 
-                {!user && !admin && (
-                  <AdminAccess onAdmin={() => setAdmin(true)} />
-                )}
-              </div>
-            </header>
+  }
 
-            <main className="p-4 max-w-xl mx-auto">
-              {!user && !admin && <Login onLogin={setUser} />}
+  setRoleUI();
+  renderApp();
 
-              {user && !admin && (
-                <ConsultaMenu
-                  jornada={user.jornada}
-                  onLogout={() => setUser(null)}
-                />
-              )}
+})();
+</script>
 
-              {admin && <AdminEditor onLogout={() => setAdmin(false)} />}
-            </main>
-          </div>
-        );
-      }
-
-      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-    </script>
-  </body>
+</body>
 </html>

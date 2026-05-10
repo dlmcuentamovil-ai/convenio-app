@@ -1,24 +1,19 @@
-/* ============================================================
-   CONFIGURACIÓN GLOBAL — ARCHIVO SEPARADO
-   Compatible con Vercel — expuesto en window.CONFIG
-=========================================================== */
-
+/* CONFIGURACIÓN GLOBAL LIMPIA Y MODERNA */
 window.CONFIG = {
-
-  appName: "Convenio LPV Madrid 2026–2031",
-
+  appName: "Convenio LPV Madrid",
+  
   colores: {
     primario: "#c40000",
     primarioTexto: "#ffffff",
-    borde: "#c40000",
-    fondoClaro: "#fff",
-    fondoSuave: "#fff5f5"
+    fondo: "#fff5f5",
+    fondoTarjeta: "#ffffff",
+    bordeSuave: "#e5e5e5"
   },
 
   textos: {
-    tituloMenu: "¿QUÉ QUIERES SABER?",
-    subtituloMenu: "Selecciona una opción:",
-    saludoLogin: "Hola, Compañero!!"
+    tituloMenu: "¿Qué quieres consultar?",
+    subtituloMenu: "Selecciona una categoría",
+    saludoLogin: "Bienvenido"
   },
 
   iconos: {
@@ -41,5 +36,4 @@ window.CONFIG = {
     seguridad: "⚠️",
     adicionales: "📚"
   }
-
 };
