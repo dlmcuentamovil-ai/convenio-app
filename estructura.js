@@ -1,8 +1,4 @@
-/* ============================================================
-   ESTRUCTURA COMPLETA DEL MENÚ (18 categorías + sub + sub-sub)
-   Archivo separado — Compatible con Vercel
-   Expuesto en window.ESTRUCTURA
-=========================================================== */
+/* ESTRUCTURA COMPLETA DEL CONVENIO LPV (19 CATEGORÍAS) */
 
 window.ESTRUCTURA = {
 
@@ -10,28 +6,9 @@ window.ESTRUCTURA = {
     titulo: "Jornada",
     icono: "🕒",
     sub: {
-      tt: {
-        titulo: "Jornada Completa",
-        sub: {
-          calculo: { titulo: "Cálculo" },
-          casos: { titulo: "Casos especiales" },
-          tabla: { titulo: "Tabla" }
-        }
-      },
-      sdf: {
-        titulo: "Jornada SDF",
-        sub: {
-          calculo: { titulo: "Cálculo" },
-          tabla: { titulo: "Tabla" }
-        }
-      },
-      nocturno: {
-        titulo: "Turno nocturno",
-        sub: {
-          requisitos: { titulo: "Requisitos" },
-          compensacion: { titulo: "Compensación" }
-        }
-      },
+      tt: { titulo: "Jornada Completa" },
+      sdf: { titulo: "Jornada SDF" },
+      nocturno: { titulo: "Turno nocturno" },
       requisitos: { titulo: "Requisitos turno voluntario" },
       anual: { titulo: "Jornada anual" },
       irregular: { titulo: "Distribución irregular" },
@@ -46,7 +23,7 @@ window.ESTRUCTURA = {
     titulo: "Vacaciones",
     icono: "🏖️",
     sub: {
-      tt: { titulo: "Vacaciones TT" },
+      tt: { titulo: "Vacaciones Jornada completa" },
       sdf: { titulo: "Vacaciones SDF" },
       computo: { titulo: "Cómputo" },
       devengo: { titulo: "Devengo" },
@@ -72,90 +49,65 @@ window.ESTRUCTURA = {
 
   pluses: {
     titulo: "Pluses",
-    icono: "💰",
+    icono: "💶",
     sub: {
-      transporte: { titulo: "Plus transporte" },
-      nocturnidad: {
-        titulo: "Plus nocturnidad",
-        sub: {
-          calculo: { titulo: "Cálculo" },
-          tabla: { titulo: "Tabla" },
-          casos: { titulo: "Casos especiales" }
-        }
-      },
-      tpp: { titulo: "Plus tóxico/penoso/peligroso" },
-      turnicidad: { titulo: "Plus turnicidad" },
-      productividad: { titulo: "Plus productividad" },
-      calidad: { titulo: "Plus calidad" },
-      incentivos: { titulo: "Incentivos" },
-      prima: { titulo: "Prima compensatoria" },
-      dietas: { titulo: "Dietas" },
-      peonA: { titulo: "Peón A" },
-      funcional: { titulo: "Plus funcional" }
+      nocturnidad: { titulo: "Nocturnidad" },
+      festividad: { titulo: "Festividad" },
+      peligrosidad: { titulo: "Peligrosidad" },
+      turnicidad: { titulo: "Turnicidad" },
+      transporte: { titulo: "Plus de transporte" },
+      asistencia: { titulo: "Asistencia" }
     }
   },
 
   descansos: {
     titulo: "Descansos",
-    icono: "⏸️",
+    icono: "😴",
     sub: {
       semanal: { titulo: "Descanso semanal" },
-      libranzas: { titulo: "Libranzas" },
-      cambios: { titulo: "Cambios de turno" },
       diario: { titulo: "Descanso diario" },
-      entrejornadas: { titulo: "Descanso entre jornadas" },
-      festivos: { titulo: "Descanso en festivos" },
-      horas: { titulo: "Horas mensuales" }
+      festivos: { titulo: "Festivos" },
+      recuperaciones: { titulo: "Recuperaciones" }
     }
   },
 
   antiguedad: {
     titulo: "Antigüedad",
-    icono: "📆",
+    icono: "📅",
     sub: {
-      bienios: { titulo: "Bienios" },
-      quinquenios: { titulo: "Quinquenios" },
-      computo: { titulo: "Cómputo" },
-      devengo: { titulo: "Devengo" },
-      abono: { titulo: "Abono" },
-      casos: { titulo: "Casos especiales" }
+      trienios: { titulo: "Trienios" },
+      quinquenios: { titulo: "Quinquenios" }
     }
   },
 
   pagas: {
     titulo: "Pagas Extra",
-    icono: "🎁",
+    icono: "💰",
     sub: {
       verano: { titulo: "Paga de verano" },
       navidad: { titulo: "Paga de navidad" },
-      calculo: { titulo: "Cálculo" },
-      devengo: { titulo: "Devengo" },
-      casos: { titulo: "Casos especiales" }
+      prorrateo: { titulo: "Prorrateo" }
     }
   },
 
   economia: {
     titulo: "Condiciones Económicas",
-    icono: "💵",
+    icono: "📈",
     sub: {
-      tablas: { titulo: "Tablas salariales" },
-      incrementos: { titulo: "Incrementos" },
-      complementos: { titulo: "Complementos" },
       salario: { titulo: "Salario base" },
-      variable: { titulo: "Retribución variable" },
-      actualizacion: { titulo: "Actualización anual" }
+      complementos: { titulo: "Complementos" },
+      dietas: { titulo: "Dietas" },
+      kilometraje: { titulo: "Kilometraje" }
     }
   },
 
   excedencias: {
     titulo: "Excedencias",
-    icono: "🚪",
+    icono: "📤",
     sub: {
-      voluntaria: { titulo: "Excedencia voluntaria" },
-      familiar: { titulo: "Cuidado familiar" },
-      especial: { titulo: "Excedencia especial" },
-      reserva: { titulo: "Reserva de puesto" },
-      reingreso: { titulo: "Reingreso" }
+      voluntaria: { titulo: "Voluntaria" },
+      forzosa: { titulo: "Forzosa" },
+      cuidado: { titulo: "Cuidado de familiares" }
     }
   },
 
@@ -163,11 +115,9 @@ window.ESTRUCTURA = {
     titulo: "Conductores",
     icono: "🚚",
     sub: {
-      categorias: { titulo: "Categorías" },
+      carnet: { titulo: "Carnet" },
       funciones: { titulo: "Funciones" },
-      plus: { titulo: "Plus conducción" },
-      responsabilidades: { titulo: "Responsabilidades" },
-      formacion: { titulo: "Formación" }
+      plus: { titulo: "Plus conductor" }
     }
   },
 
@@ -175,34 +125,27 @@ window.ESTRUCTURA = {
     titulo: "Ascensos",
     icono: "📈",
     sub: {
-      procedimiento: { titulo: "Procedimiento" },
-      requisitos: { titulo: "Requisitos" },
-      vacantes: { titulo: "Vacantes" },
-      meritos: { titulo: "Méritos" },
+      criterios: { titulo: "Criterios" },
       pruebas: { titulo: "Pruebas" }
     }
   },
 
   contratacion: {
     titulo: "Contratación",
-    icono: "📝",
+    icono: "📑",
     sub: {
-      tipos: { titulo: "Tipos de contrato" },
-      prueba: { titulo: "Período de prueba" },
-      indefinido: { titulo: "Conversión a indefinido" },
-      relevo: { titulo: "Contrato relevo" },
-      temporales: { titulo: "Contratos temporales" }
+      indefinido: { titulo: "Indefinido" },
+      temporal: { titulo: "Temporal" },
+      formacion: { titulo: "Contrato de formación" }
     }
   },
 
   vacantes: {
     titulo: "Plazas Vacantes",
-    icono: "📌",
+    icono: "🏢",
     sub: {
-      procedimiento: { titulo: "Procedimiento" },
-      publicacion: { titulo: "Publicación" },
-      solicitud: { titulo: "Solicitud" },
-      adjudicacion: { titulo: "Adjudicación" }
+      asignacion: { titulo: "Asignación" },
+      movilidad: { titulo: "Movilidad" }
     }
   },
 
@@ -210,11 +153,9 @@ window.ESTRUCTURA = {
     titulo: "Prendas de Trabajo",
     icono: "👕",
     sub: {
-      dotacion: { titulo: "Dotación anual" },
+      entrega: { titulo: "Entrega" },
       reposicion: { titulo: "Reposición" },
-      epis: { titulo: "EPIs" },
-      temporadas: { titulo: "Temporadas" },
-      normativa: { titulo: "Normativa" }
+      temporada: { titulo: "Temporada" }
     }
   },
 
@@ -223,21 +164,17 @@ window.ESTRUCTURA = {
     icono: "❤️",
     sub: {
       seguro: { titulo: "Seguro" },
-      ayudas: { titulo: "Ayudas" },
-      formacion: { titulo: "Formación" },
-      conciliacion: { titulo: "Conciliación" },
-      transporte: { titulo: "Transporte" }
+      ayudas: { titulo: "Ayudas sociales" },
+      formacion: { titulo: "Formación" }
     }
   },
 
   jubilacion: {
     titulo: "Jubilación",
-    icono: "🎂",
+    icono: "🧓",
     sub: {
       parcial: { titulo: "Jubilación parcial" },
-      anticipada: { titulo: "Jubilación anticipada" },
-      relevo: { titulo: "Contrato relevo" },
-      incentivos: { titulo: "Incentivos" }
+      anticipada: { titulo: "Jubilación anticipada" }
     }
   },
 
@@ -246,22 +183,18 @@ window.ESTRUCTURA = {
     icono: "⚠️",
     sub: {
       epis: { titulo: "EPIs" },
-      riesgos: { titulo: "Riesgos laborales" },
-      formacion: { titulo: "Formación" },
-      reconocimientos: { titulo: "Reconocimientos médicos" },
-      protocolos: { titulo: "Protocolos" }
+      riesgos: { titulo: "Prevención de riesgos" },
+      reconocimientos: { titulo: "Reconocimientos médicos" }
     }
   },
 
   adicionales: {
     titulo: "Disposiciones Adicionales",
-    icono: "📚",
+    icono: "📘",
     sub: {
-      da1: { titulo: "DA 1" },
-      da2: { titulo: "DA 2" },
-      da3: { titulo: "DA 3" },
-      da4: { titulo: "DA 4" },
-      da5: { titulo: "DA 5" }
+      primera: { titulo: "Primera" },
+      segunda: { titulo: "Segunda" },
+      tercera: { titulo: "Tercera" }
     }
   }
 
