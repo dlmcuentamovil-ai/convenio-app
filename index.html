@@ -253,30 +253,69 @@ button.secondary {
     root.innerHTML = "";
 
     /* 1) FORMULARIO INICIAL */
-    if (!estado.nombre || !estado.selur || !estado.jornada) {
-      root.innerHTML = `
-        <h2 style="color:#c40000;">Datos iniciales</h2>
+ if (!estado.nombre || !estado.selur || !estado.jornada) {
+  root.innerHTML = `
+    <h2 style="color:#c40000;">Datos iniciales</h2>
 
-        <label>Nombre</label>
-        <input id="inpNombre" type="text" style="padding:8px; width:100%;">
+    <label>Nombre</label>
+    <input id="inpNombre" type="text" style="padding:8px; width:100%;">
 
-        <label>Selur</label>
-        <select id="inpSelur" style="padding:8px; width:100%;">
-          <option value="">-- Selecciona --</option>
-          <option value="pintadas">Pintadas</option>
-          <option value="basico">Básico</option>
-        </select>
+    <label>Selur</label>
+    <select id="inpSelur" style="padding:8px; width:100%;">
+      <option value="">-- Selecciona --</option>
+      <option value="pintadas">Pintadas</option>
+      <option value="basico">Básico</option>
+    </select>
 
-        <label>Jornada</label>
-        <select id="inpJornada" style="padding:8px; width:100%;">
-          <option value="">-- Selecciona --</option>
-          <option value="diario">Diario</option>
-          <option value="cuadrante">Por cuadrante</option>
-          <option value="sdf">SDF</option>
-        </select>
+    <label>Jornada</label>
+    <select id="inpJornada" style="padding:8px; width:100%;">
+      <option value="">-- Selecciona Selur primero --</option>
+    </select>
 
-        <button id="btnContinuar" style="margin-top:15px; width:100%;">Continuar</button>
+    <button id="btnContinuar" style="margin-top:15px; width:100%;">Continuar</button>
+  `;
+
+  const selSelur = $("#inpSelur");
+  const selJornada = $("#inpJornada");
+
+  // CAMBIO AUTOMÁTICO SEGÚN SELUR
+  selSelur.addEventListener("change", () => {
+    const tipo = selSelur.value;
+
+    selJornada.innerHTML = ""; // limpiar opciones
+
+    if (tipo === "pintadas") {
+      selJornada.innerHTML = `
+        <option value="">-- Selecciona --</option>
+        <option value="diario">Diario</option>
+        <option value="sdf">SDF</option>
       `;
+    }
+
+    if (tipo === "basico") {
+      selJornada.innerHTML = `
+        <option value="">-- Selecciona --</option>
+        <option value="cuadrante">Por cuadrante</option>
+        <option value="parcial">Parcial</option>
+      `;
+    }
+  });
+
+  $("#btnContinuar").addEventListener("click", () => {
+    estado.nombre = $("#inpNombre").value.trim();
+    estado.selur = $("#inpSelur").value;
+    estado.jornada = $("#inpJornada").value;
+
+    if (!estado.nombre || !estado.selur || !estado.jornada) {
+      alert("Completa todos los campos");
+      return;
+    }
+
+    renderApp();
+  });
+
+  return;
+}
 
       $("#btnContinuar").addEventListener("click", () => {
         estado.nombre = $("#inpNombre").value.trim();
