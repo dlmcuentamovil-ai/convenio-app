@@ -223,7 +223,7 @@ button.secondary {
   });
 
   adminEnter.addEventListener("click", () => {
-    if (adminCode.value.trim() === "1234") {
+    if (adminCode.value.trim() === "Selur2212@") {
       estado.role = "admin";
       adminPanel.style.display = "none";
       adminCode.value = "";
@@ -302,12 +302,33 @@ button.secondary {
         <label>Nombre</label>
         <input id="inpNombre" type="text" placeholder="Tu nombre" style="padding:10px; width:100%;">
 
-        <label>¿Perteneces a Selur?</label>
-        <select id="inpSelur" style="padding:10px; width:100%;">
-          <option value="">Selecciona...</option>
-          <option value="si">Sí</option>
-          <option value="no">No</option>
-        </select>
+        <label>¿Eres del Selur básico o pintadas?</label>
+<select id="inpSelur" style="padding:10px; width:100%;">
+// CAMBIAR OPCIONES DE JORNADA SEGÚN SELUR
+$("#inpSelur").addEventListener("change", () => {
+  const j = $("#inpJornada");
+  j.innerHTML = ""; // limpiar
+
+  if ($("#inpSelur").value === "basico") {
+    j.innerHTML = `
+      <option value="">Selecciona...</option>
+      <option value="cuadrante">Por cuadrante</option>
+      <option value="parcial">Parcial</option>
+    `;
+  }
+
+  if ($("#inpSelur").value === "pintadas") {
+    j.innerHTML = `
+      <option value="">Selecciona...</option>
+      <option value="completa">Jornada completa</option>
+      <option value="sdf">SDF</option>
+    `;
+  }
+});
+  <option value="">Selecciona...</option>
+  <option value="basico">Básico</option>
+  <option value="pintadas">Pintadas</option>
+</select>
 
         <label>Jornada</label>
         <select id="inpJornada" style="padding:10px; width:100%;">
