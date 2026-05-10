@@ -1,8 +1,9 @@
-/* RESPUESTAS COMPLETAS DEL CONVENIO LPV (VACÍAS Y LISTAS PARA EDITAR) */
+/* RESPUESTAS COMPLETAS DEL CONVENIO LPV (CON IMÁGENES POR CATEGORÍA) */
 
 window.RESPUESTAS = {
 
   jornada: {
+    imagenes: [],
     tt: { diario: "", sdf: "" },
     sdf: { diario: "", sdf: "" },
     nocturno: { diario: "", sdf: "" },
@@ -16,7 +17,8 @@ window.RESPUESTAS = {
   },
 
   vacaciones: {
-    tt: { diario: "", sdf: "" }, // ← AHORA ES “Vacaciones Jornada completa”
+    imagenes: [],
+    tt: { diario: "", sdf: "" }, // ← Vacaciones Jornada completa
     sdf: { diario: "", sdf: "" },
     computo: { diario: "", sdf: "" },
     devengo: { diario: "", sdf: "" },
@@ -26,6 +28,7 @@ window.RESPUESTAS = {
   },
 
   permisos: {
+    imagenes: [],
     retribuidos: { diario: "", sdf: "" },
     noretribuidos: { diario: "", sdf: "" },
     hospitalizacion: { diario: "", sdf: "" },
@@ -36,6 +39,7 @@ window.RESPUESTAS = {
   },
 
   pluses: {
+    imagenes: [],
     nocturnidad: { diario: "", sdf: "" },
     festividad: { diario: "", sdf: "" },
     peligrosidad: { diario: "", sdf: "" },
@@ -45,6 +49,7 @@ window.RESPUESTAS = {
   },
 
   descansos: {
+    imagenes: [],
     semanal: { diario: "", sdf: "" },
     diario: { diario: "", sdf: "" },
     festivos: { diario: "", sdf: "" },
@@ -52,17 +57,20 @@ window.RESPUESTAS = {
   },
 
   antiguedad: {
+    imagenes: [],
     trienios: { diario: "", sdf: "" },
     quinquenios: { diario: "", sdf: "" }
   },
 
   pagas: {
+    imagenes: [],
     verano: { diario: "", sdf: "" },
     navidad: { diario: "", sdf: "" },
     prorrateo: { diario: "", sdf: "" }
   },
 
   economia: {
+    imagenes: [],
     salario: { diario: "", sdf: "" },
     complementos: { diario: "", sdf: "" },
     dietas: { diario: "", sdf: "" },
@@ -70,57 +78,67 @@ window.RESPUESTAS = {
   },
 
   excedencias: {
+    imagenes: [],
     voluntaria: { diario: "", sdf: "" },
     forzosa: { diario: "", sdf: "" },
     cuidado: { diario: "", sdf: "" }
   },
 
   conductores: {
+    imagenes: [],
     carnet: { diario: "", sdf: "" },
     funciones: { diario: "", sdf: "" },
     plus: { diario: "", sdf: "" }
   },
 
   ascensos: {
+    imagenes: [],
     criterios: { diario: "", sdf: "" },
     pruebas: { diario: "", sdf: "" }
   },
 
   contratacion: {
+    imagenes: [],
     indefinido: { diario: "", sdf: "" },
     temporal: { diario: "", sdf: "" },
     formacion: { diario: "", sdf: "" }
   },
 
   vacantes: {
+    imagenes: [],
     asignacion: { diario: "", sdf: "" },
     movilidad: { diario: "", sdf: "" }
   },
 
   prendas: {
+    imagenes: [],
     entrega: { diario: "", sdf: "" },
     reposicion: { diario: "", sdf: "" },
     temporada: { diario: "", sdf: "" }
   },
 
   mejoras: {
+    imagenes: [],
     seguro: { diario: "", sdf: "" },
     ayudas: { diario: "", sdf: "" },
     formacion: { diario: "", sdf: "" }
   },
 
   jubilacion: {
+    imagenes: [],
     parcial: { diario: "", sdf: "" },
     anticipada: { diario: "", sdf: "" }
   },
 
   seguridad: {
+    imagenes: [],
     epis: { diario: "", sdf: "" },
     riesgos: { diario: "", sdf: "" },
     reconocimientos: { diario: "", sdf: "" }
   },
 
   adicionales: {
+    imagenes: [],
     primera: { diario: "", sdf: "" },
     segunda: { diario: "", sdf: "" },
     tercera: { diario: "", sdf: "" }
