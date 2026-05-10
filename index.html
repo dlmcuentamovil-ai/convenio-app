@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -6,8 +6,6 @@
   <title>Convenio LPV - Editor</title>
 
   <style>
-/* ESTILO MODERNO Y PROFESIONAL */
-
 body {
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
   margin: 0;
@@ -145,7 +143,7 @@ button.secondary {
   padding: 2px 6px;
   cursor: pointer;
 }
-</style>
+  </style>
 </head>
 
 <body>
@@ -179,144 +177,167 @@ button.secondary {
 </header>
 
 <main id="appRoot"></main>
-
-<script src="config.js"></script>
+<script src="estructura.js"></script>
 <script src="respuestas.js"></script>
+<script src="config.js"></script>
 
 <script>
-(function(){
+(() => {
 
-  const $ = s => document.querySelector(s);
+  /* -------------------------
+        VARIABLES GLOBALES
+  ------------------------- */
 
-  let estado = {
+  const $ = sel => document.querySelector(sel);
+
+  const estado = {
+    role: "usuario",   // usuario | admin
     nombre: "",
     selur: "",
     jornada: "",
-    tipo: "",        // convenio o selur
+    tipo: "",          // convenio | selur
     categoria: "",
-    sub: "",
-    role: sessionStorage.getItem("role") || "user"
+    sub: ""
   };
 
+
   /* -------------------------
-     ACCESO ADMIN
+        GESTIÓN DEL ROL ADMIN
   ------------------------- */
+
   const shieldBtn = $("#shieldBtn");
   const adminPanel = $("#adminPanel");
-  const adminCode = $("#adminCode");
   const adminEnter = $("#adminEnter");
   const adminCancel = $("#adminCancel");
-  const roleText = $("#roleText");
+  const adminCode = $("#adminCode");
   const logoutBtn = $("#logoutBtn");
+  const roleText = $("#roleText");
 
-  function setRoleUI(){
-    roleText.textContent = estado.role === "admin" ? "admin" : "usuario";
-    logoutBtn.style.display = estado.role === "admin" ? "inline-block" : "none";
-  }
-
-  shieldBtn.addEventListener("click", ()=>{
-    adminPanel.style.display = adminPanel.style.display === "flex" ? "none" : "flex";
-    adminPanel.style.flexDirection = "column";
-    adminCode.focus();
+  shieldBtn.addEventListener("click", () => {
+    adminPanel.style.display = "flex";
   });
 
-  adminCancel.addEventListener("click", ()=>{
+  adminCancel.addEventListener("click", () => {
     adminPanel.style.display = "none";
+    adminCode.value = "";
   });
 
-  adminEnter.addEventListener("click", ()=>{
-    if(adminCode.value === "Selur2212@"){
+  adminEnter.addEventListener("click", () => {
+    if (adminCode.value.trim() === "1234") {
       estado.role = "admin";
-      sessionStorage.setItem("role","admin");
       adminPanel.style.display = "none";
       adminCode.value = "";
       setRoleUI();
       renderApp();
-      alert("Acceso admin concedido");
     } else {
       alert("Código incorrecto");
     }
   });
 
-  logoutBtn.addEventListener("click", ()=>{
-    estado.role = "user";
-    sessionStorage.setItem("role","user");
+  logoutBtn.addEventListener("click", () => {
+    estado.role = "usuario";
+    estado.tipo = "";
+    estado.categoria = "";
+    estado.sub = "";
     setRoleUI();
     renderApp();
   });
 
+
   /* -------------------------
-     RENDER PRINCIPAL
+        ACTUALIZAR UI SEGÚN ROL
   ------------------------- */
-  function renderApp(){
+
+  function setRoleUI() {
+    roleText.textContent = estado.role;
+
+    if (estado.role === "admin") {
+      logoutBtn.style.display = "inline-block";
+    } else {
+      logoutBtn.style.display = "none";
+    }
+  }
+/* ------------------------------------------------
+        FUNCIÓN PRINCIPAL: renderApp()
+  -------------------------------------------------- */
+
+  function renderApp() {
     const root = $("#appRoot");
     root.innerHTML = "";
 
- /* 1) FORMULARIO INICIAL */
-if (!estado.nombre || !estado.selur || !estado.jornada) {
-  root.innerHTML = `
-    <h2 style="color:#c40000;">Datos iniciales</h2>
+    /* -----------------------------------------
+          SI ES ADMIN → SALTAR FORMULARIO
+    ------------------------------------------ */
+    if (estado.role === "admin") {
+      if (!estado.tipo) {
+        root.innerHTML = `
+          <h2 style="color:#c40000;">Selecciona una opción</h2>
 
-    <label>Nombre</label>
-    <input id="inpNombre" type="text" style="padding:8px; width:100%;">
+          <div style="display:flex; gap:20px; margin-top:20px;">
+            <button id="btnConvenio" style="flex:1; padding:20px; font-size:18px;">Convenio</button>
+            <button id="btnSelur" style="flex:1; padding:20px; font-size:18px;">Acuerdo Selur</button>
+          </div>
+        `;
 
-    <label>Selur</label>
-    <select id="inpSelur" style="padding:8px; width:100%;">
-      <option value="">-- Selecciona --</option>
-      <option value="pintadas">Pintadas</option>
-      <option value="basico">Básico</option>
-    </select>
+        $("#btnConvenio").addEventListener("click", () => {
+          estado.tipo = "convenio";
+          renderApp();
+        });
 
-    <label>Jornada</label>
-    <select id="inpJornada" style="padding:8px; width:100%;">
-      <option value="">-- Selecciona Selur primero --</option>
-    </select>
+        $("#btnSelur").addEventListener("click", () => {
+          alert("Aún no has pasado las categorías de Acuerdo Selur");
+        });
 
-    <button id="btnContinuar" style="margin-top:15px; width:100%;">Continuar</button>
-  `;
-
-  const selSelur = $("#inpSelur");
-  const selJornada = $("#inpJornada");
-
-  // CAMBIO AUTOMÁTICO SEGÚN SELUR
-  selSelur.addEventListener("change", () => {
-    const tipo = selSelur.value;
-
-    selJornada.innerHTML = ""; // limpiar opciones
-
-    if (tipo === "pintadas") {
-      selJornada.innerHTML = `
-        <option value="">-- Selecciona --</option>
-        <option value="diario">Diario</option>
-        <option value="sdf">SDF</option>
-      `;
+        return;
+      }
     }
 
-    if (tipo === "basico") {
-      selJornada.innerHTML = `
-        <option value="">-- Selecciona --</option>
-        <option value="cuadrante">Por cuadrante</option>
-        <option value="parcial">Parcial</option>
+    /* -----------------------------------------
+          FORMULARIO USUARIO (NO ADMIN)
+    ------------------------------------------ */
+    if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jornada)) {
+      root.innerHTML = `
+        <h2 style="color:#c40000;">Datos del trabajador</h2>
+
+        <label>Nombre</label>
+        <input id="inpNombre" type="text" placeholder="Tu nombre" style="padding:10px; width:100%;">
+
+        <label>¿Perteneces a Selur?</label>
+        <select id="inpSelur" style="padding:10px; width:100%;">
+          <option value="">Selecciona...</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+        </select>
+
+        <label>Jornada</label>
+        <select id="inpJornada" style="padding:10px; width:100%;">
+          <option value="">Selecciona...</option>
+          <option value="diario">Diario</option>
+          <option value="sdf">SDF</option>
+        </select>
+
+        <button id="btnForm" style="margin-top:20px; width:100%;">Entrar</button>
       `;
-    }
-  });
 
-  $("#btnContinuar").addEventListener("click", () => {
-    estado.nombre = $("#inpNombre").value.trim();
-    estado.selur = $("#inpSelur").value;
-    estado.jornada = $("#inpJornada").value;
+      $("#btnForm").addEventListener("click", () => {
+        estado.nombre = $("#inpNombre").value.trim();
+        estado.selur = $("#inpSelur").value;
+        estado.jornada = $("#inpJornada").value;
 
-    if (!estado.nombre || !estado.selur || !estado.jornada) {
-      alert("Completa todos los campos");
+        if (!estado.nombre || !estado.selur || !estado.jornada) {
+          alert("Completa todos los campos");
+          return;
+        }
+
+        renderApp();
+      });
+
       return;
     }
 
-    renderApp();
-  });
-
-  return;
-}
-        /* 2) ELEGIR ENTRE CONVENIO O ACUERDO SELUR */
+    /* -----------------------------------------
+          SELECCIÓN CONVENIO / SELUR (USUARIO)
+    ------------------------------------------ */
     if (!estado.tipo) {
       root.innerHTML = `
         <h2 style="color:#c40000;">Selecciona una opción</h2>
@@ -333,45 +354,48 @@ if (!estado.nombre || !estado.selur || !estado.jornada) {
       });
 
       $("#btnSelur").addEventListener("click", () => {
-        estado.tipo = "selur";
         alert("Aún no has pasado las categorías de Acuerdo Selur");
       });
 
       return;
     }
 
-    /* 3) MOSTRAR CATEGORÍAS (CONVENIO) */
+    /* -----------------------------------------
+          BUSCADOR INTELIGENTE (CONVENIO)
+    ------------------------------------------ */
     if (estado.tipo === "convenio" && !estado.categoria) {
       const titulo = document.createElement("h2");
       titulo.textContent = "¿Qué quieres consultar?";
       titulo.style.color = "#c40000";
       root.appendChild(titulo);
-// BOTÓN VOLVER (vuelve a elegir Convenio / Selur)
-const btnBack = document.createElement("button");
-btnBack.textContent = "← Volver";
-btnBack.style.marginBottom = "15px";
-btnBack.addEventListener("click", () => {
-  estado.tipo = "";
-  renderApp();
-});
-root.appendChild(btnBack);
+
+      const buscador = document.createElement("input");
+      buscador.type = "text";
+      buscador.placeholder = "Buscar en el Convenio...";
+      buscador.style.padding = "10px";
+      buscador.style.width = "100%";
+      buscador.style.marginBottom = "15px";
+      root.appendChild(buscador);
+
+      buscador.addEventListener("input", () => {
+        renderResultadosBusqueda(buscador.value.toLowerCase());
+      });
+
       const grid = document.createElement("div");
       grid.style.display = "grid";
-      grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(140px, 1fr))";
+      grid.style.gridTemplateColumns = "repeat(2, 1fr)";
       grid.style.gap = "12px";
-      grid.style.marginTop = "10px";
 
       Object.keys(window.ESTRUCTURA).forEach(cat => {
         const c = window.ESTRUCTURA[cat];
 
         const card = document.createElement("div");
+        card.style.padding = "20px";
         card.style.background = "#fff";
-        card.style.border = "1px solid #eee";
         card.style.borderRadius = "10px";
-        card.style.padding = "18px";
+        card.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
         card.style.cursor = "pointer";
         card.style.textAlign = "center";
-        card.style.boxShadow = "0 4px 10px rgba(0,0,0,.05)";
 
         card.innerHTML = `
           <div style="font-size:32px;">${c.icono}</div>
@@ -389,20 +413,12 @@ root.appendChild(btnBack);
       root.appendChild(grid);
       return;
     }
-
-    /* 4) SI YA HAY SUB → MOSTRAR CONTENIDO */
-    if (estado.sub) {
-      renderContenido();
-      return;
-    }
-
-    /* 5) SI NO HAY SUB → MOSTRAR SUBCATEGORÍAS */
-    renderSubcategorias();
   }
 
-  /* -------------------------
-     SUBCATEGORÍAS
-  ------------------------- */
+  /* ------------------------------------------------
+        SUBCATEGORÍAS
+  -------------------------------------------------- */
+
   function renderSubcategorias() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -413,33 +429,63 @@ root.appendChild(btnBack);
     titulo.textContent = cat.titulo;
     titulo.style.color = "#c40000";
     root.appendChild(titulo);
-// BOTÓN VOLVER (vuelve a categorías)
-const btnBack = document.createElement("button");
-btnBack.textContent = "← Volver";
-btnBack.style.marginBottom = "15px";
-btnBack.addEventListener("click", () => {
-  estado.sub = "";
-  estado.categoria = "";
-  renderApp();
-});
-root.appendChild(btnBack);
+
+    /* BOTÓN VOLVER */
+    const btnBack = document.createElement("button");
+    btnBack.textContent = "← Volver";
+    btnBack.style.marginBottom = "15px";
+    btnBack.addEventListener("click", () => {
+      estado.categoria = "";
+      renderApp();
+    });
+    root.appendChild(btnBack);
+
+    /* IMÁGENES DE CATEGORÍA (USUARIO) */
+    if (window.RESPUESTAS[estado.categoria].imagenes.length > 0 && estado.role !== "admin") {
+      const grid = document.createElement("div");
+      grid.className = "images-grid";
+
+      window.RESPUESTAS[estado.categoria].imagenes.forEach(img => {
+        const wrap = document.createElement("div");
+        wrap.className = "img-wrap";
+
+        const image = document.createElement("img");
+        image.src = img;
+
+        wrap.appendChild(image);
+        grid.appendChild(wrap);
+      });
+
+      root.appendChild(grid);
+    }
+
+    /* BOTÓN EDITAR IMÁGENES (ADMIN) */
+    if (estado.role === "admin") {
+      const btnImgs = document.createElement("button");
+      btnImgs.textContent = "🖼️ Imágenes de la categoría";
+      btnImgs.style.marginBottom = "15px";
+      btnImgs.addEventListener("click", () => {
+        renderImagenesCategoria();
+      });
+      root.appendChild(btnImgs);
+    }
+
+    /* GRID SUBCATEGORÍAS */
     const grid = document.createElement("div");
     grid.style.display = "grid";
-    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(160px, 1fr))";
+    grid.style.gridTemplateColumns = "repeat(2, 1fr)";
     grid.style.gap = "12px";
-    grid.style.marginTop = "10px";
 
     Object.keys(cat.sub).forEach(sub => {
       const s = cat.sub[sub];
 
       const card = document.createElement("div");
+      card.style.padding = "20px";
       card.style.background = "#fff";
-      card.style.border = "1px solid #eee";
       card.style.borderRadius = "10px";
-      card.style.padding = "14px";
+      card.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
       card.style.cursor = "pointer";
       card.style.textAlign = "center";
-      card.style.boxShadow = "0 4px 10px rgba(0,0,0,.05)";
 
       card.textContent = s.titulo;
 
@@ -454,104 +500,209 @@ root.appendChild(btnBack);
     root.appendChild(grid);
   }
 
-  /* -------------------------
-     CONTENIDO / EDITOR
-  ------------------------- */
+  /* ------------------------------------------------
+        CONTENIDO / EDITOR
+  -------------------------------------------------- */
+
   function renderContenido() {
     const root = $("#appRoot");
     root.innerHTML = "";
-
-    const nodoCat = window.RESPUESTAS[estado.categoria];
-    const nodo = nodoCat ? nodoCat[estado.sub] : null;
 
     const titulo = document.createElement("h2");
     titulo.textContent = window.ESTRUCTURA[estado.categoria].sub[estado.sub].titulo;
     titulo.style.color = "#c40000";
     root.appendChild(titulo);
-// BOTÓN VOLVER (vuelve a subcategorías)
-const btnBack = document.createElement("button");
-btnBack.textContent = "← Volver";
-btnBack.style.marginBottom = "15px";
-btnBack.addEventListener("click", () => {
-  estado.sub = "";
-  renderApp();
-});
-root.appendChild(btnBack);
-    if (!nodo) {
-      root.innerHTML += "<p>No hay contenido definido todavía.</p>";
-      return;
-    }
 
-    /* MODO USUARIO → SOLO LECTURA */
-    if (estado.role !== "admin") {
-      const view = document.createElement("div");
-      view.style.background = "#fff";
-      view.style.border = "1px solid #eee";
-      view.style.borderRadius = "10px";
-      view.style.padding = "14px";
-      view.style.marginTop = "10px";
-
-      if (nodo.diario) view.innerHTML += `<p>${nodo.diario}</p>`;
-      if (nodo.sdf) view.innerHTML += `<p>${nodo.sdf}</p>`;
-
-      root.appendChild(view);
-      return;
-    }
-
-    /* MODO ADMIN → EDITOR */
-    const editor = document.createElement("div");
-    editor.style.marginTop = "20px";
-
-    const lblDiario = document.createElement("label");
-    lblDiario.textContent = "Diario (editar)";
-    const taDiario = document.createElement("textarea");
-    taDiario.value = nodo.diario || "";
-    lblDiario.appendChild(taDiario);
-
-    const lblSdf = document.createElement("label");
-    lblSdf.textContent = "SDF (editar)";
-    const taSdf = document.createElement("textarea");
-    taSdf.value = nodo.sdf || "";
-    lblSdf.appendChild(taSdf);
-
-    editor.appendChild(lblDiario);
-    editor.appendChild(lblSdf);
-
-    const btns = document.createElement("div");
-    btns.style.marginTop = "10px";
-    btns.style.display = "flex";
-    btns.style.gap = "8px";
-
-    const btnGuardar = document.createElement("button");
-    btnGuardar.textContent = "Guardar";
-
-    const btnGuardarTodo = document.createElement("button");
-    btnGuardarTodo.textContent = "Guardar TODO";
-    btnGuardarTodo.className = "secondary";
-
-    btns.appendChild(btnGuardar);
-    btns.appendChild(btnGuardarTodo);
-    editor.appendChild(btns);
-
-    root.appendChild(editor);
-
-    btnGuardar.addEventListener("click", ()=>{
-      nodo.diario = taDiario.value;
-      nodo.sdf = taSdf.value;
-      alert("Guardado en memoria");
+    /* BOTÓN VOLVER */
+    const btnBack = document.createElement("button");
+    btnBack.textContent = "← Volver";
+    btnBack.style.marginBottom = "15px";
+    btnBack.addEventListener("click", () => {
+      estado.sub = "";
+      renderSubcategorias();
     });
+    root.appendChild(btnBack);
 
-    btnGuardarTodo.addEventListener("click", ()=>{
-      localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-      alert("Guardado TODO");
-    });
+    const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
+
+    if (estado.role === "admin") {
+      root.innerHTML += `
+        <label>Texto Diario</label>
+        <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
+
+        <label>Texto SDF</label>
+        <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
+
+        <button id="btnSave" style="margin-top:20px;">Guardar</button>
+      `;
+
+      $("#btnSave").addEventListener("click", () => {
+        nodo.diario = $("#txtDiario").value;
+        nodo.sdf = $("#txtSdf").value;
+
+        localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+        alert("Guardado");
+      });
+
+    } else {
+      const texto = estado.jornada === "diario" ? nodo.diario : nodo.sdf;
+      root.innerHTML += `
+        <div style="background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,.08);">
+          ${texto || "<i>No hay contenido disponible</i>"}
+        </div>
+      `;
+    }
   }
+
+  /* ------------------------------------------------
+        EDITOR DE IMÁGENES POR CATEGORÍA
+  -------------------------------------------------- */
+
+  function renderImagenesCategoria() {
+    const root = $("#appRoot");
+    root.innerHTML = "";
+
+    const cat = estado.categoria;
+    const nodo = window.RESPUESTAS[cat];
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = "Imágenes de " + window.ESTRUCTURA[cat].titulo;
+    titulo.style.color = "#c40000";
+    root.appendChild(titulo);
+
+    const btnBack = document.createElement("button");
+    btnBack.textContent = "← Volver";
+    btnBack.style.marginBottom = "15px";
+    btnBack.addEventListener("click", () => renderSubcategorias());
+    root.appendChild(btnBack);
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.multiple = true;
+    input.style.marginBottom = "15px";
+    root.appendChild(input);
+
+    input.addEventListener("change", e => {
+      [...e.target.files].forEach(file => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          nodo.imagenes.push(ev.target.result);
+          renderImagenesCategoria();
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    const grid = document.createElement("div");
+    grid.className = "images-grid";
+
+    nodo.imagenes.forEach((img, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "img-wrap";
+
+      const image = document.createElement("img");
+      image.src = img;
+
+      const del = document.createElement("button");
+      del.className = "img-remove";
+      del.textContent = "X";
+      del.addEventListener("click", () => {
+        nodo.imagenes.splice(i, 1);
+        renderImagenesCategoria();
+      });
+
+      wrap.appendChild(image);
+      wrap.appendChild(del);
+      grid.appendChild(wrap);
+    });
+
+    root.appendChild(grid);
+
+    const btnSave = document.createElement("button");
+    btnSave.textContent = "Guardar TODO";
+    btnSave.style.marginTop = "20px";
+    btnSave.addEventListener("click", () => {
+      localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+      alert("Guardado");
+    });
+
+    root.appendChild(btnSave);
+  }
+
+  /* ------------------------------------------------
+        BUSCADOR INTELIGENTE
+  -------------------------------------------------- */
+
+  function renderResultadosBusqueda(q) {
+    const root = $("#appRoot");
+    root.innerHTML = "";
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = "Resultados de búsqueda";
+    titulo.style.color = "#c40000";
+    root.appendChild(titulo);
+
+    const btnBack = document.createElement("button");
+    btnBack.textContent = "← Volver";
+    btnBack.style.marginBottom = "15px";
+    btnBack.addEventListener("click", () => {
+      estado.categoria = "";
+      renderApp();
+    });
+    root.appendChild(btnBack);
+
+    const lista = document.createElement("div");
+    lista.style.display = "flex";
+    lista.style.flexDirection = "column";
+    lista.style.gap = "10px";
+
+    Object.keys(window.RESPUESTAS).forEach(cat => {
+      Object.keys(window.RESPUESTAS[cat]).forEach(sub => {
+        if (sub === "imagenes") return;
+
+        const nodo = window.RESPUESTAS[cat][sub];
+        const texto = (nodo.diario + " " + nodo.sdf).toLowerCase();
+
+        if (texto.includes(q)) {
+          const item = document.createElement("div");
+          item.style.padding = "10px";
+          item.style.border = "1px solid #ddd";
+          item.style.borderRadius = "8px";
+          item.style.cursor = "pointer";
+          item.style.background = "#fff";
+
+          item.textContent =
+            window.ESTRUCTURA[cat].titulo +
+            " → " +
+            window.ESTRUCTURA[cat].sub[sub].titulo;
+
+          item.addEventListener("click", () => {
+            estado.categoria = cat;
+            estado.sub = sub;
+            renderContenido();
+          });
+
+          lista.appendChild(item);
+        }
+      });
+    });
+
+    if (lista.children.length === 0) {
+      lista.innerHTML = "<p>No se encontraron resultados.</p>";
+    }
+
+    root.appendChild(lista);
+  }
+
+  /* ------------------------------------------------
+        INICIALIZAR
+  -------------------------------------------------- */
 
   setRoleUI();
   renderApp();
 
 })();
 </script>
-
 </body>
 </html>
