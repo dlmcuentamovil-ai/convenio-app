@@ -244,19 +244,6 @@ button.secondary {
   });
 
 
-  /* -------------------------
-        ACTUALIZAR UI SEGÚN ROL
-  ------------------------- */
-
-  function setRoleUI() {
-    roleText.textContent = estado.role;
-
-    if (estado.role === "admin") {
-      logoutBtn.style.display = "inline-block";
-    } else {
-      logoutBtn.style.display = "none";
-    }
-  }
 /* ------------------------------------------------
         FUNCIÓN PRINCIPAL: renderApp()
   -------------------------------------------------- */
@@ -303,42 +290,43 @@ button.secondary {
         <input id="inpNombre" type="text" placeholder="Tu nombre" style="padding:10px; width:100%;">
 
         <label>¿Eres del Selur básico o pintadas?</label>
-<select id="inpSelur" style="padding:10px; width:100%;">
-// CAMBIAR OPCIONES DE JORNADA SEGÚN SELUR
-$("#inpSelur").addEventListener("change", () => {
-  const j = $("#inpJornada");
-  j.innerHTML = ""; // limpiar
-
-  if ($("#inpSelur").value === "basico") {
-    j.innerHTML = `
-      <option value="">Selecciona...</option>
-      <option value="cuadrante">Por cuadrante</option>
-      <option value="parcial">Parcial</option>
-    `;
-  }
-
-  if ($("#inpSelur").value === "pintadas") {
-    j.innerHTML = `
-      <option value="">Selecciona...</option>
-      <option value="completa">Jornada completa</option>
-      <option value="sdf">SDF</option>
-    `;
-  }
-});
-  <option value="">Selecciona...</option>
-  <option value="basico">Básico</option>
-  <option value="pintadas">Pintadas</option>
-</select>
+        <select id="inpSelur" style="padding:10px; width:100%;">
+          <option value="">Selecciona...</option>
+          <option value="basico">Básico</option>
+          <option value="pintadas">Pintadas</option>
+        </select>
 
         <label>Jornada</label>
         <select id="inpJornada" style="padding:10px; width:100%;">
           <option value="">Selecciona...</option>
-          <option value="diario">Diario</option>
-          <option value="sdf">SDF</option>
         </select>
 
         <button id="btnForm" style="margin-top:20px; width:100%;">Entrar</button>
       `;
+
+      /* -----------------------------------------
+            CAMBIO DINÁMICO DE JORNADA SEGÚN SELUR
+      ------------------------------------------ */
+      $("#inpSelur").addEventListener("change", () => {
+        const j = $("#inpJornada");
+        j.innerHTML = "";
+
+        if ($("#inpSelur").value === "basico") {
+          j.innerHTML = `
+            <option value="">Selecciona...</option>
+            <option value="cuadrante">Por cuadrante</option>
+            <option value="parcial">Parcial</option>
+          `;
+        }
+
+        if ($("#inpSelur").value === "pintadas") {
+          j.innerHTML = `
+            <option value="">Selecciona...</option>
+            <option value="completa">Jornada completa</option>
+            <option value="sdf">SDF</option>
+          `;
+        }
+      });
 
       $("#btnForm").addEventListener("click", () => {
         estado.nombre = $("#inpNombre").value.trim();
