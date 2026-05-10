@@ -252,8 +252,8 @@ button.secondary {
     const root = $("#appRoot");
     root.innerHTML = "";
 
-    /* 1) FORMULARIO INICIAL */
- if (!estado.nombre || !estado.selur || !estado.jornada) {
+ /* 1) FORMULARIO INICIAL */
+if (!estado.nombre || !estado.selur || !estado.jornada) {
   root.innerHTML = `
     <h2 style="color:#c40000;">Datos iniciales</h2>
 
@@ -316,24 +316,7 @@ button.secondary {
 
   return;
 }
-
-      $("#btnContinuar").addEventListener("click", () => {
-        estado.nombre = $("#inpNombre").value.trim();
-        estado.selur = $("#inpSelur").value;
-        estado.jornada = $("#inpJornada").value;
-
-        if (!estado.nombre || !estado.selur || !estado.jornada) {
-          alert("Completa todos los campos");
-          return;
-        }
-
-        renderApp();
-      });
-
-      return;
-    }
-
-    /* 2) ELEGIR ENTRE CONVENIO O ACUERDO SELUR */
+        /* 2) ELEGIR ENTRE CONVENIO O ACUERDO SELUR */
     if (!estado.tipo) {
       root.innerHTML = `
         <h2 style="color:#c40000;">Selecciona una opción</h2>
