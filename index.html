@@ -268,159 +268,241 @@
          PANEL ADMIN REAL (INICIO)
       ============================================================ */
 
-      function AdminEditor({ onLogout }) {
-        const [categoria, setCategoria] = useState(null);
-        const [sub, setSub] = useState(null);
-        const [subsub, setSubsub] = useState(null);
-        const [textoDiario, setTextoDiario] = useState("");
-        const [textoSdf, setTextoSdf] = useState("");
+function AdminEditor({ onLogout }) {
+  const [categoria, setCategoria] = useState(null);
+  const [sub, setSub] = useState(null);
+  const [subsub, setSubsub] = useState(null);
+  const [textoDiario, setTextoDiario] = useState("");
+  const [textoSdf, setTextoSdf] = useState("");
 
-        /* ============================================================
-           Cargar texto + CREAR RUTAS AUTOMÁTICAMENTE
-        ============================================================ */
-        useEffect(() => {
-          if (!categoria || !sub) return;
-
-          // Crear rutas si no existen
-          if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
-          if (!window.RESPUESTAS[categoria][sub]) {
-            window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "" };
-          }
-
-          if (subsub) {
-            if (!window.RESPUESTAS[categoria][sub][subsub]) {
-              window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "" };
-            }
-          }
-
-          const nodo = subsub
-            ? window.RESPUESTAS[categoria][sub][subsub]
-            : window.RESPUESTAS[categoria][sub];
-
-          setTextoDiario(nodo.diario || "");
-          setTextoSdf(nodo.sdf || "");
-        }, [categoria, sub, subsub]);
-
-        /* ============================================================
-           Guardar en memoria
-        ============================================================ */
-        const guardar = () => {
-          if (subsub) {
-            window.RESPUESTAS[categoria][sub][subsub].diario = textoDiario;
-            window.RESPUESTAS[categoria][sub][subsub].sdf = textoSdf;
-          } else {
-            window.RESPUESTAS[categoria][sub].diario = textoDiario;
-            window.RESPUESTAS[categoria][sub].sdf = textoSdf;
-          }
-          alert("Guardado en memoria");
-        };
-
-        /* ============================================================
-           Guardar TODO en localStorage
-        ============================================================ */
-        const guardarTodo = () => {
-          localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-          alert("Guardado en localStorage (persistente)");
-        };
-
-        const categorias = Object.entries(window.ESTRUCTURA);
-        const subs = categoria ? Object.entries(window.ESTRUCTURA[categoria].sub) : [];
-        const subsubs =
-          categoria && sub && window.ESTRUCTURA[categoria].sub[sub].sub
-            ? Object.entries(window.ESTRUCTURA[categoria].sub[sub].sub)
-            : [];
-return (
-          <div className="p-4">
-
-            <div className="flex justify-between mb-4">
-              <h1 className="text-primary-red font-bold text-xl">Panel Admin</h1>
-              <button
-                onClick={onLogout}
-                className="text-xs text-white bg-primary-red px-3 py-1 rounded"
-              >
-                Salir
-              </button>
-            </div>
-
-            <select
-              className="w-full border border-primary-red p-2 rounded mb-3"
-              value={categoria || ""}
-              onChange={(e) => {
-                setCategoria(e.target.value);
-                setSub(null);
-                setSubsub(null);
-              }}
-            >
-              <option value="">Selecciona categoría</option>
-              {categorias.map(([id, cat]) => (
-                <option key={id} value={id}>{cat.titulo}</option>
-              ))}
-            </select>
-
-            {categoria && (
-              <select
-                className="w-full border border-primary-red p-2 rounded mb-3"
-                value={sub || ""}
-                onChange={(e) => {
-                  setSub(e.target.value);
-                  setSubsub(null);
-                }}
-              >
-                <option value="">Selecciona subcarpeta</option>
-                {subs.map(([id, nodo]) => (
-                  <option key={id} value={id}>{nodo.titulo}</option>
-                ))}
-              </select>
-            )}
-
-            {categoria && sub && subsubs.length > 0 && (
-              <select
-                className="w-full border border-primary-red p-2 rounded mb-3"
-                value={subsub || ""}
-                onChange={(e) => setSubsub(e.target.value)}
-              >
-                <option value="">(Sin sub-subcarpeta)</option>
-                {subsubs.map(([id, nodo]) => (
-                  <option key={id} value={id}>{nodo.titulo}</option>
-                ))}
-              </select>
-            )}
-
-            {categoria && sub && (
-              <div>
-                <h2 className="font-bold mb-2">Texto Diario</h2>
-                <textarea
-                  className="w-full border border-primary-red p-2 rounded mb-4 h-32"
-                  value={textoDiario}
-                  onChange={(e) => setTextoDiario(e.target.value)}
-                />
-
-                <h2 className="font-bold mb-2">Texto SDF</h2>
-                <textarea
-                  className="w-full border border-primary-red p-2 rounded mb-4 h-32"
-                  value={textoSdf}
-                  onChange={(e) => setTextoSdf(e.target.value)}
-                />
-
-                <button
-                  onClick={guardar}
-                  className="bg-primary-red text-white px-4 py-2 rounded font-bold mr-2"
-                >
-                  Guardar
-                </button>
-
-                <button
-                  onClick={guardarTodo}
-                  className="bg-green-600 text-white px-4 py-2 rounded font-bold"
-                >
-                  Guardar TODO (persistente)
-                </button>
-              </div>
-            )}
-          </div>
-        );
+  useEffect(() => {
+    if (!categoria || !sub) return;
+    if (!window.RESPUESTAS) window.RESPUESTAS = {};
+    if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
+    if (!window.RESPUESTAS[categoria][sub]) {
+      window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "", imagenes: [] };
+    }
+    if (subsub) {
+      if (!window.RESPUESTAS[categoria][sub][subsub]) {
+        window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "", imagenes: [] };
       }
+    }
+    const nodo = subsub
+      ? window.RESPUESTAS[categoria][sub][subsub]
+      : window.RESPUESTAS[categoria][sub];
+    setTextoDiario(nodo?.diario || "");
+    setTextoSdf(nodo?.sdf || "");
+  }, [categoria, sub, subsub]);
 
+  const subirImagenes = async (e) => {
+    if (!categoria || !sub) {
+      alert("Selecciona categoría y subcarpeta antes de subir imágenes.");
+      return;
+    }
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    const nuevas = [];
+    for (const file of files) {
+      const maxMB = 6;
+      if (file.size > maxMB * 1024 * 1024) {
+        alert(`El archivo ${file.name} supera ${maxMB} MB y no se subirá.`);
+        continue;
+      }
+      const reader = new FileReader();
+      await new Promise((resolve) => {
+        reader.onload = () => {
+          nuevas.push(reader.result);
+          resolve();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    if (!window.RESPUESTAS) window.RESPUESTAS = {};
+    if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
+    if (!window.RESPUESTAS[categoria][sub]) window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "", imagenes: [] };
+    if (subsub && !window.RESPUESTAS[categoria][sub][subsub]) window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "", imagenes: [] };
+    const nodo = subsub
+      ? window.RESPUESTAS[categoria][sub][subsub]
+      : window.RESPUESTAS[categoria][sub];
+    if (!nodo.imagenes) nodo.imagenes = [];
+    nodo.imagenes.push(...nuevas);
+    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+    alert("Imágenes añadidas");
+  };
+
+  const eliminarImagen = (i) => {
+    const nodo = subsub
+      ? window.RESPUESTAS?.[categoria]?.[sub]?.[subsub]
+      : window.RESPUESTAS?.[categoria]?.[sub];
+    if (!nodo || !nodo.imagenes || !nodo.imagenes[i]) {
+      alert("No se encontró la imagen.");
+      return;
+    }
+    nodo.imagenes.splice(i, 1);
+    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+    setTextoDiario((t) => t);
+    alert("Imagen eliminada");
+  };
+
+  const guardar = () => {
+    if (!categoria || !sub) {
+      alert("Selecciona categoría y subcarpeta antes de guardar.");
+      return;
+    }
+    if (!window.RESPUESTAS) window.RESPUESTAS = {};
+    if (!window.RESPUESTAS[categoria]) window.RESPUESTAS[categoria] = {};
+    if (!window.RESPUESTAS[categoria][sub]) window.RESPUESTAS[categoria][sub] = { diario: "", sdf: "", imagenes: [] };
+    if (subsub && !window.RESPUESTAS[categoria][sub][subsub]) window.RESPUESTAS[categoria][sub][subsub] = { diario: "", sdf: "", imagenes: [] };
+    const nodo = subsub
+      ? window.RESPUESTAS[categoria][sub][subsub]
+      : window.RESPUESTAS[categoria][sub];
+    nodo.diario = textoDiario;
+    nodo.sdf = textoSdf;
+    alert("Guardado en memoria");
+  };
+
+  const guardarTodo = () => {
+    if (!window.RESPUESTAS) window.RESPUESTAS = {};
+    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+    alert("Guardado en localStorage (persistente)");
+  };
+
+  const categorias = window.ESTRUCTURA ? Object.entries(window.ESTRUCTURA) : [];
+  const subs = categoria && window.ESTRUCTURA?.[categoria]?.sub ? Object.entries(window.ESTRUCTURA[categoria].sub) : [];
+  const subsubs =
+    categoria && sub && window.ESTRUCTURA?.[categoria]?.sub?.[sub]?.sub
+      ? Object.entries(window.ESTRUCTURA[categoria].sub[sub].sub)
+      : [];
+
+  return (
+    <div className="p-4">
+      <div className="flex justify-between mb-4">
+        <h1 className="text-primary-red font-bold text-xl">Panel Admin</h1>
+        <button
+          onClick={onLogout}
+          className="text-xs text-white bg-primary-red px-3 py-1 rounded"
+        >
+          Salir
+        </button>
+      </div>
+
+      <select
+        className="w-full border border-primary-red p-2 rounded mb-3"
+        value={categoria || ""}
+        onChange={(e) => {
+          setCategoria(e.target.value || null);
+          setSub(null);
+          setSubsub(null);
+        }}
+      >
+        <option value="">Selecciona categoría</option>
+        {categorias.map(([id, cat]) => (
+          <option key={id} value={id}>{cat.titulo}</option>
+        ))}
+      </select>
+
+      {categoria && (
+        <select
+          className="w-full border border-primary-red p-2 rounded mb-3"
+          value={sub || ""}
+          onChange={(e) => {
+            setSub(e.target.value || null);
+            setSubsub(null);
+          }}
+        >
+          <option value="">Selecciona subcarpeta</option>
+          {subs.map(([id, nodo]) => (
+            <option key={id} value={id}>{nodo.titulo}</option>
+          ))}
+        </select>
+      )}
+
+      {categoria && sub && subsubs.length > 0 && (
+        <select
+          className="w-full border border-primary-red p-2 rounded mb-3"
+          value={subsub || ""}
+          onChange={(e) => setSubsub(e.target.value || null)}
+        >
+          <option value="">(Sin sub-subcarpeta)</option>
+          {subsubs.map(([id, nodo]) => (
+            <option key={id} value={id}>{nodo.titulo}</option>
+          ))}
+        </select>
+      )}
+
+      {categoria && sub && (
+        <div>
+          <h2 className="font-bold mb-2">Texto Diario</h2>
+          <textarea
+            className="w-full border border-primary-red p-2 rounded mb-4 h-32"
+            value={textoDiario}
+            onChange={(e) => setTextoDiario(e.target.value)}
+          />
+
+          <h2 className="font-bold mb-2">Texto SDF</h2>
+          <textarea
+            className="w-full border border-primary-red p-2 rounded mb-4 h-32"
+            value={textoSdf}
+            onChange={(e) => setTextoSdf(e.target.value)}
+          />
+
+          <h2 className="font-bold text-primary-red mt-4">Imágenes</h2>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={subirImagenes}
+            className="w-full border border-primary-red p-2 rounded"
+          />
+
+          {(() => {
+            const nodo = subsub
+              ? window.RESPUESTAS?.[categoria]?.[sub]?.[subsub]
+              : window.RESPUESTAS?.[categoria]?.[sub];
+
+            if (!nodo || !nodo.imagenes || nodo.imagenes.length === 0) return null;
+
+            return (
+              <div className="grid grid-cols-2 gap-3 mt-4">
+                {nodo.imagenes.map((img, i) => (
+                  <div key={i} className="relative">
+                    <img
+                      src={img}
+                      className="w-full rounded border shadow"
+                      alt={`img-${i}`}
+                    />
+                    <button
+                      className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded"
+                      onClick={() => eliminarImagen(i)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+
+          <div className="mt-4">
+            <button
+              onClick={guardar}
+              className="bg-primary-red text-white px-4 py-2 rounded font-bold mr-2"
+            >
+              Guardar
+            </button>
+
+            <button
+              onClick={guardarTodo}
+              className="bg-green-600 text-white px-4 py-2 rounded font-bold"
+            >
+              Guardar TODO (persistente)
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
       /* ============================================================
          ACCESO ADMIN
       ============================================================ */
