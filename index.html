@@ -346,7 +346,15 @@ if (!estado.nombre || !estado.selur || !estado.jornada) {
       titulo.textContent = "¿Qué quieres consultar?";
       titulo.style.color = "#c40000";
       root.appendChild(titulo);
-
+// BOTÓN VOLVER (vuelve a elegir Convenio / Selur)
+const btnBack = document.createElement("button");
+btnBack.textContent = "← Volver";
+btnBack.style.marginBottom = "15px";
+btnBack.addEventListener("click", () => {
+  estado.tipo = "";
+  renderApp();
+});
+root.appendChild(btnBack);
       const grid = document.createElement("div");
       grid.style.display = "grid";
       grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(140px, 1fr))";
@@ -405,7 +413,16 @@ if (!estado.nombre || !estado.selur || !estado.jornada) {
     titulo.textContent = cat.titulo;
     titulo.style.color = "#c40000";
     root.appendChild(titulo);
-
+// BOTÓN VOLVER (vuelve a categorías)
+const btnBack = document.createElement("button");
+btnBack.textContent = "← Volver";
+btnBack.style.marginBottom = "15px";
+btnBack.addEventListener("click", () => {
+  estado.sub = "";
+  estado.categoria = "";
+  renderApp();
+});
+root.appendChild(btnBack);
     const grid = document.createElement("div");
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(160px, 1fr))";
@@ -451,7 +468,15 @@ if (!estado.nombre || !estado.selur || !estado.jornada) {
     titulo.textContent = window.ESTRUCTURA[estado.categoria].sub[estado.sub].titulo;
     titulo.style.color = "#c40000";
     root.appendChild(titulo);
-
+// BOTÓN VOLVER (vuelve a subcategorías)
+const btnBack = document.createElement("button");
+btnBack.textContent = "← Volver";
+btnBack.style.marginBottom = "15px";
+btnBack.addEventListener("click", () => {
+  estado.sub = "";
+  renderApp();
+});
+root.appendChild(btnBack);
     if (!nodo) {
       root.innerHTML += "<p>No hay contenido definido todavía.</p>";
       return;
