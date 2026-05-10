@@ -189,11 +189,18 @@ button.secondary {
   const $ = s => document.querySelector(s);
 
   let estado = {
-    categoria:"",
-    sub:"",
+    nombre: "",
+    selur: "",
+    jornada: "",
+    tipo: "",        // convenio o selur
+    categoria: "",
+    sub: "",
     role: sessionStorage.getItem("role") || "user"
   };
 
+  /* -------------------------
+     ACCESO ADMIN
+  ------------------------- */
   const shieldBtn = $("#shieldBtn");
   const adminPanel = $("#adminPanel");
   const adminCode = $("#adminCode");
@@ -238,116 +245,252 @@ button.secondary {
     renderApp();
   });
 
+  /* -------------------------
+     RENDER PRINCIPAL
+  ------------------------- */
   function renderApp(){
     const root = $("#appRoot");
     root.innerHTML = "";
 
-    // Selects
-    const labelCat = document.createElement("label");
-    labelCat.textContent = "Categoría";
-    const selectCat = document.createElement("select");
-    selectCat.innerHTML = "<option value=''>-- Selecciona categoría --</option>";
-    Object.keys(window.RESPUESTAS).forEach(cat=>{
-      const o = document.createElement("option");
-      o.value = cat; o.textContent = cat;
-      selectCat.appendChild(o);
+    /* 1) FORMULARIO INICIAL */
+    if (!estado.nombre || !estado.selur || !estado.jornada) {
+      root.innerHTML = `
+        <h2 style="color:#c40000;">Datos iniciales</h2>
+
+        <label>Nombre</label>
+        <input id="inpNombre" type="text" style="padding:8px; width:100%;">
+
+        <label>Selur</label>
+        <select id="inpSelur" style="padding:8px; width:100%;">
+          <option value="">-- Selecciona --</option>
+          <option value="pintadas">Pintadas</option>
+          <option value="basico">Básico</option>
+        </select>
+
+        <label>Jornada</label>
+        <select id="inpJornada" style="padding:8px; width:100%;">
+          <option value="">-- Selecciona --</option>
+          <option value="diario">Diario</option>
+          <option value="cuadrante">Por cuadrante</option>
+          <option value="sdf">SDF</option>
+        </select>
+
+        <button id="btnContinuar" style="margin-top:15px; width:100%;">Continuar</button>
+      `;
+
+      $("#btnContinuar").addEventListener("click", () => {
+        estado.nombre = $("#inpNombre").value.trim();
+        estado.selur = $("#inpSelur").value;
+        estado.jornada = $("#inpJornada").value;
+
+        if (!estado.nombre || !estado.selur || !estado.jornada) {
+          alert("Completa todos los campos");
+          return;
+        }
+
+        renderApp();
+      });
+
+      return;
+    }
+
+    /* 2) ELEGIR ENTRE CONVENIO O ACUERDO SELUR */
+    if (!estado.tipo) {
+      root.innerHTML = `
+        <h2 style="color:#c40000;">Selecciona una opción</h2>
+
+        <div style="display:flex; gap:20px; margin-top:20px;">
+          <button id="btnConvenio" style="flex:1; padding:20px; font-size:18px;">Convenio</button>
+          <button id="btnSelur" style="flex:1; padding:20px; font-size:18px;">Acuerdo Selur</button>
+        </div>
+      `;
+
+      $("#btnConvenio").addEventListener("click", () => {
+        estado.tipo = "convenio";
+        renderApp();
+      });
+
+      $("#btnSelur").addEventListener("click", () => {
+        estado.tipo = "selur";
+        alert("Aún no has pasado las categorías de Acuerdo Selur");
+      });
+
+      return;
+    }
+
+    /* 3) MOSTRAR CATEGORÍAS (CONVENIO) */
+    if (estado.tipo === "convenio" && !estado.categoria) {
+      const titulo = document.createElement("h2");
+      titulo.textContent = "¿Qué quieres consultar?";
+      titulo.style.color = "#c40000";
+      root.appendChild(titulo);
+
+      const grid = document.createElement("div");
+      grid.style.display = "grid";
+      grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(140px, 1fr))";
+      grid.style.gap = "12px";
+      grid.style.marginTop = "10px";
+
+      Object.keys(window.ESTRUCTURA).forEach(cat => {
+        const c = window.ESTRUCTURA[cat];
+
+        const card = document.createElement("div");
+        card.style.background = "#fff";
+        card.style.border = "1px solid #eee";
+        card.style.borderRadius = "10px";
+        card.style.padding = "18px";
+        card.style.cursor = "pointer";
+        card.style.textAlign = "center";
+        card.style.boxShadow = "0 4px 10px rgba(0,0,0,.05)";
+
+        card.innerHTML = `
+          <div style="font-size:32px;">${c.icono}</div>
+          <div style="margin-top:8px; font-weight:600;">${c.titulo}</div>
+        `;
+
+        card.addEventListener("click", () => {
+          estado.categoria = cat;
+          renderSubcategorias();
+        });
+
+        grid.appendChild(card);
+      });
+
+      root.appendChild(grid);
+      return;
+    }
+
+    /* 4) SI YA HAY SUB → MOSTRAR CONTENIDO */
+    if (estado.sub) {
+      renderContenido();
+      return;
+    }
+
+    /* 5) SI NO HAY SUB → MOSTRAR SUBCATEGORÍAS */
+    renderSubcategorias();
+  }
+
+  /* -------------------------
+     SUBCATEGORÍAS
+  ------------------------- */
+  function renderSubcategorias() {
+    const root = $("#appRoot");
+    root.innerHTML = "";
+
+    const cat = window.ESTRUCTURA[estado.categoria];
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = cat.titulo;
+    titulo.style.color = "#c40000";
+    root.appendChild(titulo);
+
+    const grid = document.createElement("div");
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(160px, 1fr))";
+    grid.style.gap = "12px";
+    grid.style.marginTop = "10px";
+
+    Object.keys(cat.sub).forEach(sub => {
+      const s = cat.sub[sub];
+
+      const card = document.createElement("div");
+      card.style.background = "#fff";
+      card.style.border = "1px solid #eee";
+      card.style.borderRadius = "10px";
+      card.style.padding = "14px";
+      card.style.cursor = "pointer";
+      card.style.textAlign = "center";
+      card.style.boxShadow = "0 4px 10px rgba(0,0,0,.05)";
+
+      card.textContent = s.titulo;
+
+      card.addEventListener("click", () => {
+        estado.sub = sub;
+        renderContenido();
+      });
+
+      grid.appendChild(card);
     });
-    labelCat.appendChild(selectCat);
-    root.appendChild(labelCat);
 
-    const labelSub = document.createElement("label");
-    labelSub.textContent = "Subcategoría";
-    const selectSub = document.createElement("select");
-    selectSub.innerHTML = "<option value=''>-- Selecciona sub --</option>";
-    labelSub.appendChild(selectSub);
-    root.appendChild(labelSub);
+    root.appendChild(grid);
+  }
 
-    // Editor (solo admin)
+  /* -------------------------
+     CONTENIDO / EDITOR
+  ------------------------- */
+  function renderContenido() {
+    const root = $("#appRoot");
+    root.innerHTML = "";
+
+    const nodoCat = window.RESPUESTAS[estado.categoria];
+    const nodo = nodoCat ? nodoCat[estado.sub] : null;
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = window.ESTRUCTURA[estado.categoria].sub[estado.sub].titulo;
+    titulo.style.color = "#c40000";
+    root.appendChild(titulo);
+
+    if (!nodo) {
+      root.innerHTML += "<p>No hay contenido definido todavía.</p>";
+      return;
+    }
+
+    /* MODO USUARIO → SOLO LECTURA */
+    if (estado.role !== "admin") {
+      const view = document.createElement("div");
+      view.style.background = "#fff";
+      view.style.border = "1px solid #eee";
+      view.style.borderRadius = "10px";
+      view.style.padding = "14px";
+      view.style.marginTop = "10px";
+
+      if (nodo.diario) view.innerHTML += `<p>${nodo.diario}</p>`;
+      if (nodo.sdf) view.innerHTML += `<p>${nodo.sdf}</p>`;
+
+      root.appendChild(view);
+      return;
+    }
+
+    /* MODO ADMIN → EDITOR */
     const editor = document.createElement("div");
-    editor.id = "editorArea";
     editor.style.marginTop = "20px";
-    editor.style.display = estado.role === "admin" ? "" : "none";
 
     const lblDiario = document.createElement("label");
     lblDiario.textContent = "Diario (editar)";
     const taDiario = document.createElement("textarea");
-    taDiario.id = "taDiario";
+    taDiario.value = nodo.diario || "";
     lblDiario.appendChild(taDiario);
 
     const lblSdf = document.createElement("label");
     lblSdf.textContent = "SDF (editar)";
     const taSdf = document.createElement("textarea");
-    taSdf.id = "taSdf";
+    taSdf.value = nodo.sdf || "";
     lblSdf.appendChild(taSdf);
 
     editor.appendChild(lblDiario);
     editor.appendChild(lblSdf);
 
-    // Botones admin
     const btns = document.createElement("div");
-    btns.className = "buttons";
+    btns.style.marginTop = "10px";
+    btns.style.display = "flex";
+    btns.style.gap = "8px";
+
     const btnGuardar = document.createElement("button");
     btnGuardar.textContent = "Guardar";
+
     const btnGuardarTodo = document.createElement("button");
     btnGuardarTodo.textContent = "Guardar TODO";
     btnGuardarTodo.className = "secondary";
+
     btns.appendChild(btnGuardar);
     btns.appendChild(btnGuardarTodo);
     editor.appendChild(btns);
 
     root.appendChild(editor);
 
-    // Eventos selects
-    selectCat.addEventListener("change", ()=>{
-      estado.categoria = selectCat.value;
-      estado.sub = "";
-      selectSub.innerHTML = "<option value=''>-- Selecciona sub --</option>";
-      if(estado.categoria){
-        Object.keys(window.RESPUESTAS[estado.categoria]).forEach(s=>{
-          const o = document.createElement("option");
-          o.value = s; o.textContent = s;
-          selectSub.appendChild(o);
-        });
-      }
-      limpiarEditor();
-    });
-
-    selectSub.addEventListener("change", ()=>{
-      estado.sub = selectSub.value;
-      cargarNodo();
-    });
-
-    function limpiarEditor(){
-      taDiario.value = "";
-      taSdf.value = "";
-      lblDiario.style.display = "none";
-      lblSdf.style.display = "none";
-    }
-
-    function cargarNodo(){
-      limpiarEditor();
-      if(estado.role !== "admin") return;
-      if(!estado.categoria || !estado.sub) return;
-
-      const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
-      if(!nodo) return;
-
-      if(nodo.diario !== undefined){
-        lblDiario.style.display = "";
-        taDiario.value = nodo.diario;
-      }
-
-      if(nodo.sdf !== undefined){
-        lblSdf.style.display = "";
-        taSdf.value = nodo.sdf;
-      }
-    }
-
     btnGuardar.addEventListener("click", ()=>{
-      if(!estado.categoria || !estado.sub) return;
-      const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
-      if(nodo.diario !== undefined) nodo.diario = taDiario.value;
-      if(nodo.sdf !== undefined) nodo.sdf = taSdf.value;
+      nodo.diario = taDiario.value;
+      nodo.sdf = taSdf.value;
       alert("Guardado en memoria");
     });
 
@@ -355,7 +498,6 @@ button.secondary {
       localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
       alert("Guardado TODO");
     });
-
   }
 
   setRoleUI();
