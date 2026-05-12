@@ -273,7 +273,9 @@ h2 {
 <script>
 (() => {
 
-// Cargar RESPUESTAS guardadas en localStorage (si existen)
+  /* ------------------------------------------------
+        CARGAR RESPUESTAS DESDE LOCALSTORAGE
+  -------------------------------------------------- */
   const savedResp = localStorage.getItem("RESPUESTAS");
   if (savedResp) {
     try {
@@ -283,27 +285,24 @@ h2 {
     }
   }
 
-  /* -------------------------
+  /* ------------------------------------------------
         VARIABLES GLOBALES
-  ------------------------- */
-
+  -------------------------------------------------- */
   const $ = sel => document.querySelector(sel);
 
   const estado = {
-    role: "usuario",   // usuario | admin
+    role: "usuario",
     nombre: "",
     selur: "",
     jornada: "",
-    tipo: "",          // convenio | selur
+    tipo: "",
     categoria: "",
     sub: ""
   };
 
-
-  /* -------------------------
+  /* ------------------------------------------------
         GESTIÓN DEL ROL ADMIN
-  ------------------------- */
-
+  -------------------------------------------------- */
   const shieldBtn = $("#shieldBtn");
   const adminPanel = $("#adminPanel");
   const adminEnter = $("#adminEnter");
@@ -322,7 +321,7 @@ h2 {
   });
 
   adminEnter.addEventListener("click", () => {
-    if (adminCode.value.trim() === "Selur2212@") {   // ← CONTRASEÑA CORRECTA
+    if (adminCode.value.trim() === "Selur2212@") {
       estado.role = "admin";
       adminPanel.style.display = "none";
       adminCode.value = "";
@@ -342,87 +341,66 @@ h2 {
     renderApp();
   });
 
-
-  /* -------------------------
+  /* ------------------------------------------------
         ACTUALIZAR UI SEGÚN ROL
-  ------------------------- */
-
+  -------------------------------------------------- */
   function setRoleUI() {
     roleText.textContent = estado.role;
-
-    if (estado.role === "admin") {
-      logoutBtn.style.display = "inline-block";
-    } else {
-      logoutBtn.style.display = "none";
-    }
+    logoutBtn.style.display = estado.role === "admin" ? "inline-block" : "none";
   }
-/* ------------------------------------------------
+
+  /* ------------------------------------------------
         FUNCIÓN PRINCIPAL: renderApp()
   -------------------------------------------------- */
-
   function renderApp() {
     const root = $("#appRoot");
     root.innerHTML = "";
 
-    /* -----------------------------------------
-          SI ES ADMIN → SALTAR FORMULARIO
-    ------------------------------------------ */
-    if (estado.role === "admin") {
-      if (!estado.tipo) {
-        root.innerHTML = `
-          <h2 style="color:#c40000;">Selecciona una opción</h2>
+    /* ADMIN SIN TIPO SELECCIONADO */
+    if (estado.role === "admin" && !estado.tipo) {
+      root.innerHTML = `
+        <h2 style="color:#c40000;">Selecciona una opción</h2>
+        <div style="display:flex; gap:20px; margin-top:20px;">
+          <button id="btnConvenio" style="flex:1; padding:20px; font-size:18px;">Convenio</button>
+          <button id="btnSelur" style="flex:1; padding:20px; font-size:18px;">Acuerdo Selur</button>
+        </div>
+      `;
 
-          <div style="display:flex; gap:20px; margin-top:20px;">
-            <button id="btnConvenio" style="flex:1; padding:20px; font-size:18px;">Convenio</button>
-            <button id="btnSelur" style="flex:1; padding:20px; font-size:18px;">Acuerdo Selur</button>
-          </div>
-        `;
+      $("#btnConvenio").addEventListener("click", () => {
+        estado.tipo = "convenio";
+        renderApp();
+      });
 
-        $("#btnConvenio").addEventListener("click", () => {
-          estado.tipo = "convenio";
-          renderApp();
-        });
+      $("#btnSelur").addEventListener("click", () => {
+        alert("Aún no has pasado las categorías de Acuerdo Selur");
+      });
 
-        $("#btnSelur").addEventListener("click", () => {
-          alert("Aún no has pasado las categorías de Acuerdo Selur");
-        });
-
-        return;
-      }
+      return;
     }
 
-    /* -----------------------------------------
-          FORMULARIO USUARIO (NO ADMIN)
-    ------------------------------------------ */
+    /* FORMULARIO USUARIO */
     if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jornada)) {
-         root.innerHTML = `
-  <h2 style="color:#c40000;">Datos del trabajador</h2>
+      root.innerHTML = `
+        <h2 style="color:#c40000;">Datos del trabajador</h2>
 
-  <label style="font-size:14px; margin-bottom:4px;">Nombre</label>
-  <input id="inpNombre" type="text" placeholder="Tu nombre">
-  <label style="font-size:14px; margin-top:10px; margin-bottom:4px;">
-    ¿Eres del Selur básico o pintadas?
-  </label>
-  <select id="inpSelur">
-    <option value="">Selecciona...</option>
-    <option value="basico">Básico</option>
-    <option value="pintadas">Pintadas</option>
-  </select>
+        <label>Nombre</label>
+        <input id="inpNombre" type="text" placeholder="Tu nombre">
 
-  <label style="font-size:14px; margin-top:10px; margin-bottom:4px;">Jornada</label>
-  <select id="inpJornada"
-        <option value="">Selecciona...</option>
-  </select>
+        <label>¿Eres del Selur básico o pintadas?</label>
+        <select id="inpSelur">
+          <option value="">Selecciona...</option>
+          <option value="basico">Básico</option>
+          <option value="pintadas">Pintadas</option>
+        </select>
 
-  <button id="btnForm"
-    style="margin-top:15px; width:90%; padding:10px; font-size:14px; margin:0 auto; display:block;">
-    Entrar
-  </button>
-`;
+        <label>Jornada</label>
+        <select id="inpJornada">
+          <option value="">Selecciona...</option>
+        </select>
 
-      /* -----------------------------------------
-            CAMBIO DINÁMICO DE JORNADA SEGÚN SELUR
-      ------------------------------------------ */
+        <button id="btnForm" style="margin-top:15px;">Entrar</button>
+      `;
+
       $("#inpSelur").addEventListener("change", () => {
         const j = $("#inpJornada");
         j.innerHTML = "";
@@ -460,16 +438,13 @@ h2 {
       return;
     }
 
-    /* -----------------------------------------
-          SELECCIÓN CONVENIO / SELUR (USUARIO)
-    ------------------------------------------ */
+    /* SELECCIÓN CONVENIO / SELUR */
     if (!estado.tipo) {
       root.innerHTML = `
         <h2 style="color:#c40000;">Selecciona una opción</h2>
-
         <div style="display:flex; gap:20px; margin-top:20px;">
-          <button id="btnConvenio" style="flex:1; padding:20px; font-size:18px;">Convenio</button>
-          <button id="btnSelur" style="flex:1; padding:20px; font-size:18px;">Acuerdo Selur</button>
+          <button id="btnConvenio" style="flex:1; padding:20px;">Convenio</button>
+          <button id="btnSelur" style="flex:1; padding:20px;">Acuerdo Selur</button>
         </div>
       `;
 
@@ -485,9 +460,7 @@ h2 {
       return;
     }
 
-    /* -----------------------------------------
-          BUSCADOR INTELIGENTE (CONVENIO)
-    ------------------------------------------ */
+    /* BUSCADOR + CATEGORÍAS */
     if (estado.tipo === "convenio" && !estado.categoria) {
       const titulo = document.createElement("h2");
       titulo.textContent = "¿Qué quieres consultar?";
@@ -538,12 +511,22 @@ h2 {
       root.appendChild(grid);
       return;
     }
+
+    /* NUEVO: CONTROL DE ESTADOS FINALES */
+    if (estado.categoria && !estado.sub) {
+      renderSubcategorias();
+      return;
+    }
+
+    if (estado.categoria && estado.sub) {
+      renderContenido();
+      return;
+    }
   }
 
   /* ------------------------------------------------
         SUBCATEGORÍAS
   -------------------------------------------------- */
-
   function renderSubcategorias() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -555,7 +538,6 @@ h2 {
     titulo.style.color = "#c40000";
     root.appendChild(titulo);
 
-    /* BOTÓN VOLVER */
     const btnBack = document.createElement("button");
     btnBack.textContent = "← Volver";
     btnBack.style.marginBottom = "15px";
@@ -565,7 +547,6 @@ h2 {
     });
     root.appendChild(btnBack);
 
-    /* IMÁGENES DE CATEGORÍA (USUARIO) */
     if (window.RESPUESTAS[estado.categoria].imagenes.length > 0 && estado.role !== "admin") {
       const grid = document.createElement("div");
       grid.className = "images-grid";
@@ -584,7 +565,6 @@ h2 {
       root.appendChild(grid);
     }
 
-    /* BOTÓN EDITAR IMÁGENES (ADMIN) */
     if (estado.role === "admin") {
       const btnImgs = document.createElement("button");
       btnImgs.textContent = "🖼️ Imágenes de la categoría";
@@ -595,7 +575,6 @@ h2 {
       root.appendChild(btnImgs);
     }
 
-    /* GRID SUBCATEGORÍAS */
     const grid = document.createElement("div");
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(2, 1fr)";
@@ -628,7 +607,6 @@ h2 {
   /* ------------------------------------------------
         CONTENIDO / EDITOR
   -------------------------------------------------- */
-
   function renderContenido() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -638,7 +616,6 @@ h2 {
     titulo.style.color = "#c40000";
     root.appendChild(titulo);
 
-    /* BOTÓN VOLVER */
     const btnBack = document.createElement("button");
     btnBack.textContent = "← Volver";
     btnBack.style.marginBottom = "15px";
@@ -682,7 +659,6 @@ h2 {
   /* ------------------------------------------------
         EDITOR DE IMÁGENES POR CATEGORÍA
   -------------------------------------------------- */
-
   function renderImagenesCategoria() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -758,7 +734,6 @@ h2 {
   /* ------------------------------------------------
         BUSCADOR INTELIGENTE
   -------------------------------------------------- */
-
   function renderResultadosBusqueda(q) {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -821,11 +796,11 @@ h2 {
   }
 
   /* ------------------------------------------------
-        INICIALIZAR
+        INICIALIZACIÓN
   -------------------------------------------------- */
-
   setRoleUI();
   renderApp();
+
 })();
 </script>
 
