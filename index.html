@@ -17,13 +17,12 @@
   <!-- ÚNICO appRoot CORRECTO -->
   <div id="appRoot">
 
-    <!-- HEADER CORRECTO -->
-    <header>
-      <img src="image_0.png" alt="logo">
-      <div id="roleText">usuario</div>
-      <button id="shieldBtn">🛡️</button>
-      <button id="logoutBtn" style="display:none;">Salir</button>
-    </header>
+ <header>
+    <img src="image_0.png" alt="logo">
+    <div id="roleText">usuario</div>
+    <button id="shieldBtn">🛡️</button>
+    <button id="logoutBtn" style="display:none;">Salir</button>
+</header>
 
     <!-- PANEL ADMIN -->
     <div id="adminPanel" class="modal">
@@ -110,14 +109,6 @@
   /* FUNCIÓN PRINCIPAL */
   function renderApp() {
     const root = $("#appRoot");
-    root.innerHTML = `
-      <header>
-        <img src="image_0.png" alt="logo">
-        <div id="roleText">${estado.role}</div>
-        <button id="shieldBtn">🛡️</button>
-        <button id="logoutBtn" style="display:${estado.role === "admin" ? "inline-block" : "none"};">Salir</button>
-      </header>
-    `;
 
     // Reasignar eventos del header
     $("#shieldBtn").addEventListener("click", () => adminPanel.style.display = "flex");
@@ -217,12 +208,7 @@
   function renderSubcategorias() {
     const root = $("#appRoot");
     root.innerHTML = `
-      <header>
-        <img src="image_0.png" alt="logo">
-        <div id="roleText">${estado.role}</div>
-        <button id="shieldBtn">🛡️</button>
-        <button id="logoutBtn" style="display:${estado.role === "admin" ? "inline-block" : "none"};">Salir</button>
-      </header>
+      
     `;
 
     const cat = window.ESTRUCTURA[estado.categoria];
@@ -300,12 +286,7 @@
   function renderContenido() {
     const root = $("#appRoot");
     root.innerHTML = `
-      <header>
-        <img src="image_0.png" alt="logo">
-        <div id="roleText">${estado.role}</div>
-        <button id="shieldBtn">🛡️</button>
-        <button id="logoutBtn" style="display:${estado.role === "admin" ? "inline-block" : "none"};">Salir</button>
-      </header>
+      
     `;
 
     const titulo = document.createElement("h2");
@@ -374,12 +355,7 @@
   function renderImagenesCategoria() {
     const root = $("#appRoot");
     root.innerHTML = `
-      <header>
-        <img src="image_0.png" alt="logo">
-        <div id="roleText">${estado.role}</div>
-        <button id="shieldBtn">🛡️</button>
-        <button id="logoutBtn" style="display:${estado.role === "admin" ? "inline-block" : "none"};">Salir</button>
-      </header>
+     
     `;
 
     const cat = estado.categoria;
@@ -454,12 +430,7 @@
   function renderResultadosBusqueda(q) {
     const root = $("#appRoot");
     root.innerHTML = `
-      <header>
-        <img src="image_0.png" alt="logo">
-        <div id="roleText">${estado.role}</div>
-        <button id="shieldBtn">🛡️</button>
-        <button id="logoutBtn" style="display:${estado.role === "admin" ? "inline-block" : "none"};">Salir</button>
-      </header>
+      
     `;
 
     const titulo = document.createElement("h2");
