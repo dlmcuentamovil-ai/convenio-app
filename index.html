@@ -208,15 +208,6 @@
       titulo.style.color = "#c40000";
       root.appendChild(titulo);
 
-      const buscador = document.createElement("input");
-      buscador.placeholder = "Buscar...";
-      buscador.style.padding = "10px";
-      buscador.style.width = "100%";
-      buscador.style.marginBottom = "15px";
-      root.appendChild(buscador);
-
-      buscador.addEventListener("input", () => renderResultadosBusqueda(buscador.value.toLowerCase()));
-
       const grid = document.createElement("div");
       grid.style.display = "grid";
       grid.style.gridTemplateColumns = "repeat(2, 1fr)";
@@ -352,23 +343,29 @@
     const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
 
     if (estado.role === "admin") {
-      root.innerHTML += `
-        <label>Texto Diario</label>
-        <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
+      const cont = document.createElement("div");
+cont.innerHTML = `
+  <label>Texto Diario</label>
+  <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
 
-        <label>Texto SDF</label>
-        <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
+  <label>Texto SDF</label>
+  <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
 
-        <button id="btnSave" style="margin-top:20px;">Guardar</button>
-      `;
+  <button id="btnSave" style="margin-top:20px;">Guardar</button>
+`;
+root.appendChild(cont);
 
-      $("#btnSave").addEventListener("click", () => {
-        nodo.diario = $("#txtDiario").value;
-        nodo.sdf = $("#txtSdf").value;
+const btnSave = cont.querySelector("#btnSave");
+const txtDiario = cont.querySelector("#txtDiario");
+const txtSdf = cont.querySelector("#txtSdf");
 
-        localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-        alert("Guardado");
-      });
+btnSave.addEventListener("click", () => {
+  nodo.diario = txtDiario.value;
+  nodo.sdf = txtSdf.value;
+
+  localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+  alert("Guardado");
+});
 
     } else {
       const tipo = normalizarJornada(estado.jornada);
