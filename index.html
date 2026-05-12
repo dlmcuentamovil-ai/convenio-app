@@ -32,6 +32,7 @@
   </div>
 
   <main id="appRoot"></main>
+
 <script>
 (() => {
 
@@ -99,7 +100,8 @@
     roleText.textContent = estado.role;
     logoutBtn.style.display = estado.role === "admin" ? "inline-block" : "none";
   }
-/* FUNCIÓN PRINCIPAL */
+
+  /* FUNCIÓN PRINCIPAL */
   function renderApp() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -140,8 +142,8 @@
 
         <label>Jornada</label>
         <select id="inpJornada">
-  <option value="">Selecciona...</option>
-</select>
+          <option value="">Selecciona...</option>
+        </select>
 
         <button id="btnForm">Entrar</button>
       `;
@@ -206,6 +208,7 @@
       const titulo = document.createElement("h2");
       titulo.textContent = "¿Qué quieres consultar?";
       titulo.style.color = "#c40000";
+      titulo.style.marginBottom = "20px";
       root.appendChild(titulo);
 
       const grid = document.createElement("div");
@@ -222,10 +225,11 @@
         card.style.borderRadius = "10px";
         card.style.cursor = "pointer";
         card.style.textAlign = "center";
+        card.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
 
         card.innerHTML = `
           <div style="font-size:32px;">${c.icono}</div>
-          <div>${c.titulo}</div>
+          <div style="margin-top:8px; font-weight:600;">${c.titulo}</div>
         `;
 
         card.addEventListener("click", () => {
@@ -342,36 +346,51 @@
 
     const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
 
+    /* ADMIN */
     if (estado.role === "admin") {
-  const cont = document.createElement("div");
-  cont.style.marginTop = "10px"; // mantiene tu diseño
+      const cont = document.createElement("div");
+      cont.style.marginTop = "10px";
 
-  cont.innerHTML = `
-    <label>Texto Diario</label>
-    <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
+      cont.innerHTML = `
+        <label>Texto Diario</label>
+        <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
 
-    <label>Texto SDF</label>
-    <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
+        <label>Texto SDF</label>
+        <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
 
-    <button id="btnSave" style="margin-top:20px;">Guardar</button>
-  `;
+        <button id="btnSave" style="margin-top:20px;">Guardar</button>
+      `;
 
-  root.appendChild(cont);
+      root.appendChild(cont);
 
-  // Seleccionar elementos SIN romper el DOM
-  const btnSave = cont.querySelector("#btnSave");
-  const txtDiario = cont.querySelector("#txtDiario");
-  const txtSdf = cont.querySelector("#txtSdf");
+      const btnSave = cont.querySelector("#btnSave");
+      const txtDiario = cont.querySelector("#txtDiario");
+      const txtSdf = cont.querySelector("#txtSdf");
 
-  // Guardar correctamente
-  btnSave.addEventListener("click", () => {
-    nodo.diario = txtDiario.value;
-    nodo.sdf = txtSdf.value;
+      btnSave.addEventListener("click", () => {
+        nodo.diario = txtDiario.value;
+        nodo.sdf = txtSdf.value;
 
-    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-    alert("Guardado");
-  });
-}
+        localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+        alert("Guardado");
+      });
+
+      return;
+    }
+
+    /* USUARIO */
+    const tipo = normalizarJornada(estado.jornada);
+    const texto = tipo === "diario" ? nodo.diario : nodo.sdf;
+
+    const box = document.createElement("div");
+    box.style.background = "#fff";
+    box.style.padding = "20px";
+    box.style.borderRadius = "10px";
+    box.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
+    box.innerHTML = texto || "<i>No hay contenido disponible</i>";
+
+    root.appendChild(box);
+  }
 
   /* EDITOR IMÁGENES */
   function renderImagenesCategoria() {
@@ -508,7 +527,8 @@
 
     root.appendChild(lista);
   }
- /* INICIALIZACIÓN */
+
+  /* INICIALIZACIÓN */
   setRoleUI();
   renderApp();
 
