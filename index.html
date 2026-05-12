@@ -5,20 +5,47 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Convenio LPV - Editor</title>
 
-  <style>
+<style>
+/* ------------------------------
+   ESTILO GLOBAL
+------------------------------ */
 body {
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
   margin: 0;
   padding: 20px;
   background: #fff5f5;
   color: #222;
+  display: block;              /* ← CORRECCIÓN: evita que header y appRoot se separen */
+  text-align: center;
 }
 
+/* Contenedor principal tipo app */
+#appRoot {
+  max-width: 320px;            /* ancho ideal móvil */
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ------------------------------
+   HEADER
+------------------------------ */
 header {
+  max-width: 320px;
+  width: 100%;
+  margin: 0 auto 20px auto;
+  text-align: center;
   display: flex;
+  flex-direction: column;      /* ← centra verticalmente */
+  align-items: center;         /* ← centra horizontalmente */
+  gap: 8px;
+}
+
+header > div {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
+  gap: 10px;
 }
 
 h1 {
@@ -44,9 +71,10 @@ h1 {
   cursor: pointer;
 }
 
+/* Escudo admin */
 .shield {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   background: #fff;
   border: 1px solid #ddd;
@@ -62,6 +90,7 @@ h1 {
   transform: translateY(-2px);
 }
 
+/* Panel admin */
 .admin-panel {
   display: none;
   position: absolute;
@@ -77,20 +106,41 @@ h1 {
   gap: 10px;
 }
 
+/* ------------------------------
+   FORMULARIOS Y CAMPOS
+------------------------------ */
 label {
   font-weight: 600;
   margin-top: 12px;
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  max-width: 260px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input, select, textarea {
+  width: 100%;
+  max-width: 260px;            /* ← evita solapamientos */
+  margin: 0 auto;
+  display: block;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
 }
 
 textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   font-size: 15px;
-  background: #fff;
+  padding: 10px;
 }
 
+/* ------------------------------
+   BOTONES
+------------------------------ */
 button {
   background: #c40000;
   color: #fff;
@@ -100,6 +150,10 @@ button {
   cursor: pointer;
   font-size: 14px;
   transition: 0.15s;
+  margin: 12px auto 0 auto;
+  display: block;
+  width: 100%;
+  max-width: 260px;            /* ← evita que el botón se solape */
 }
 
 button:hover {
@@ -110,11 +164,15 @@ button.secondary {
   background: #666;
 }
 
+/* ------------------------------
+   GRID DE IMÁGENES
+------------------------------ */
 .images-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* mejor para móvil */
   gap: 10px;
   margin-top: 12px;
+  justify-content: center;
 }
 
 .img-wrap {
@@ -123,11 +181,12 @@ button.secondary {
   padding: 6px;
   border-radius: 8px;
   background: #fafafa;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
 }
 
 .img-wrap img {
   width: 100%;
-  height: 80px;
+  height: 90px;
   object-fit: cover;
   border-radius: 6px;
 }
@@ -143,38 +202,37 @@ button.secondary {
   padding: 2px 6px;
   cursor: pointer;
 }
+
+/* ------------------------------
+   TITULOS
+------------------------------ */
 h2 {
   text-align: center;
+  font-size: 20px;
+  color: #c40000;
+  margin-bottom: 10px;
 }
 
-button {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}
+/* ------------------------------
+   RESPONSIVE EXTRA
+------------------------------ */
+@media (max-width: 400px) {
+  #appRoot, header {
+    max-width: 90%;
+  }
 
-.images-grid {
-  justify-content: center;
-}
-header {
-  max-width: 350px;      /* mismo ancho que el contenido */
-  margin: 0 auto;        /* centra el header */
-  text-align: center;    /* centra textos e iconos */
-  flex-direction: column;
-  gap: 10px;
-}
+  input, select, button, textarea {
+    max-width: 100%;
+  }
 
-header > div {
-  justify-content: center;
+  .images-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-
-header .role-badge,
-header .logout-btn,
-header .shield {
-  margin-left: auto;
-  margin-right: auto;
+#inpJornada {
+  margin-bottom: 18px !important;   /* separa Jornada del botón */
 }
-  </style>
+</style>
 </head>
 
 <body>
@@ -331,14 +389,11 @@ header .shield {
   <h2 style="color:#c40000;">Datos del trabajador</h2>
 
   <label style="font-size:14px; margin-bottom:4px;">Nombre</label>
-  <input id="inpNombre" type="text" placeholder="Tu nombre"
-    style="padding:6px; width:90%; font-size:14px; height:32px; margin:0 auto; display:block;">
-
+  <input id="inpNombre" type="text" placeholder="Tu nombre">
   <label style="font-size:14px; margin-top:10px; margin-bottom:4px;">
     ¿Eres del Selur básico o pintadas?
   </label>
-  <select id="inpSelur"
-    style="padding:6px; width:90%; font-size:14px; height:32px; margin:0 auto; display:block;">
+  <select id="inpSelur">
     <option value="">Selecciona...</option>
     <option value="basico">Básico</option>
     <option value="pintadas">Pintadas</option>
@@ -346,8 +401,7 @@ header .shield {
 
   <label style="font-size:14px; margin-top:10px; margin-bottom:4px;">Jornada</label>
   <select id="inpJornada"
-    style="padding:6px; width:90%; font-size:14px; height:32px; margin:0 auto; display:block;">
-    <option value="">Selecciona...</option>
+        <option value="">Selecciona...</option>
   </select>
 
   <button id="btnForm"
