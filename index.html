@@ -273,6 +273,16 @@ h2 {
 <script>
 (() => {
 
+// Cargar RESPUESTAS guardadas en localStorage (si existen)
+  const savedResp = localStorage.getItem("RESPUESTAS");
+  if (savedResp) {
+    try {
+      window.RESPUESTAS = JSON.parse(savedResp);
+    } catch (e) {
+      console.error("Error al leer RESPUESTAS guardadas", e);
+    }
+  }
+
   /* -------------------------
         VARIABLES GLOBALES
   ------------------------- */
