@@ -14,29 +14,28 @@
 
 <body>
 
-  <!-- ÚNICO appRoot CORRECTO -->
-  <div id="appRoot">
+  <!-- HEADER FIJO -->
+  <header>
+      <img src="image_0.png" alt="logo">
+      <div id="roleText">usuario</div>
+      <button id="shieldBtn">🛡️</button>
+      <button id="logoutBtn" style="display:none;">Salir</button>
+  </header>
 
- <header>
-    <img src="image_0.png" alt="logo">
-    <div id="roleText">usuario</div>
-    <button id="shieldBtn">🛡️</button>
-    <button id="logoutBtn" style="display:none;">Salir</button>
-</header>
-
-    <!-- PANEL ADMIN -->
-    <div id="adminPanel" class="modal">
-      <div class="modal-content">
-        <h3>Acceso administrador</h3>
-        <input id="adminCode" type="password" placeholder="Código" />
-        <div class="modal-buttons">
-          <button id="adminEnter">Entrar</button>
-          <button id="adminCancel">Cancelar</button>
-        </div>
+  <!-- MODAL ADMIN (FUERA DE appRoot PARA NO BORRARSE) -->
+  <div id="adminPanel" class="modal">
+    <div class="modal-content">
+      <h3>Acceso administrador</h3>
+      <input id="adminCode" type="password" placeholder="Código" />
+      <div class="modal-buttons">
+        <button id="adminEnter">Entrar</button>
+        <button id="adminCancel">Cancelar</button>
       </div>
     </div>
+  </div>
 
-  </div> <!-- cierre appRoot -->
+  <!-- CONTENEDOR DINÁMICO -->
+  <div id="appRoot"></div>
 
 <script>
 (() => {
@@ -109,21 +108,11 @@
   /* FUNCIÓN PRINCIPAL */
   function renderApp() {
     const root = $("#appRoot");
-
-    // Reasignar eventos del header
-    $("#shieldBtn").addEventListener("click", () => adminPanel.style.display = "flex");
-    $("#logoutBtn").addEventListener("click", () => {
-      estado.role = "usuario";
-      estado.tipo = "";
-      estado.categoria = "";
-      estado.sub = "";
-      setRoleUI();
-      renderApp();
-    });
+    root.innerHTML = "";
 
     /* ADMIN SIN TIPO */
     if (estado.role === "admin" && !estado.tipo) {
-      root.innerHTML += `
+      root.innerHTML = `
         <h2 style="color:#c40000;">Selecciona una opción</h2>
         <div style="display:flex; gap:20px; margin-top:20px;">
           <button id="btnConvenio" style="flex:1; padding:20px;">Convenio</button>
@@ -142,7 +131,7 @@
 
     /* FORMULARIO USUARIO */
     if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jornada)) {
-      root.innerHTML += `
+      root.innerHTML = `
         <h2 style="color:#c40000;">Datos del trabajador</h2>
 
         <label>Nombre</label>
@@ -207,9 +196,7 @@
   /* SUBCATEGORÍAS */
   function renderSubcategorias() {
     const root = $("#appRoot");
-    root.innerHTML = `
-      
-    `;
+    root.innerHTML = "";
 
     const cat = window.ESTRUCTURA[estado.categoria];
 
@@ -285,9 +272,7 @@
   /* CONTENIDO */
   function renderContenido() {
     const root = $("#appRoot");
-    root.innerHTML = `
-      
-    `;
+    root.innerHTML = "";
 
     const titulo = document.createElement("h2");
     titulo.textContent = window.ESTRUCTURA[estado.categoria].sub[estado.sub].titulo;
@@ -354,9 +339,7 @@
   /* EDITOR IMÁGENES */
   function renderImagenesCategoria() {
     const root = $("#appRoot");
-    root.innerHTML = `
-     
-    `;
+    root.innerHTML = "";
 
     const cat = estado.categoria;
     const nodo = window.RESPUESTAS[cat];
@@ -429,9 +412,7 @@
   /* BUSCADOR */
   function renderResultadosBusqueda(q) {
     const root = $("#appRoot");
-    root.innerHTML = `
-      
-    `;
+    root.innerHTML = "";
 
     const titulo = document.createElement("h2");
     titulo.textContent = "Resultados de búsqueda";
@@ -499,4 +480,3 @@
 </script>
 
 </body>
-</html>
