@@ -1,23 +1,46 @@
-/* RESET BÁSICO */
+/* ============================
+   ESTILO GLOBAL MODERNO
+============================ */
 body {
   margin: 0;
-  padding: 20px;
+  padding: 0;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  background: #fff5f5;
+  background: #fafafa;
   color: #222;
+  display: flex;
+  justify-content: center;
 }
 
-/* HEADER */
+#appRoot {
+  width: 100%;
+  max-width: 420px; /* centrado y compacto */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ============================
+   HEADER MODERNO
+============================ */
 header {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 10px 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  gap: 12px;
+}
+
+header img {
+  width: 48px;
+  height: auto;
+  border-radius: 6px;
 }
 
 #roleText {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 18px;
+  flex-grow: 1;
 }
 
 header button {
@@ -34,10 +57,12 @@ header button:hover {
   background: #a00000;
 }
 
-/* FORMULARIOS */
+/* ============================
+   FORMULARIOS
+============================ */
 label {
   display: block;
-  margin-top: 12px;
+  margin-top: 10px;
   font-weight: 600;
 }
 
@@ -45,10 +70,11 @@ input, select, textarea {
   width: 100%;
   padding: 10px;
   margin-top: 6px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 15px;
   box-sizing: border-box;
+  background: #fff;
 }
 
 button {
@@ -56,18 +82,32 @@ button {
   color: white;
   border: none;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
   width: 100%;
   margin-top: 20px;
+  transition: 0.2s;
 }
 
 button:hover {
   background: #a00000;
 }
 
-/* TARJETAS */
+/* ============================
+   TARJETAS / CONTENIDO
+============================ */
+#appRoot > div {
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+  margin-bottom: 20px;
+}
+
+/* ============================
+   GRID DE IMÁGENES
+============================ */
 .images-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -81,7 +121,7 @@ button:hover {
 
 .img-wrap img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,.15);
 }
 
@@ -97,7 +137,9 @@ button:hover {
   cursor: pointer;
 }
 
-/* MODAL ADMIN */
+/* ============================
+   MODAL ADMIN
+============================ */
 .modal {
   display: none;
   position: fixed;
@@ -113,8 +155,8 @@ button:hover {
 .modal-content {
   background: white;
   padding: 20px;
-  border-radius: 12px;
-  width: 300px;
+  border-radius: 14px;
+  width: 320px;
   box-shadow: 0 6px 20px rgba(0,0,0,.2);
 }
 
@@ -126,12 +168,4 @@ button:hover {
 
 .modal-buttons button {
   flex: 1;
-}
-
-/* CONTENEDOR DE TEXTO */
-#appRoot > div {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
