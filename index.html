@@ -140,8 +140,8 @@
 
         <label>Jornada</label>
         <select id="inpJornada">
-          <option value="">Selecciona...</option>
-        </select>
+  <option value="">Selecciona...</option>
+</select>
 
         <button id="btnForm">Entrar</button>
       `;
@@ -343,41 +343,35 @@
     const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
 
     if (estado.role === "admin") {
-      const cont = document.createElement("div");
-cont.innerHTML = `
-  <label>Texto Diario</label>
-  <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
+  const cont = document.createElement("div");
+  cont.style.marginTop = "10px"; // mantiene tu diseño
 
-  <label>Texto SDF</label>
-  <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
+  cont.innerHTML = `
+    <label>Texto Diario</label>
+    <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
 
-  <button id="btnSave" style="margin-top:20px;">Guardar</button>
-`;
-root.appendChild(cont);
+    <label>Texto SDF</label>
+    <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
 
-const btnSave = cont.querySelector("#btnSave");
-const txtDiario = cont.querySelector("#txtDiario");
-const txtSdf = cont.querySelector("#txtSdf");
+    <button id="btnSave" style="margin-top:20px;">Guardar</button>
+  `;
 
-btnSave.addEventListener("click", () => {
-  nodo.diario = txtDiario.value;
-  nodo.sdf = txtSdf.value;
+  root.appendChild(cont);
 
-  localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-  alert("Guardado");
-});
+  // Seleccionar elementos SIN romper el DOM
+  const btnSave = cont.querySelector("#btnSave");
+  const txtDiario = cont.querySelector("#txtDiario");
+  const txtSdf = cont.querySelector("#txtSdf");
 
-    } else {
-      const tipo = normalizarJornada(estado.jornada);
-      const texto = tipo === "diario" ? nodo.diario : nodo.sdf;
+  // Guardar correctamente
+  btnSave.addEventListener("click", () => {
+    nodo.diario = txtDiario.value;
+    nodo.sdf = txtSdf.value;
 
-      root.innerHTML += `
-        <div style="background:#fff; padding:20px; border-radius:10px;">
-          ${texto || "<i>No hay contenido disponible</i>"}
-        </div>
-      `;
-    }
-  }
+    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+    alert("Guardado");
+  });
+}
 
   /* EDITOR IMÁGENES */
   function renderImagenesCategoria() {
