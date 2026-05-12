@@ -143,6 +143,37 @@ button.secondary {
   padding: 2px 6px;
   cursor: pointer;
 }
+h2 {
+  text-align: center;
+}
+
+button {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.images-grid {
+  justify-content: center;
+}
+header {
+  max-width: 350px;      /* mismo ancho que el contenido */
+  margin: 0 auto;        /* centra el header */
+  text-align: center;    /* centra textos e iconos */
+  flex-direction: column;
+  gap: 10px;
+}
+
+header > div {
+  justify-content: center;
+}
+
+header .role-badge,
+header .logout-btn,
+header .shield {
+  margin-left: auto;
+  margin-right: auto;
+}
   </style>
 </head>
 
@@ -296,26 +327,34 @@ button.secondary {
           FORMULARIO USUARIO (NO ADMIN)
     ------------------------------------------ */
     if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jornada)) {
-      root.innerHTML = `
-        <h2 style="color:#c40000;">Datos del trabajador</h2>
+         root.innerHTML = `
+  <h2 style="color:#c40000;">Datos del trabajador</h2>
 
-        <label>Nombre</label>
-        <input id="inpNombre" type="text" placeholder="Tu nombre" style="padding:10px; width:100%;">
+  <label style="font-size:14px; margin-bottom:4px;">Nombre</label>
+  <input id="inpNombre" type="text" placeholder="Tu nombre"
+    style="padding:6px; width:90%; font-size:14px; height:32px; margin:0 auto; display:block;">
 
-        <label>¿Eres del Selur básico o pintadas?</label>
-        <select id="inpSelur" style="padding:10px; width:100%;">
-          <option value="">Selecciona...</option>
-          <option value="basico">Básico</option>
-          <option value="pintadas">Pintadas</option>
-        </select>
+  <label style="font-size:14px; margin-top:10px; margin-bottom:4px;">
+    ¿Eres del Selur básico o pintadas?
+  </label>
+  <select id="inpSelur"
+    style="padding:6px; width:90%; font-size:14px; height:32px; margin:0 auto; display:block;">
+    <option value="">Selecciona...</option>
+    <option value="basico">Básico</option>
+    <option value="pintadas">Pintadas</option>
+  </select>
 
-        <label>Jornada</label>
-        <select id="inpJornada" style="padding:10px; width:100%;">
-          <option value="">Selecciona...</option>
-        </select>
+  <label style="font-size:14px; margin-top:10px; margin-bottom:4px;">Jornada</label>
+  <select id="inpJornada"
+    style="padding:6px; width:90%; font-size:14px; height:32px; margin:0 auto; display:block;">
+    <option value="">Selecciona...</option>
+  </select>
 
-        <button id="btnForm" style="margin-top:20px; width:100%;">Entrar</button>
-      `;
+  <button id="btnForm"
+    style="margin-top:15px; width:90%; padding:10px; font-size:14px; margin:0 auto; display:block;">
+    Entrar
+  </button>
+`;
 
       /* -----------------------------------------
             CAMBIO DINÁMICO DE JORNADA SEGÚN SELUR
