@@ -223,7 +223,7 @@ button.secondary {
   });
 
   adminEnter.addEventListener("click", () => {
-    if (adminCode.value.trim() === "Selur2212@") {
+    if (adminCode.value.trim() === "Selur2212@") {   // ← CONTRASEÑA CORRECTA
       estado.role = "admin";
       adminPanel.style.display = "none";
       adminCode.value = "";
@@ -244,6 +244,19 @@ button.secondary {
   });
 
 
+  /* -------------------------
+        ACTUALIZAR UI SEGÚN ROL
+  ------------------------- */
+
+  function setRoleUI() {
+    roleText.textContent = estado.role;
+
+    if (estado.role === "admin") {
+      logoutBtn.style.display = "inline-block";
+    } else {
+      logoutBtn.style.display = "none";
+    }
+  }
 /* ------------------------------------------------
         FUNCIÓN PRINCIPAL: renderApp()
   -------------------------------------------------- */
@@ -710,8 +723,8 @@ button.secondary {
 
   setRoleUI();
   renderApp();
-
 })();
 </script>
+
 </body>
 </html>
