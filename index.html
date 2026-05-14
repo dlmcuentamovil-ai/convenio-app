@@ -9,8 +9,8 @@
 
   <!-- Archivos externos -->
   <script src="estructura.js"></script>
-<script src="respuestas_basico.js"></script>
-<script src="respuestas_pintadas.js"></script>
+  <script src="respuestas_basico.js"></script>
+  <script src="respuestas_pintadas.js"></script>
 </head>
 
 <body>
@@ -41,15 +41,15 @@
 <script>
 (() => {
 
-// RESPUESTAS activa (por defecto básico)
-window.RESPUESTAS = window.RESPUESTAS_BASICO;
+  /* RESPUESTAS ACTIVAS (por defecto básico) */
+  window.RESPUESTAS = window.RESPUESTAS_BASICO;
 
-  /* CARGAR RESPUESTAS DESDE LOCALSTORAGE */
-  const savedResp = localStorage.getItem("RESPUESTAS");
-  if (savedResp) {
-    try { window.RESPUESTAS = JSON.parse(savedResp); }
-    catch(e){ console.error("Error cargando RESPUESTAS", e); }
-  }
+  /* CARGAR RESPUESTAS GUARDADAS */
+  const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
+  if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
+
+  const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
+  if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
 
   /* VARIABLES GLOBALES */
   const $ = sel => document.querySelector(sel);
@@ -108,135 +108,110 @@ window.RESPUESTAS = window.RESPUESTAS_BASICO;
     const root = $("#appRoot");
     root.innerHTML = "";
 
-   /* ADMIN SIN TIPO */
-if (estado.role === "admin" && !estado.tipo) {
+    /* ADMIN SIN TIPO */
+    if (estado.role === "admin" && !estado.tipo) {
 
-  // 🔥 Cargar datos guardados si existen
-  const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
-  if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
+      // Cargar datos guardados
+      const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
+      if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
 
-  const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
-  if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
+      const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
+      if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
 
-  // 🔥 Menú de selección del admin
-  root.innerHTML = `
-    <h2 style="color:#c40000;">Editar contenido</h2>
+      root.innerHTML = `
+        <h2 style="color:#c40000;">Editar contenido</h2>
 
-    <button id="btnBasico" style="margin-top:20px;">Selur Básico</button>
-    <button id="btnPintadas" style="margin-top:20px;">Selur Pintadas</button>
-  `;
-
-  // Cuando el admin elige BÁSICO
-  $("#btnBasico").addEventListener("click", () => {
-    estado.tipo = "basico";
-
-    // 🔥 Activar el bloque correcto
-    window.RESPUESTAS = window.RESPUESTAS_BASICO;
-
-    renderCategorias();
-  });
-
-  // Cuando el admin elige PINTADAS
-  $("#btnPintadas").addEventListener("click", () => {
-    estado.tipo = "pintadas";
-
-    // 🔥 Activar el bloque correcto
-    window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
-
-    renderCategorias();
-  });
-
-  return;
-}
-
-   /* FORMULARIO USUARIO */
-if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jornada)) {
-  root.innerHTML = `
-    <h2 style="color:#c40000;">Datos del trabajador</h2>
-
-    <label>Nombre</label>
-    <input id="inpNombre" type="text">
-
-    <label>¿Eres del Selur básico o pintadas?</label>
-    <select id="inpSelur">
-      <option value="">Selecciona...</option>
-      <option value="basico">Básico</option>
-      <option value="pintadas">Pintadas</option>
-    </select>
-
-    <label>Jornada</label>
-    <select id="inpJornada">
-      <option value="">Selecciona...</option>
-    </select>
-
-    <button id="btnForm">Entrar</button>
-  `;
-
-  // Cambiar opciones de jornada según básico o pintadas
-  $("#inpSelur").addEventListener("change", () => {
-    const j = $("#inpJornada");
-    j.innerHTML = "";
-
-    if ($("#inpSelur").value === "basico") {
-      j.innerHTML = `
-        <option value="">Selecciona...</option>
-        <option value="diario">Diario</option>
+        <button id="btnBasico" style="margin-top:20px;">Selur Básico</button>
+        <button id="btnPintadas" style="margin-top:20px;">Selur Pintadas</button>
       `;
-    }
 
-    if ($("#inpSelur").value === "pintadas") {
-      j.innerHTML = `
-        <option value="">Selecciona...</option>
-        <option value="diario">Diario</option>
-        <option value="sdf">SDF</option>
-      `;
-    }
-  });
+      $("#btnBasico").addEventListener("click", () => {
+        estado.tipo = "basico";
+        window.RESPUESTAS = window.RESPUESTAS_BASICO;
+        renderCategorias();
+      });
 
-  // Botón Entrar
-  $("#btnForm").addEventListener("click", () => {
-    estado.nombre = $("#inpNombre").value.trim();
-    estado.selur = $("#inpSelur").value;
-    estado.jornada = $("#inpJornada").value;
+      $("#btnPintadas").addEventListener("click", () => {
+        estado.tipo = "pintadas";
+        window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
+        renderCategorias();
+      });
 
-    if (!estado.nombre || !estado.selur || !estado.jornada) {
-      alert("Completa todos los campos");
       return;
     }
 
-    // 🔥 Cargar datos guardados si existen
-    const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
-    if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
+    /* FORMULARIO USUARIO */
+    if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jornada)) {
+      root.innerHTML = `
+        <h2 style="color:#c40000;">Datos del trabajador</h2>
 
-    const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
-    if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
+        <label>Nombre</label>
+        <input id="inpNombre" type="text">
 
-    // 🔥 Seleccionar el bloque correcto según el usuario
-    if (estado.selur === "basico") {
-      window.RESPUESTAS = window.RESPUESTAS_BASICO;
-    }
+        <label>¿Eres del Selur básico o pintadas?</label>
+        <select id="inpSelur">
+          <option value="">Selecciona...</option>
+          <option value="basico">Básico</option>
+          <option value="pintadas">Pintadas</option>
+        </select>
 
-    if (estado.selur === "pintadas") {
-      window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
-    }
+        <label>Jornada</label>
+        <select id="inpJornada">
+          <option value="">Selecciona...</option>
+        </select>
 
-    renderApp();
-  });
+        <button id="btnForm">Entrar</button>
+      `;
 
-  return;
-}
+      $("#inpSelur").addEventListener("change", () => {
+        const j = $("#inpJornada");
+        j.innerHTML = "";
 
-  // 🔴 AQUÍ ELEGIMOS QUÉ BLOQUE DE RESPUESTAS USAR
-  if (estado.selur === "basico") {
-    window.RESPUESTAS = window.RESPUESTAS_BASICO;
-  }
+        if ($("#inpSelur").value === "basico") {
+          j.innerHTML = `
+            <option value="">Selecciona...</option>
+            <option value="diario">Diario</option>
+          `;
+        }
 
-  if (estado.selur === "pintadas") {
-    window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
-  }
+        if ($("#inpSelur").value === "pintadas") {
+          j.innerHTML = `
+            <option value="">Selecciona...</option>
+            <option value="diario">Diario</option>
+            <option value="sdf">SDF</option>
+          `;
+        }
+      });
 
-  renderApp();
-});
+      $("#btnForm").addEventListener("click", () => {
+        estado.nombre = $("#inpNombre").value.trim();
+        estado.selur = $("#inpSelur").value;
+        estado.jornada = $("#inpJornada").value;
+
+        if (!estado.nombre || !estado.selur || !estado.jornada) {
+          alert("Completa todos los campos");
+          return;
+        }
+
+        // Cargar datos guardados
+        const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
+        if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
+
+        const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
+        if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
+
+        // Seleccionar bloque correcto
+        if (estado.selur === "basico") {
+          window.RESPUESTAS = window.RESPUESTAS_BASICO;
+        }
+
+        if (estado.selur === "pintadas") {
+          window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
+        }
+
+        renderApp();
+      });
+
       return;
     }
 
@@ -365,7 +340,7 @@ if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jorna
     root.appendChild(grid);
   }
 
-  /* CONTENIDO — SOLO UN EDITOR */
+  /* CONTENIDO */
   function renderContenido() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -387,39 +362,38 @@ if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jorna
     const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
 
     /* ADMIN */
-if (estado.role === "admin") {
-  const cont = document.createElement("div");
-  cont.style.marginTop = "10px";
+    if (estado.role === "admin") {
+      const cont = document.createElement("div");
+      cont.style.marginTop = "10px";
 
-  cont.innerHTML = `
-    <label>Texto</label>
-    <textarea id="txtGeneral" rows="12">${nodo.texto || ""}</textarea>
+      cont.innerHTML = `
+        <label>Texto</label>
+        <textarea id="txtGeneral" rows="12">${nodo.texto || ""}</textarea>
 
-    <button id="btnSave" style="margin-top:20px;">Guardar</button>
-  `;
+        <button id="btnSave" style="margin-top:20px;">Guardar</button>
+      `;
 
-  root.appendChild(cont);
+      root.appendChild(cont);
 
-  const btnSave = cont.querySelector("#btnSave");
-  const txtGeneral = cont.querySelector("#txtGeneral");
+      const btnSave = cont.querySelector("#btnSave");
+      const txtGeneral = cont.querySelector("#txtGeneral");
 
-  btnSave.addEventListener("click", () => {
-    nodo.texto = txtGeneral.value;
+      btnSave.addEventListener("click", () => {
+        nodo.texto = txtGeneral.value;
 
-    // 🔥 GUARDADO CORRECTO SEGÚN LO QUE ESTÉ EDITANDO EL ADMIN
-    if (estado.tipo === "basico") {
-      localStorage.setItem("RESPUESTAS_BASICO", JSON.stringify(window.RESPUESTAS_BASICO));
+        if (estado.tipo === "basico") {
+          localStorage.setItem("RESPUESTAS_BASICO", JSON.stringify(window.RESPUESTAS_BASICO));
+        }
+
+        if (estado.tipo === "pintadas") {
+          localStorage.setItem("RESPUESTAS_PINTADAS", JSON.stringify(window.RESPUESTAS_PINTADAS));
+        }
+
+        alert("Guardado");
+      });
+
+      return;
     }
-
-    if (estado.tipo === "pintadas") {
-      localStorage.setItem("RESPUESTAS_PINTADAS", JSON.stringify(window.RESPUESTAS_PINTADAS));
-    }
-
-    alert("Guardado");
-  });
-
-  return;
-}
 
     /* USUARIO */
     const texto = nodo.texto || "<i>No hay contenido disponible</i>";
@@ -500,18 +474,17 @@ if (estado.role === "admin") {
     btnSave.textContent = "Guardar TODO";
     btnSave.style.marginTop = "20px";
     btnSave.addEventListener("click", () => {
-    nodo.texto = txtGeneral.value;
 
-    if (estado.tipo === "basico") {
+      if (estado.tipo === "basico") {
         localStorage.setItem("RESPUESTAS_BASICO", JSON.stringify(window.RESPUESTAS_BASICO));
-    }
+      }
 
-    if (estado.tipo === "pintadas") {
+      if (estado.tipo === "pintadas") {
         localStorage.setItem("RESPUESTAS_PINTADAS", JSON.stringify(window.RESPUESTAS_PINTADAS));
-    }
+      }
 
-    alert("Guardado");
-});
+      alert("Guardado");
+    });
 
     root.appendChild(btnSave);
   }
