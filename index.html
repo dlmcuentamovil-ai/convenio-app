@@ -9,7 +9,8 @@
 
   <!-- Archivos externos -->
   <script src="estructura.js"></script>
-  <script src="respuestas.js"></script>
+<script src="respuestas_basico.js"></script>
+<script src="respuestas_pintadas.js"></script>
 </head>
 
 <body>
@@ -39,6 +40,9 @@
 
 <script>
 (() => {
+
+ // Esta será la que use siempre la app (apunta a básico o pintadas)
+  window.RESPUESTAS = window.RESPUESTAS_BASICO;
 
   /* CARGAR RESPUESTAS DESDE LOCALSTORAGE */
   const savedResp = localStorage.getItem("RESPUESTAS");
@@ -167,18 +171,26 @@
       });
 
       $("#btnForm").addEventListener("click", () => {
-        estado.nombre = $("#inpNombre").value.trim();
-        estado.selur = $("#inpSelur").value;
-        estado.jornada = $("#inpJornada").value;
+  estado.nombre = $("#inpNombre").value.trim();
+  estado.selur = $("#inpSelur").value;
+  estado.jornada = $("#inpJornada").value;
 
-        if (!estado.nombre || !estado.selur || !estado.jornada) {
-          alert("Completa todos los campos");
-          return;
-        }
+  if (!estado.nombre || !estado.selur || !estado.jornada) {
+    alert("Completa todos los campos");
+    return;
+  }
 
-        renderApp();
-      });
+  // 🔴 AQUÍ ELEGIMOS QUÉ BLOQUE DE RESPUESTAS USAR
+  if (estado.selur === "basico") {
+    window.RESPUESTAS = window.RESPUESTAS_BASICO;
+  }
 
+  if (estado.selur === "pintadas") {
+    window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
+  }
+
+  renderApp();
+});
       return;
     }
 
