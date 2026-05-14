@@ -332,37 +332,64 @@ function renderCategorias() {
 
     const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
 
-    /* ADMIN */
-    if (estado.role === "admin") {
-      const cont = document.createElement("div");
-      cont.style.marginTop = "10px";
+   /* ADMIN */
+if (estado.role === "admin") {
+  const cont = document.createElement("div");
+  cont.style.marginTop = "10px";
 
-      cont.innerHTML = `
-        <label>Texto Diario</label>
-        <textarea id="txtDiario" rows="6">${nodo.diario}</textarea>
+  let html = "";
 
-        <label>Texto SDF</label>
-        <textarea id="txtSdf" rows="6">${nodo.sdf}</textarea>
+  // Si tiene texto diario
+  if ("diario" in nodo) {
+    html += `
+      <label>Texto Diario</label>
+      <textarea id="txtDiario" rows="8">${nodo.diario || ""}</textarea>
+    `;
+  }
 
-        <button id="btnSave" style="margin-top:20px;">Guardar</button>
-      `;
+  // Si tiene texto sdf
+  if ("sdf" in nodo) {
+    html += `
+      <label>Texto SDF</label>
+      <textarea id="txtSdf" rows="8">${nodo.sdf || ""}</textarea>
+    `;
+  }
 
-      root.appendChild(cont);
+  // Si no tiene ninguno → texto único
+  if (!("diario" in nodo) && !("sdf" in nodo)) {
+    html += `
+      <label>Texto</label>
+      <textarea id="txtGeneral" rows="10">${nodo.texto || ""}</textarea>
+    `;
+  }
 
-      const btnSave = cont.querySelector("#btnSave");
-      const txtDiario = cont.querySelector("#txtDiario");
-      const txtSdf = cont.querySelector("#txtSdf");
+  html += `<button id="btnSave" style="margin-top:20px;">Guardar</button>`;
 
-      btnSave.addEventListener("click", () => {
-        nodo.diario = txtDiario.value;
-        nodo.sdf = txtSdf.value;
+  cont.innerHTML = html;
+  root.appendChild(cont);
 
-        localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-        alert("Guardado");
-      });
+  const btnSave = cont.querySelector("#btnSave");
 
-      return;
+  btnSave.addEventListener("click", () => {
+
+    if ("diario" in nodo) {
+      nodo.diario = cont.querySelector("#txtDiario").value;
     }
+
+    if ("sdf" in nodo) {
+      nodo.sdf = cont.querySelector("#txtSdf").value;
+    }
+
+    if (!("diario" in nodo) && !("sdf" in nodo)) {
+      nodo.texto = cont.querySelector("#txtGeneral").value;
+    }
+
+    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+    alert("Guardado");
+  });
+
+  return;
+}
 
     /* USUARIO */
     const tipo = normalizarJornada(estado.jornada);
