@@ -4,144 +4,144 @@ window.RESPUESTAS = {
 
   jornada: {
     imagenes: [],
-    tt: { diario: "", sdf: "" },
-    sdf: { diario: "", sdf: "" },
-    nocturno: { diario: "", sdf: "" },
-    requisitos: { diario: "", sdf: "" },
-    anual: { diario: "", sdf: "" },
-    irregular: { diario: "", sdf: "" },
-    cambios: { diario: "", sdf: "" },
-    efectivas: { diario: "", sdf: "" },
-    bocadillo: { diario: "", sdf: "" },
-    complementarias: { diario: "", sdf: "" }
+    tt: { texto: "" },
+    sdf: { texto: "" },
+    nocturno: { texto: "" },
+    requisitos: { texto: "" },
+    anual: { texto: "" },
+    irregular: { texto: "" },
+    cambios: { texto: "" },
+    efectivas: { texto: "" },
+    bocadillo: { texto: "" },
+    complementarias: { texto: "" }
   },
 
   vacaciones: {
     imagenes: [],
-    tt: { diario: "", sdf: "" },
-    sdf: { diario: "", sdf: "" },
-    computo: { diario: "", sdf: "" },
-    devengo: { diario: "", sdf: "" },
-    disfrute: { diario: "", sdf: "" },
-    calendario: { diario: "", sdf: "" },
-    antiguedad: { diario: "", sdf: "" }
+    tt: { texto: "" },
+    sdf: { texto: "" },
+    computo: { texto: "" },
+    devengo: { texto: "" },
+    disfrute: { texto: "" },
+    calendario: { texto: "" },
+    antiguedad: { texto: "" }
   },
 
   permisos: {
     imagenes: [],
-    retribuidos: { diario: "", sdf: "" },
-    noretribuidos: { diario: "", sdf: "" },
-    hospitalizacion: { diario: "", sdf: "" },
-    fallecimiento: { diario: "", sdf: "" },
-    nacimiento: { diario: "", sdf: "" },
-    acompanamiento: { diario: "", sdf: "" },
-    deber: { diario: "", sdf: "" }
+    retribuidos: { texto: "" },
+    noretribuidos: { texto: "" },
+    hospitalizacion: { texto: "" },
+    fallecimiento: { texto: "" },
+    nacimiento: { texto: "" },
+    acompanamiento: { texto: "" },
+    deber: { texto: "" }
   },
 
   pluses: {
     imagenes: [],
-    nocturnidad: { diario: "", sdf: "" },
-    festividad: { diario: "", sdf: "" },
-    peligrosidad: { diario: "", sdf: "" },
-    turnicidad: { diario: "", sdf: "" },
-    transporte: { diario: "", sdf: "" },
-    asistencia: { diario: "", sdf: "" }
+    nocturnidad: { texto: "" },
+    festividad: { texto: "" },
+    peligrosidad: { texto: "" },
+    turnicidad: { texto: "" },
+    transporte: { texto: "" },
+    asistencia: { texto: "" }
   },
 
   descansos: {
     imagenes: [],
-    semanal: { diario: "", sdf: "" },
-    diario: { diario: "", sdf: "" },
-    festivos: { diario: "", sdf: "" },
-    recuperaciones: { diario: "", sdf: "" }
+    semanal: { texto: "" },
+    diario: { texto: "" },
+    festivos: { texto: "" },
+    recuperaciones: { texto: "" }
   },
 
   antiguedad: {
     imagenes: [],
-    trienios: { diario: "", sdf: "" },
-    quinquenios: { diario: "", sdf: "" }
+    trienios: { texto: "" },
+    quinquenios: { texto: "" }
   },
 
   pagas: {
     imagenes: [],
-    verano: { diario: "", sdf: "" },
-    navidad: { diario: "", sdf: "" },
-    prorrateo: { diario: "", sdf: "" }
+    verano: { texto: "" },
+    navidad: { texto: "" },
+    prorrateo: { texto: "" }
   },
 
   economia: {
     imagenes: [],
-    salario: { diario: "", sdf: "" },
-    complementos: { diario: "", sdf: "" },
-    dietas: { diario: "", sdf: "" },
-    kilometraje: { diario: "", sdf: "" }
+    salario: { texto: "" },
+    complementos: { texto: "" },
+    dietas: { texto: "" },
+    kilometraje: { texto: "" }
   },
 
   excedencias: {
     imagenes: [],
-    voluntaria: { diario: "", sdf: "" },
-    forzosa: { diario: "", sdf: "" },
-    cuidado: { diario: "", sdf: "" }
+    voluntaria: { texto: "" },
+    forzosa: { texto: "" },
+    cuidado: { texto: "" }
   },
 
   conductores: {
     imagenes: [],
-    carnet: { diario: "", sdf: "" },
-    funciones: { diario: "", sdf: "" },
-    plus: { diario: "", sdf: "" }
+    carnet: { texto: "" },
+    funciones: { texto: "" },
+    plus: { texto: "" }
   },
 
   ascensos: {
     imagenes: [],
-    criterios: { diario: "", sdf: "" },
-    pruebas: { diario: "", sdf: "" }
+    criterios: { texto: "" },
+    pruebas: { texto: "" }
   },
 
   contratacion: {
     imagenes: [],
-    indefinido: { diario: "", sdf: "" },
-    temporal: { diario: "", sdf: "" },
-    formacion: { diario: "", sdf: "" }
+    indefinido: { texto: "" },
+    temporal: { texto: "" },
+    formacion: { texto: "" }
   },
 
   vacantes: {
     imagenes: [],
-    asignacion: { diario: "", sdf: "" },
-    movilidad: { diario: "", sdf: "" }
+    asignacion: { texto: "" },
+    movilidad: { texto: "" }
   },
 
   prendas: {
     imagenes: [],
-    entrega: { diario: "", sdf: "" },
-    reposicion: { diario: "", sdf: "" },
-    temporada: { diario: "", sdf: "" }
+    entrega: { texto: "" },
+    reposicion: { texto: "" },
+    temporada: { texto: "" }
   },
 
   mejoras: {
     imagenes: [],
-    seguro: { diario: "", sdf: "" },
-    ayudas: { diario: "", sdf: "" },
-    formacion: { diario: "", sdf: "" }
+    seguro: { texto: "" },
+    ayudas: { texto: "" },
+    formacion: { texto: "" }
   },
 
   jubilacion: {
     imagenes: [],
-    parcial: { diario: "", sdf: "" },
-    anticipada: { diario: "", sdf: "" }
+    parcial: { texto: "" },
+    anticipada: { texto: "" }
   },
 
   seguridad: {
     imagenes: [],
-    epis: { diario: "", sdf: "" },
-    riesgos: { diario: "", sdf: "" },
-    reconocimientos: { diario: "", sdf: "" }
+    epis: { texto: "" },
+    riesgos: { texto: "" },
+    reconocimientos: { texto: "" }
   },
 
   adicionales: {
     imagenes: [],
-    primera: { diario: "", sdf: "" },
-    segunda: { diario: "", sdf: "" },
-    tercera: { diario: "", sdf: "" }
+    primera: { texto: "" },
+    segunda: { texto: "" },
+    tercera: { texto: "" }
   }
 
 };
