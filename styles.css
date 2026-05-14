@@ -71,7 +71,7 @@ header button:hover {
 
 /* 🔥 CAMPO DE CONTRASEÑA MÁS ESTRECHO */
 #adminCode {
-  width: 100px;      /* ← AJUSTA AQUÍ EL TAMAÑO */
+  width: 120px;      /* ← AJUSTA AQUÍ EL TAMAÑO */
   padding: 6px;
   margin-top: 10px;
   border: 1px solid #ccc;
