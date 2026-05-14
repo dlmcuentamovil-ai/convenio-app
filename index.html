@@ -22,7 +22,7 @@
       <button id="logoutBtn" style="display:none;">Salir</button>
   </header>
 
-  <!-- MODAL ADMIN (FUERA DE appRoot PARA NO BORRARSE) -->
+  <!-- MODAL ADMIN -->
   <div id="adminPanel" class="modal">
     <div class="modal-content">
       <h3>Acceso administrador</h3>
@@ -193,48 +193,50 @@
     if (estado.categoria && !estado.sub) return renderSubcategorias();
     if (estado.categoria && estado.sub) return renderContenido();
   }
-/* CATEGORÍAS */
-function renderCategorias() {
-  const root = $("#appRoot");
-  root.innerHTML = "";
 
-  const titulo = document.createElement("h2");
-  titulo.textContent = "Categorías del Convenio";
-  titulo.style.color = "#c40000";
-  root.appendChild(titulo);
+  /* CATEGORÍAS */
+  function renderCategorias() {
+    const root = $("#appRoot");
+    root.innerHTML = "";
 
-  const grid = document.createElement("div");
-  grid.style.display = "grid";
-  grid.style.gridTemplateColumns = "repeat(2, 1fr)";
-  grid.style.gap = "12px";
-  grid.style.marginTop = "20px";
+    const titulo = document.createElement("h2");
+    titulo.textContent = "Categorías del Convenio";
+    titulo.style.color = "#c40000";
+    root.appendChild(titulo);
 
-  Object.keys(window.ESTRUCTURA).forEach(cat => {
-    const c = window.ESTRUCTURA[cat];
+    const grid = document.createElement("div");
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(2, 1fr)";
+    grid.style.gap = "12px";
+    grid.style.marginTop = "20px";
 
-    const card = document.createElement("div");
-    card.style.padding = "20px";
-    card.style.background = "#fff";
-    card.style.borderRadius = "10px";
-    card.style.cursor = "pointer";
-    card.style.textAlign = "center";
-    card.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
+    Object.keys(window.ESTRUCTURA).forEach(cat => {
+      const c = window.ESTRUCTURA[cat];
 
-    card.innerHTML = `
-      <div style="font-size:30px;">${c.icono}</div>
-      <div style="margin-top:10px;">${c.titulo}</div>
-    `;
+      const card = document.createElement("div");
+      card.style.padding = "20px";
+      card.style.background = "#fff";
+      card.style.borderRadius = "10px";
+      card.style.cursor = "pointer";
+      card.style.textAlign = "center";
+      card.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
 
-    card.addEventListener("click", () => {
-      estado.categoria = cat;
-      renderSubcategorias();
+      card.innerHTML = `
+        <div style="font-size:30px;">${c.icono}</div>
+        <div style="margin-top:10px;">${c.titulo}</div>
+      `;
+
+      card.addEventListener("click", () => {
+        estado.categoria = cat;
+        renderSubcategorias();
+      });
+
+      grid.appendChild(card);
     });
 
-    grid.appendChild(card);
-  });
+    root.appendChild(grid);
+  }
 
-  root.appendChild(grid);
-}
   /* SUBCATEGORÍAS */
   function renderSubcategorias() {
     const root = $("#appRoot");
@@ -311,7 +313,7 @@ function renderCategorias() {
     root.appendChild(grid);
   }
 
-  /* CONTENIDO */
+  /* CONTENIDO — EDITOR INTELIGENTE */
   function renderContenido() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -332,75 +334,81 @@ function renderCategorias() {
 
     const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
 
-   /* ADMIN */
-if (estado.role === "admin") {
-  const cont = document.createElement("div");
-  cont.style.marginTop = "10px";
+    /* ADMIN */
+    if (estado.role === "admin") {
+      const cont = document.createElement("div");
+      cont.style.marginTop = "10px";
 
-  let html = "";
+      let html = "";
 
-  // Si tiene texto diario
-  if ("diario" in nodo) {
-    html += `
-      <label>Texto Diario</label>
-      <textarea id="txtDiario" rows="8">${nodo.diario || ""}</textarea>
-    `;
-  }
+      if ("diario" in nodo) {
+        html += `
+          <label>Texto Diario</label>
+          <textarea id="txtDiario" rows="8">${nodo.diario || ""}</textarea>
+        `;
+      }
 
-  // Si tiene texto sdf
-  if ("sdf" in nodo) {
-    html += `
-      <label>Texto SDF</label>
-      <textarea id="txtSdf" rows="8">${nodo.sdf || ""}</textarea>
-    `;
-  }
+      if ("sdf" in nodo) {
+        html += `
+          <label>Texto SDF</label>
+          <textarea id="txtSdf" rows="8">${nodo.sdf || ""}</textarea>
+        `;
+      }
 
-  // Si no tiene ninguno → texto único
-  if (!("diario" in nodo) && !("sdf" in nodo)) {
-    html += `
-      <label>Texto</label>
-      <textarea id="txtGeneral" rows="10">${nodo.texto || ""}</textarea>
-    `;
-  }
+      if (!("diario" in nodo) && !("sdf" in nodo)) {
+        html += `
+          <label>Texto</label>
+          <textarea id="txtGeneral" rows="10">${nodo.texto || ""}</textarea>
+        `;
+      }
 
-  html += `<button id="btnSave" style="margin-top:20px;">Guardar</button>`;
+      html += `<button id="btnSave" style="margin-top:20px;">Guardar</button>`;
 
-  cont.innerHTML = html;
-  root.appendChild(cont);
+      cont.innerHTML = html;
+      root.appendChild(cont);
 
-  const btnSave = cont.querySelector("#btnSave");
+      const btnSave = cont.querySelector("#btnSave");
 
-  btnSave.addEventListener("click", () => {
+      btnSave.addEventListener("click", () => {
 
-    if ("diario" in nodo) {
-      nodo.diario = cont.querySelector("#txtDiario").value;
+        if ("diario" in nodo) {
+          nodo.diario = cont.querySelector("#txtDiario").value;
+        }
+
+        if ("sdf" in nodo) {
+          nodo.sdf = cont.querySelector("#txtSdf").value;
+        }
+
+        if (!("diario" in nodo) && !("sdf" in nodo)) {
+          nodo.texto = cont.querySelector("#txtGeneral").value;
+        }
+
+        localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
+        alert("Guardado");
+      });
+
+      return;
     }
-
-    if ("sdf" in nodo) {
-      nodo.sdf = cont.querySelector("#txtSdf").value;
-    }
-
-    if (!("diario" in nodo) && !("sdf" in nodo)) {
-      nodo.texto = cont.querySelector("#txtGeneral").value;
-    }
-
-    localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
-    alert("Guardado");
-  });
-
-  return;
-}
 
     /* USUARIO */
-    const tipo = normalizarJornada(estado.jornada);
-    const texto = tipo === "diario" ? nodo.diario : nodo.sdf;
+    let texto = "";
+
+    if ("diario" in nodo && estado.jornada === "diario") {
+      texto = nodo.diario;
+    } else if ("sdf" in nodo && estado.jornada === "sdf") {
+      texto = nodo.sdf;
+    } else if ("texto" in nodo) {
+      texto = nodo.texto;
+    } else {
+      texto = "<i>No hay contenido disponible</i>";
+    }
 
     const box = document.createElement("div");
     box.style.background = "#fff";
     box.style.padding = "20px";
     box.style.borderRadius = "10px";
     box.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
-    box.innerHTML = texto || "<i>No hay contenido disponible</i>";
+    box.innerHTML = texto;
 
     root.appendChild(box);
   }
@@ -478,69 +486,6 @@ if (estado.role === "admin") {
     root.appendChild(btnSave);
   }
 
-  /* BUSCADOR */
-  function renderResultadosBusqueda(q) {
-    const root = $("#appRoot");
-    root.innerHTML = "";
-
-    const titulo = document.createElement("h2");
-    titulo.textContent = "Resultados de búsqueda";
-    titulo.style.color = "#c40000";
-    root.appendChild(titulo);
-
-    const btnBack = document.createElement("button");
-    btnBack.textContent = "← Volver";
-    btnBack.style.marginBottom = "15px";
-    btnBack.addEventListener("click", () => {
-      estado.categoria = "";
-      estado.sub = "";
-      renderApp();
-    });
-    root.appendChild(btnBack);
-
-    const lista = document.createElement("div");
-    lista.style.display = "flex";
-    lista.style.flexDirection = "column";
-    lista.style.gap = "10px";
-
-    Object.keys(window.RESPUESTAS).forEach(cat => {
-      Object.keys(window.RESPUESTAS[cat]).forEach(sub => {
-        if (sub === "imagenes") return;
-
-        const nodo = window.RESPUESTAS[cat][sub];
-        const texto = (nodo.diario + " " + nodo.sdf).toLowerCase();
-
-        if (texto.includes(q)) {
-          const item = document.createElement("div");
-          item.style.padding = "10px";
-          item.style.border = "1px solid #ddd";
-          item.style.borderRadius = "8px";
-          item.style.cursor = "pointer";
-          item.style.background = "#fff";
-
-          item.textContent =
-            window.ESTRUCTURA[cat].titulo +
-            " → " +
-            window.ESTRUCTURA[cat].sub[sub].titulo;
-
-          item.addEventListener("click", () => {
-            estado.categoria = cat;
-            estado.sub = sub;
-            renderContenido();
-          });
-
-          lista.appendChild(item);
-        }
-      });
-    });
-
-    if (lista.children.length === 0) {
-      lista.innerHTML = "<p>No se encontraron resultados.</p>";
-    }
-
-    root.appendChild(lista);
-  }
-
   /* INICIALIZACIÓN */
   setRoleUI();
   renderApp();
@@ -549,3 +494,4 @@ if (estado.role === "admin") {
 </script>
 
 </body>
+</html>

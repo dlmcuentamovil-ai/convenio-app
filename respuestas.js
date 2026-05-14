@@ -18,7 +18,7 @@ window.RESPUESTAS = {
 
   vacaciones: {
     imagenes: [],
-    tt: { diario: "", sdf: "" }, // ← Vacaciones Jornada completa
+    tt: { diario: "", sdf: "" },
     sdf: { diario: "", sdf: "" },
     computo: { diario: "", sdf: "" },
     devengo: { diario: "", sdf: "" },
