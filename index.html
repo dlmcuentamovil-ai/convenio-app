@@ -60,12 +60,6 @@
     sub: ""
   };
 
-  /* NORMALIZAR JORNADA */
-  function normalizarJornada(j) {
-    if (j === "sdf") return "sdf";
-    return "diario";
-  }
-
   /* ADMIN */
   const shieldBtn = $("#shieldBtn");
   const adminPanel = $("#adminPanel");
@@ -313,7 +307,7 @@
     root.appendChild(grid);
   }
 
-  /* CONTENIDO — EDITOR INTELIGENTE */
+  /* CONTENIDO — SOLO UN EDITOR */
   function renderContenido() {
     const root = $("#appRoot");
     root.innerHTML = "";
@@ -339,50 +333,20 @@
       const cont = document.createElement("div");
       cont.style.marginTop = "10px";
 
-      let html = "";
+      cont.innerHTML = `
+        <label>Texto</label>
+        <textarea id="txtGeneral" rows="12">${nodo.texto || ""}</textarea>
 
-      if ("diario" in nodo) {
-        html += `
-          <label>Texto Diario</label>
-          <textarea id="txtDiario" rows="8">${nodo.diario || ""}</textarea>
-        `;
-      }
+        <button id="btnSave" style="margin-top:20px;">Guardar</button>
+      `;
 
-      if ("sdf" in nodo) {
-        html += `
-          <label>Texto SDF</label>
-          <textarea id="txtSdf" rows="8">${nodo.sdf || ""}</textarea>
-        `;
-      }
-
-      if (!("diario" in nodo) && !("sdf" in nodo)) {
-        html += `
-          <label>Texto</label>
-          <textarea id="txtGeneral" rows="10">${nodo.texto || ""}</textarea>
-        `;
-      }
-
-      html += `<button id="btnSave" style="margin-top:20px;">Guardar</button>`;
-
-      cont.innerHTML = html;
       root.appendChild(cont);
 
       const btnSave = cont.querySelector("#btnSave");
+      const txtGeneral = cont.querySelector("#txtGeneral");
 
       btnSave.addEventListener("click", () => {
-
-        if ("diario" in nodo) {
-          nodo.diario = cont.querySelector("#txtDiario").value;
-        }
-
-        if ("sdf" in nodo) {
-          nodo.sdf = cont.querySelector("#txtSdf").value;
-        }
-
-        if (!("diario" in nodo) && !("sdf" in nodo)) {
-          nodo.texto = cont.querySelector("#txtGeneral").value;
-        }
-
+        nodo.texto = txtGeneral.value;
         localStorage.setItem("RESPUESTAS", JSON.stringify(window.RESPUESTAS));
         alert("Guardado");
       });
@@ -391,17 +355,7 @@
     }
 
     /* USUARIO */
-    let texto = "";
-
-    if ("diario" in nodo && estado.jornada === "diario") {
-      texto = nodo.diario;
-    } else if ("sdf" in nodo && estado.jornada === "sdf") {
-      texto = nodo.sdf;
-    } else if ("texto" in nodo) {
-      texto = nodo.texto;
-    } else {
-      texto = "<i>No hay contenido disponible</i>";
-    }
+    const texto = nodo.texto || "<i>No hay contenido disponible</i>";
 
     const box = document.createElement("div");
     box.style.background = "#fff";
