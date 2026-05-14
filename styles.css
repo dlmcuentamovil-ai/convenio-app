@@ -1,53 +1,70 @@
 /* ============================
-   ESTILO GLOBAL MODERNO
+   GLOBAL PREMIUM
 ============================ */
 body {
   margin: 0;
   padding: 0;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  background: #fafafa;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f3f3 100%);
   color: #222;
 
-  /* 🔥 ESTO ES LO QUE FALTABA */
   display: flex;
-  flex-direction: column;   /* Todo en una sola columna */
-  align-items: center;      /* Centrado horizontal */
-  min-height: 100vh;        /* Centrado vertical */
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Contenedor principal */
 #appRoot {
   width: 100%;
-  max-width: 420px; /* centrado y compacto */
-  padding: 20px;
+  max-width: 440px;
+  padding: 24px;
   box-sizing: border-box;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================
-   HEADER MODERNO
+   HEADER PREMIUM
 ============================ */
 header {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 14px 0;
 
   display: flex;
-  flex-direction: row;   /* 🔥 Asegura fila */
   align-items: center;
-  justify-content: flex-start; /* Logo + texto + botones alineados */
-  gap: 12px;
+  justify-content: flex-start;
+  gap: 14px;
+
+  position: sticky;
+  top: 0;
+  background: #ffffffcc;
+  backdrop-filter: blur(12px);
+  z-index: 10;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 header img {
-  width: 48px;
+  width: 52px;
   height: auto;
-  border-radius: 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
 }
 
 #roleText {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 18px;
   flex-grow: 1;
+  color: #c40000;
 }
 
 header button {
@@ -55,70 +72,84 @@ header button {
   color: white;
   border: none;
   padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
+  transition: 0.2s;
+  box-shadow: 0 3px 8px rgba(196,0,0,.25);
 }
 
 header button:hover {
   background: #a00000;
+  transform: translateY(-1px);
 }
 
 /* ============================
-   FORMULARIOS
+   FORMULARIOS PREMIUM
 ============================ */
 label {
   display: block;
-  margin-top: 10px;
+  margin-top: 14px;
   font-weight: 600;
+  font-size: 15px;
 }
 
 input, select, textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 12px;
+  border: 1px solid #d0d0d0;
   font-size: 15px;
-  box-sizing: border-box;
   background: #fff;
+  transition: 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #c40000;
+  box-shadow: 0 0 0 3px rgba(196,0,0,.15);
+  outline: none;
 }
 
 button {
   background: #c40000;
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 17px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 24px;
   transition: 0.2s;
+  box-shadow: 0 4px 12px rgba(196,0,0,.25);
 }
 
 button:hover {
   background: #a00000;
+  transform: translateY(-2px);
 }
 
 /* ============================
-   TARJETAS / CONTENIDO
+   TARJETAS PREMIUM
 ============================ */
 #appRoot > div {
   background: #fff;
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,.08);
-  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  margin-bottom: 22px;
+  animation: fadeIn 0.3s ease;
 }
 
 /* ============================
-   GRID DE IMÁGENES
+   GRID DE IMÁGENES PREMIUM
 ============================ */
 .images-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 20px;
 }
 
@@ -128,24 +159,30 @@ button:hover {
 
 .img-wrap img {
   width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.15);
 }
 
 .img-remove {
   position: absolute;
   top: 6px;
   right: 6px;
-  background: #0008;
+  background: #c40000cc;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 2px 6px;
+  border-radius: 8px;
+  padding: 4px 8px;
   cursor: pointer;
+  font-size: 12px;
+  transition: 0.2s;
+}
+
+.img-remove:hover {
+  background: #900000;
 }
 
 /* ============================
-   MODAL ADMIN
+   MODAL PREMIUM
 ============================ */
 .modal {
   display: none;
@@ -154,22 +191,24 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.45);
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
   background: white;
-  padding: 20px;
-  border-radius: 14px;
-  width: 320px;
-  box-shadow: 0 6px 20px rgba(0,0,0,.2);
+  padding: 24px;
+  border-radius: 18px;
+  width: 340px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  animation: fadeIn 0.25s ease;
 }
 
 .modal-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-top: 20px;
 }
 
