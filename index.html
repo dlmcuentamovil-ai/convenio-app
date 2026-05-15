@@ -231,53 +231,6 @@
   titulo.style.color = "#c40000";
   root.appendChild(titulo);
 
-  // BOTÓN VOLVER AL FORMULARIO
-  const btnBackForm = document.createElement("button");
-  btnBackForm.textContent = "← Volver";
-  btnBackForm.style.marginBottom = "15px";
-  btnBackForm.addEventListener("click", () => {
-    estado.nombre = "";
-    estado.selur = "";
-    estado.jornada = "";
-    estado.categoria = "";
-    estado.sub = "";
-    renderApp();
-  });
-  root.appendChild(btnBackForm);
-
-  const grid = document.createElement("div");
-  grid.style.display = "grid";
-  grid.style.gridTemplateColumns = "repeat(2, 1fr)";
-  grid.style.gap = "12px";
-  grid.style.marginTop = "20px";
-
-  Object.keys(window.ESTRUCTURA).forEach(cat => {
-    const c = window.ESTRUCTURA[cat];
-
-    const card = document.createElement("div");
-    card.style.padding = "20px";
-    card.style.background = "#fff";
-    card.style.borderRadius = "10px";
-    card.style.cursor = "pointer";
-    card.style.textAlign = "center";
-    card.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
-
-    card.innerHTML = `
-      <div style="font-size:30px;">${c.icono}</div>
-      <div style="margin-top:10px;">${c.titulo}</div>
-    `;
-
-    card.addEventListener("click", () => {
-      estado.categoria = cat;
-      renderSubcategorias();
-    });
-
-    grid.appendChild(card);
-  });
-
-  root.appendChild(grid);
-}
-
     const grid = document.createElement("div");
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(2, 1fr)";
