@@ -403,7 +403,8 @@
     box.style.padding = "20px";
     box.style.borderRadius = "10px";
     box.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
-    box.innerHTML = texto;
+    box.className = "texto-render";
+    box.textContent = texto;
 
     root.appendChild(box);
   }
