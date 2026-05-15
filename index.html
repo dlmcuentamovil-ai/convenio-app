@@ -319,14 +319,6 @@
       root.appendChild(grid);
     }
 
-    if (estado.role === "admin") {
-      const btnImgs = document.createElement("button");
-      btnImgs.textContent = "🖼️ Imágenes de la categoría";
-      btnImgs.style.marginBottom = "15px";
-      btnImgs.addEventListener("click", () => renderImagenesCategoria());
-      root.appendChild(btnImgs);
-    }
-
     const grid = document.createElement("div");
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(2, 1fr)";
@@ -356,59 +348,154 @@
   }
 
   /* CONTENIDO */
-  function renderContenido() {
-    const root = $("#appRoot");
-    root.innerHTML = "";
+/* ===========================
+      CONTENIDO
+=========================== */
+function renderContenido() {   // ← INICIO REAL DE LA FUNCIÓN
 
-    const titulo = document.createElement("h2");
-    titulo.textContent = window.ESTRUCTURA[estado.categoria].sub[estado.sub].titulo;
-    titulo.style.color = "#c40000";
-    root.appendChild(titulo);
+  const root = $("#appRoot");
+  root.innerHTML = "";
 
-    const btnBack = document.createElement("button");
-    btnBack.textContent = "← Volver";
-    btnBack.style.marginBottom = "15px";
-    btnBack.addEventListener("click", () => {
-      estado.sub = "";
-      renderSubcategorias();
+  const titulo = document.createElement("h2");
+  titulo.textContent = window.ESTRUCTURA[estado.categoria].sub[estado.sub].titulo;
+  titulo.style.color = "#c40000";
+  root.appendChild(titulo);
+
+  const btnBack = document.createElement("button");
+  btnBack.textContent = "← Volver";
+  btnBack.style.marginBottom = "15px";
+  btnBack.addEventListener("click", () => {
+    estado.sub = "";
+    renderSubcategorias();
+  });
+  root.appendChild(btnBack);
+
+  const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
+
+  // Asegurar array de imágenes por subcategoría
+  if (!nodo.imagenes) nodo.imagenes = [];
+
+  /* ===========================
+        ADMIN (EDITA)
+  ============================ */
+  if (estado.role === "admin") {
+
+    // --- SUBIR IMÁGENES ---
+    const imgTitle = document.createElement("h3");
+    imgTitle.textContent = "Imágenes de esta subcategoría";
+    imgTitle.style.marginTop = "10px";
+    root.appendChild(imgTitle);
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.multiple = true;
+    input.style.marginBottom = "15px";
+    root.appendChild(input);
+
+    input.addEventListener("change", e => {
+      [...e.target.files].forEach(file => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          nodo.imagenes.push(ev.target.result);
+          renderContenido(); // refrescar
+        };
+        reader.readAsDataURL(file);
+      });
     });
-    root.appendChild(btnBack);
 
-    const nodo = window.RESPUESTAS[estado.categoria][estado.sub];
+    // --- GRID DE IMÁGENES ---
+    const grid = document.createElement("div");
+    grid.className = "images-grid";
 
-    /* ADMIN */
-    if (estado.role === "admin") {
-      const cont = document.createElement("div");
-      cont.style.marginTop = "10px";
+    nodo.imagenes.forEach((img, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "img-wrap";
 
-      cont.innerHTML = `
-        <label>Texto</label>
-        <textarea id="txtGeneral" rows="12">${nodo.texto || ""}</textarea>
+      const image = document.createElement("img");
+      image.src = img;
 
-        <button id="btnSave" style="margin-top:20px;">Guardar</button>
-      `;
-
-      root.appendChild(cont);
-
-      const btnSave = cont.querySelector("#btnSave");
-      const txtGeneral = cont.querySelector("#txtGeneral");
-
-      btnSave.addEventListener("click", () => {
-        nodo.texto = txtGeneral.value;
-
-        if (estado.tipo === "basico") {
-          localStorage.setItem("RESPUESTAS_BASICO", JSON.stringify(window.RESPUESTAS_BASICO));
-        }
-
-        if (estado.tipo === "pintadas") {
-          localStorage.setItem("RESPUESTAS_PINTADAS", JSON.stringify(window.RESPUESTAS_PINTADAS));
-        }
-
-        alert("Guardado");
+      const del = document.createElement("button");
+      del.className = "img-remove";
+      del.textContent = "X";
+      del.addEventListener("click", () => {
+        nodo.imagenes.splice(i, 1);
+        renderContenido();
       });
 
-      return;
-    }
+      wrap.appendChild(image);
+      wrap.appendChild(del);
+      grid.appendChild(wrap);
+    });
+
+    root.appendChild(grid);
+
+    // --- EDITOR DE TEXTO ---
+    const cont = document.createElement("div");
+    cont.style.marginTop = "20px";
+
+    cont.innerHTML = `
+      <label>Texto</label>
+      <textarea id="txtGeneral" rows="12">${nodo.texto || ""}</textarea>
+      <button id="btnSave" style="margin-top:20px;">Guardar</button>
+    `;
+
+    root.appendChild(cont);
+
+    const btnSave = cont.querySelector("#btnSave");
+    const txtGeneral = cont.querySelector("#txtGeneral");
+
+    btnSave.addEventListener("click", () => {
+      nodo.texto = txtGeneral.value;
+
+      if (estado.tipo === "basico") {
+        localStorage.setItem("RESPUESTAS_BASICO", JSON.stringify(window.RESPUESTAS_BASICO));
+      }
+
+      if (estado.tipo === "pintadas") {
+        localStorage.setItem("RESPUESTAS_PINTADAS", JSON.stringify(window.RESPUESTAS_PINTADAS));
+      }
+
+      alert("Guardado");
+    });
+
+    return;
+  }
+
+  /* ===========================
+        USUARIO (VE)
+  ============================ */
+
+  // Mostrar imágenes al usuario
+  if (nodo.imagenes.length > 0) {
+    const grid = document.createElement("div");
+    grid.className = "images-grid";
+
+    nodo.imagenes.forEach(img => {
+      const wrap = document.createElement("div");
+      wrap.className = "img-wrap";
+
+      const image = document.createElement("img");
+      image.src = img;
+
+      wrap.appendChild(image);
+      grid.appendChild(wrap);
+    });
+
+    root.appendChild(grid);
+  }
+
+  // Mostrar texto
+  const box = document.createElement("div");
+  box.style.background = "#fff";
+  box.style.padding = "20px";
+  box.style.borderRadius = "10px";
+  box.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
+  box.className = "texto-render";
+  box.textContent = nodo.texto || "No hay contenido disponible";
+
+  root.appendChild(box);
+}   // ← FIN REAL DE LA FUNCIÓN
 
     /* USUARIO */
     const texto = nodo.texto || "<i>No hay contenido disponible</i>";
