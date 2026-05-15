@@ -184,3 +184,8 @@ button:hover {
   background: #a30000;
 }
 
+/* RESPETAR SALTOS DE LÍNEA EN EL TEXTO MOSTRADO AL USUARIO */
+.texto-render {
+  white-space: pre-line;
+  line-height: 1.5;
+}
