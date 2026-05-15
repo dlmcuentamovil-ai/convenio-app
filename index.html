@@ -278,21 +278,6 @@
   root.appendChild(grid);
 }
 
-      card.innerHTML = `
-        <div style="font-size:30px;">${c.icono}</div>
-        <div style="margin-top:10px;">${c.titulo}</div>
-      `;
-
-      card.addEventListener("click", () => {
-        estado.categoria = cat;
-        renderSubcategorias();
-      });
-
-      grid.appendChild(card);
-    });
-
-    root.appendChild(grid);
-  }
 
   /* SUBCATEGORÍAS */
   function renderSubcategorias() {
