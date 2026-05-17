@@ -103,87 +103,12 @@
     logoutBtn.style.display = estado.role === "admin" ? "inline-block" : "none";
   }
 
-  /* FUNCIÓN PRINCIPAL */
-  function renderApp() {
-  const root = $("#appRoot");
-  root.innerHTML = "";
 
-  // Si no es admin y aún no ha rellenado datos, mostramos formulario
-  if (estado.role !== "admin" && (!estado.selur || !estado.jornada)) {
-    const cont = document.createElement("div");
-    cont.style.maxWidth = "480px";
-    cont.style.margin = "30px auto";
-    cont.style.background = "#fff";
-    cont.style.padding = "20px";
-    cont.style.borderRadius = "10px";
-    cont.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
-
-    cont.innerHTML = `
-      <h2 style="color:#c40000; margin-top:0;">Datos del trabajador</h2>
-
-      <label>¿Eres del Selur básico o pintadas?</label>
-      <select id="inpSelur">
-        <option value="">Selecciona...</option>
-        <option value="basico">Básico</option>
-        <option value="pintadas">Pintadas</option>
-      </select>
-
-      <label style="margin-top:15px;">Jornada</label>
-      <select id="inpJornada">
-        <option value="">Selecciona...</option>
-      </select>
-
-      <button id="btnForm" style="margin-top:20px;">Entrar</button>
-    `;
-
-    root.appendChild(cont);
-
-    const inpSelur = $("#inpSelur");
-    const inpJornada = $("#inpJornada");
-    const btnForm = $("#btnForm");
-
-    // Rellenar jornadas según selur
-    inpSelur.addEventListener("change", () => {
-      const tipo = inpSelur.value;
-      inpJornada.innerHTML = `<option value="">Selecciona...</option>`;
-
-      if (!tipo) return;
-
-      const jornadas = Object.keys(window.JORNADAS[tipo]);
-      jornadas.forEach(j => {
-        const opt = document.createElement("option");
-        opt.value = j;
-        opt.textContent = window.JORNADAS[tipo][j];
-        inpJornada.appendChild(opt);
-      });
-    });
-
-    btnForm.addEventListener("click", () => {
-      estado.selur = inpSelur.value;
-      estado.jornada = inpJornada.value;
-
-      if (!estado.selur || !estado.jornada) {
-        alert("Completa todos los campos");
-        return;
-      }
-
-      // Aquí ya tenemos datos → pasamos a categorías
-      renderCategorias();
-    });
-
-    return;
-  }
-
-  // Si es admin o ya tiene datos, mostramos directamente categorías
-  renderCategorias();
-}
-
-    /* FORMULARIO USUARIO */
  function renderApp() {
   const root = $("#appRoot");
   root.innerHTML = "";
 
-  /* FORMULARIO USUARIO */
+  /* FORMULARIO USUARIO (solo para NO admin) */
   if (estado.role !== "admin" && (!estado.selur || !estado.jornada)) {
     root.innerHTML = `
       <h2 style="color:#c40000;">Datos del trabajador</h2>
@@ -238,25 +163,54 @@
       const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
       if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
 
-      if (estado.selur === "basico") {
-        window.RESPUESTAS = window.RESPUESTAS_BASICO;
-      }
-
-      if (estado.selur === "pintadas") {
-        window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
-      }
+      if (estado.selur === "basico") window.RESPUESTAS = window.RESPUESTAS_BASICO;
+      if (estado.selur === "pintadas") window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
 
       renderApp();
     });
 
-    return;
+    return;  // ⬅️ AQUÍ TERMINA EL FORMULARIO DEL TRABAJADOR
   }
+
+  // 🔥 SELECTOR PARA ADMIN (si aún no ha elegido Básico/Pintadas)
+  if (estado.role === "admin" && !estado.selur) {
+    return renderAdminSelurChoice();
+  }
+
+  console.log("ROLE:", estado.role, "CAT:", estado.categoria, "SUB:", estado.sub);
 
   /* CONTROL FINAL */
   if (!estado.categoria) return renderCategorias();
   if (estado.categoria && !estado.sub) return renderSubcategorias();
   if (estado.categoria && estado.sub) return renderContenido();
 }
+
+function renderAdminSelurChoice() {
+  const root = $("#appRoot");
+  root.innerHTML = `
+    <h2 style="color:#c40000;">Editar contenido</h2>
+
+    <button id="btnAdminBasico" class="adminSelurBtn">Básico</button>
+    <button id="btnAdminPintadas" class="adminSelurBtn">Pintadas</button>
+  `;
+
+  $("#btnAdminBasico").addEventListener("click", () => {
+    estado.selur = "basico";
+    window.RESPUESTAS = window.RESPUESTAS_BASICO;
+    estado.categoria = "";
+    estado.sub = "";
+    renderApp();
+  });
+
+  $("#btnAdminPintadas").addEventListener("click", () => {
+    estado.selur = "pintadas";
+    window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
+    estado.categoria = "";
+    estado.sub = "";
+    renderApp();
+  });
+}
+
   /* CATEGORÍAS */
  function renderCategorias() {
   const root = $("#appRoot");
@@ -344,6 +298,12 @@ function renderSubcategorias() {
   grid.style.gap = "12px";
 
   Object.keys(cat.sub).forEach(sub => {
+
+    // 🔥 OCULTAR SDF para BÁSICO y para ADMIN
+    if ((estado.selur === "basico" || estado.role === "admin") && sub === "sdf") {
+      return;
+    }
+
     const s = cat.sub[sub];
 
     const card = document.createElement("div");
