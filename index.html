@@ -105,40 +105,78 @@
 
   /* FUNCIÓN PRINCIPAL */
   function renderApp() {
-    const root = $("#appRoot");
-    root.innerHTML = "";
+  const root = $("#appRoot");
+  root.innerHTML = "";
 
-    /* ADMIN SIN TIPO */
-    if (estado.role === "admin" && !estado.tipo) {
+  // Si no es admin y aún no ha rellenado datos, mostramos formulario
+  if (estado.role !== "admin" && (!estado.selur || !estado.jornada)) {
+    const cont = document.createElement("div");
+    cont.style.maxWidth = "480px";
+    cont.style.margin = "30px auto";
+    cont.style.background = "#fff";
+    cont.style.padding = "20px";
+    cont.style.borderRadius = "10px";
+    cont.style.boxShadow = "0 4px 12px rgba(0,0,0,.08)";
 
-      // Cargar datos guardados
-      const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
-      if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
+    cont.innerHTML = `
+      <h2 style="color:#c40000; margin-top:0;">Datos del trabajador</h2>
 
-      const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
-      if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
+      <label>¿Eres del Selur básico o pintadas?</label>
+      <select id="inpSelur">
+        <option value="">Selecciona...</option>
+        <option value="basico">Básico</option>
+        <option value="pintadas">Pintadas</option>
+      </select>
 
-      root.innerHTML = `
-        <h2 style="color:#c40000;">Editar contenido</h2>
+      <label style="margin-top:15px;">Jornada</label>
+      <select id="inpJornada">
+        <option value="">Selecciona...</option>
+      </select>
 
-        <button id="btnBasico" style="margin-top:20px;">Selur Básico</button>
-        <button id="btnPintadas" style="margin-top:20px;">Selur Pintadas</button>
-      `;
+      <button id="btnForm" style="margin-top:20px;">Entrar</button>
+    `;
 
-      $("#btnBasico").addEventListener("click", () => {
-        estado.tipo = "basico";
-        window.RESPUESTAS = window.RESPUESTAS_BASICO;
-        renderCategorias();
+    root.appendChild(cont);
+
+    const inpSelur = $("#inpSelur");
+    const inpJornada = $("#inpJornada");
+    const btnForm = $("#btnForm");
+
+    // Rellenar jornadas según selur
+    inpSelur.addEventListener("change", () => {
+      const tipo = inpSelur.value;
+      inpJornada.innerHTML = `<option value="">Selecciona...</option>`;
+
+      if (!tipo) return;
+
+      const jornadas = Object.keys(window.JORNADAS[tipo]);
+      jornadas.forEach(j => {
+        const opt = document.createElement("option");
+        opt.value = j;
+        opt.textContent = window.JORNADAS[tipo][j];
+        inpJornada.appendChild(opt);
       });
+    });
 
-      $("#btnPintadas").addEventListener("click", () => {
-        estado.tipo = "pintadas";
-        window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
-        renderCategorias();
-      });
+    btnForm.addEventListener("click", () => {
+      estado.selur = inpSelur.value;
+      estado.jornada = inpJornada.value;
 
-      return;
-    }
+      if (!estado.selur || !estado.jornada) {
+        alert("Completa todos los campos");
+        return;
+      }
+
+      // Aquí ya tenemos datos → pasamos a categorías
+      renderCategorias();
+    });
+
+    return;
+  }
+
+  // Si es admin o ya tiene datos, mostramos directamente categorías
+  renderCategorias();
+}
 
     /* FORMULARIO USUARIO */
     if (estado.role !== "admin" && (!estado.nombre || !estado.selur || !estado.jornada)) {
