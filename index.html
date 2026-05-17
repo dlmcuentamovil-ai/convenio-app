@@ -179,82 +179,84 @@
 }
 
     /* FORMULARIO USUARIO */
-    if (estado.role !== "admin" && (!estado.selur || !estado.jornada)) {
-      root.innerHTML = `
-        <h2 style="color:#c40000;">Datos del trabajador</h2>
+ function renderApp() {
+  const root = $("#appRoot");
+  root.innerHTML = "";
 
-        <label>¿Eres del Selur básico o pintadas?</label>
-        <select id="inpSelur">
+  /* FORMULARIO USUARIO */
+  if (estado.role !== "admin" && (!estado.selur || !estado.jornada)) {
+    root.innerHTML = `
+      <h2 style="color:#c40000;">Datos del trabajador</h2>
+
+      <label>¿Eres del Selur básico o pintadas?</label>
+      <select id="inpSelur">
+        <option value="">Selecciona...</option>
+        <option value="basico">Básico</option>
+        <option value="pintadas">Pintadas</option>
+      </select>
+
+      <label>Jornada</label>
+      <select id="inpJornada">
+        <option value="">Selecciona...</option>
+      </select>
+
+      <button id="btnForm">Entrar</button>
+    `;
+
+    $("#inpSelur").addEventListener("change", () => {
+      const j = $("#inpJornada");
+      j.innerHTML = "";
+
+      if ($("#inpSelur").value === "basico") {
+        j.innerHTML = `
           <option value="">Selecciona...</option>
-          <option value="basico">Básico</option>
-          <option value="pintadas">Pintadas</option>
-        </select>
+          <option value="diario">Diario</option>
+        `;
+      }
 
-        <label>Jornada</label>
-        <select id="inpJornada">
+      if ($("#inpSelur").value === "pintadas") {
+        j.innerHTML = `
           <option value="">Selecciona...</option>
-        </select>
+          <option value="diario">Diario</option>
+          <option value="sdf">SDF</option>
+        `;
+      }
+    });
 
-        <button id="btnForm">Entrar</button>
-      `;
+    $("#btnForm").addEventListener("click", () => {
+      estado.selur = $("#inpSelur").value;
+      estado.jornada = $("#inpJornada").value;
 
-      $("#inpSelur").addEventListener("change", () => {
-        const j = $("#inpJornada");
-        j.innerHTML = "";
+      if (!estado.selur || !estado.jornada) {
+        alert("Completa todos los campos");
+        return;
+      }
 
-        if ($("#inpSelur").value === "basico") {
-          j.innerHTML = `
-            <option value="">Selecciona...</option>
-            <option value="diario">Diario</option>
-          `;
-        }
+      const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
+      if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
 
-        if ($("#inpSelur").value === "pintadas") {
-          j.innerHTML = `
-            <option value="">Selecciona...</option>
-            <option value="diario">Diario</option>
-            <option value="sdf">SDF</option>
-          `;
-        }
-      });
+      const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
+      if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
 
-      $("#btnForm").addEventListener("click", () => {
-        estado.selur = $("#inpSelur").value;
-        estado.jornada = $("#inpJornada").value;
+      if (estado.selur === "basico") {
+        window.RESPUESTAS = window.RESPUESTAS_BASICO;
+      }
 
-  if (!estado.selur || !estado.jornada) {
-  alert("Completa todos los campos");
-  return;
-}
+      if (estado.selur === "pintadas") {
+        window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
+      }
 
-        // Cargar datos guardados
-        const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
-        if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
+      renderApp();
+    });
 
-        const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
-        if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
-
-        // Seleccionar bloque correcto
-        if (estado.selur === "basico") {
-          window.RESPUESTAS = window.RESPUESTAS_BASICO;
-        }
-
-        if (estado.selur === "pintadas") {
-          window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
-        }
-
-        renderApp();
-      });
-
-      return;
-    }
-
-    /* CONTROL FINAL */
-    if (!estado.categoria) return renderCategorias();
-    if (estado.categoria && !estado.sub) return renderSubcategorias();
-    if (estado.categoria && estado.sub) return renderContenido();
+    return;
   }
 
+  /* CONTROL FINAL */
+  if (!estado.categoria) return renderCategorias();
+  if (estado.categoria && !estado.sub) return renderSubcategorias();
+  if (estado.categoria && estado.sub) return renderContenido();
+}
   /* CATEGORÍAS */
  function renderCategorias() {
   const root = $("#appRoot");
@@ -313,73 +315,56 @@
 }
 
 
-  /* SUBCATEGORÍAS */
-  function renderSubcategorias() {
-    const root = $("#appRoot");
-    root.innerHTML = "";
+/* SUBCATEGORÍAS */
+function renderSubcategorias() {
+  const root = $("#appRoot");
+  root.innerHTML = "";
 
-    const cat = window.ESTRUCTURA[estado.categoria];
+  const cat = window.ESTRUCTURA[estado.categoria];
 
-    const titulo = document.createElement("h2");
-    titulo.textContent = cat.titulo;
-    titulo.style.color = "#c40000";
-    root.appendChild(titulo);
+  const titulo = document.createElement("h2");
+  titulo.textContent = cat.titulo;
+  titulo.style.color = "#c40000";
+  root.appendChild(titulo);
 
-    const btnBack = document.createElement("button");
-    btnBack.textContent = "← Volver";
-    btnBack.style.marginBottom = "15px";
-    btnBack.addEventListener("click", () => {
-      estado.sub = "";
-      estado.categoria = "";
-      renderApp();
-    });
-    root.appendChild(btnBack);
+  const btnBack = document.createElement("button");
+  btnBack.textContent = "← Volver";
+  btnBack.style.marginBottom = "15px";
+  btnBack.addEventListener("click", () => {
+    estado.sub = "";
+    estado.categoria = "";
+    renderApp();
+  });
+  root.appendChild(btnBack);
 
-    if (window.RESPUESTAS[estado.categoria].imagenes.length > 0 && estado.role !== "admin") {
-      const grid = document.createElement("div");
-      grid.className = "images-grid";
+  // GRID DE SUBCATEGORÍAS
+  const grid = document.createElement("div");
+  grid.style.display = "grid";
+  grid.style.gridTemplateColumns = "repeat(2, 1fr)";
+  grid.style.gap = "12px";
 
-      window.RESPUESTAS[estado.categoria].imagenes.forEach(img => {
-        const wrap = document.createElement("div");
-        wrap.className = "img-wrap";
+  Object.keys(cat.sub).forEach(sub => {
+    const s = cat.sub[sub];
 
-        const image = document.createElement("img");
-        image.src = img;
+    const card = document.createElement("div");
+    card.style.padding = "20px";
+    card.style.background = "#fff";
+    card.style.borderRadius = "10px";
+    card.style.cursor = "pointer";
+    card.style.textAlign = "center";
 
-        wrap.appendChild(image);
-        grid.appendChild(wrap);
-      });
+    card.textContent = s.titulo;
 
-      root.appendChild(grid);
-    }
-
-    const grid = document.createElement("div");
-    grid.style.display = "grid";
-    grid.style.gridTemplateColumns = "repeat(2, 1fr)";
-    grid.style.gap = "12px";
-
-    Object.keys(cat.sub).forEach(sub => {
-      const s = cat.sub[sub];
-
-      const card = document.createElement("div");
-      card.style.padding = "20px";
-      card.style.background = "#fff";
-      card.style.borderRadius = "10px";
-      card.style.cursor = "pointer";
-      card.style.textAlign = "center";
-
-      card.textContent = s.titulo;
-
-      card.addEventListener("click", () => {
-        estado.sub = sub;
-        renderContenido();
-      });
-
-      grid.appendChild(card);
+    card.addEventListener("click", () => {
+      estado.sub = sub;
+      renderContenido();
     });
 
-    root.appendChild(grid);
-  }
+    grid.appendChild(card);
+  });
+
+  root.appendChild(grid);
+}
 
   /* CONTENIDO */
 /* ===========================
@@ -529,12 +514,15 @@ function renderContenido() {   // ← INICIO REAL DE LA FUNCIÓN
   box.textContent = nodo.texto || "No hay contenido disponible";
 
   root.appendChild(box);
-}   // ← FIN REAL DE LA FUNCIÓN
+}   // ← FIN REAL DE LA FUNCIÓN renderContenido()
 
 
-  /* INICIALIZACIÓN */
-  setRoleUI();
-  renderApp();
+/* ===========================
+      INICIALIZACIÓN
+=========================== */
+
+setRoleUI();
+renderApp();
 
 })();
 </script>
