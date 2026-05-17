@@ -145,9 +145,6 @@
       root.innerHTML = `
         <h2 style="color:#c40000;">Datos del trabajador</h2>
 
-        <label>Nombre</label>
-        <input id="inpNombre" type="text">
-
         <label>¿Eres del Selur básico o pintadas?</label>
         <select id="inpSelur">
           <option value="">Selecciona...</option>
@@ -184,14 +181,13 @@
       });
 
       $("#btnForm").addEventListener("click", () => {
-        estado.nombre = $("#inpNombre").value.trim();
         estado.selur = $("#inpSelur").value;
         estado.jornada = $("#inpJornada").value;
 
-        if (!estado.nombre || !estado.selur || !estado.jornada) {
-          alert("Completa todos los campos");
-          return;
-        }
+  if (!estado.selur || !estado.jornada) {
+  alert("Completa todos los campos");
+  return;
+}
 
         // Cargar datos guardados
         const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
