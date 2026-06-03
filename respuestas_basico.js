@@ -44,9 +44,22 @@ window.RESPUESTAS_BASICO = {
   La paga de Navidad se hará efectiva el día 17 del mes de diciembre. ` }, beneficios:{ texto:`Paga de Beneficios: del 1  de enero al 31 de diciembre del año anterior y se abonará en proporción al tiempo trabajado,  no devengándose las ausencias injustificadas. 
   La paga de Beneficios se hará efectiva el último día hábil del mes de febrero ` } },
   economia: { imagenes: [], salario:{ texto:"" }, complementos:{ texto:"" }, dietas:{ texto:"" }, kilometraje:{ texto:"" } },
-  excedencias: { imagenes: [], voluntaria:{ texto:"" }, forzosa:{ texto:"" }, cuidado:{ texto:"" } },
-  conductores: { imagenes: [], carnet:{ texto:"" }, funciones:{ texto:"" }, plus:{ texto:"" } },
-  ascensos: { imagenes: [], criterios:{ texto:"" }, pruebas:{ texto:"" } },
+  excedencias: { imagenes: [], voluntaria:{ texto:`Artículo 15 del convenio colectivo
+  Los/as trabajadores/as con un año de servicio en la Contrata  podrán solicitar la excedencia voluntaria por un plazo mínimo de cuatro meses e inferior a  cinco años. En el supuesto de ser inferior al periodo máximo, ésta se podrá prorrogar de año en año, con la sola condición de preavisarlo con un mes de antelación a la finalización del  periodo solicitado. Dicha prórroga tendrá una duración mínima de un año, sin que en ningún  caso pueda superarse el periodo máximo de cinco años aludidos.
+  Para acogerse a otra excedencia voluntaria, el/la trabajador/a deberá cumplir un nuevo  periodo de un año de servicio efectivo en la Contrata.
+  Si el/la trabajador/a no solicitara el reingreso con un plazo mínimo de un mes de antelación,  perderá el derecho de su puesto en la Contrata, siendo admitido/a inmediatamente en el caso  de cumplir tal requisito en el mismo puesto y categoría.` }, forzosa:{ texto:`La excedencia forzosa es una suspensión del contrato de trabajo que la empresa está obligada a conceder
+  Se concede exclusivamente en tres supuestos:
+  - Cargo público
+  - Funciones sindicales
+  - Deber inexcusable
+  Los/as trabajadores/as que soliciten la excedencia forzosa como consecuencia de haber sido  nombrados para el ejercicio de cargos públicos y/o sindicales, no necesitarán de un año de  antigüedad para solicitarla, concediéndose obligatoriamente en estos casos, siendo admitidos/as inmediatamente al cumplir su mandato. ` }, cuidado:{ texto:`Las personas trabajadoras justifiquen una necesidad excepcional, por cuidado de familiares de primer grado de afinidad o consanguinidad o cónyuge, la Empresa estudiará la posibilidad de que se puedan conceder excedencias por períodos mínimos de 15 días.
+  La solicitud de esta excedencia deberá realizarse con al menos 10 días de antelación al inicio  de esta, salvo en caso de urgencia debidamente justificada.
+  En caso de necesidad de renovación, se podrá solicitar la renovación cuantas veces sean  necesarias, siempre que se realice en periodos de 15 días dentro de un periodo máximo de 4 meses` } },
+  conductores: { imagenes: [], carnet:{ texto:"Deberán de estar en posesión como mínimo del carnet de conducir clase C" }, funciones:{ texto:`Cuidará especialmente de que el vehículo o máquina salga del parque en las debidas  condiciones de funcionamiento.
+  Se responsabilizará del entretenimiento y adecuada 10 conservación de la máquina o el vehículo que se le asigne, así como de observar las  prescripciones técnicas y de funcionamiento de las mismas.` }, plus:{ texto:"Cobrarán dicho plus todo el personal que conducta un vehiculo que necesite el carnet C y no tenga la categoria reconocida de conductor." } },
+  ascensos: { imagenes: [], criterios:{ texto:`Serán de libre designación por parte de la Empresa los puestos de Jefe de Servicio,  Encargado General y Subencargado General.
+  Podrán optar cumpliendo los siguientes requisitos (estos son los minimos):
+  - Un minimo de 6 meses en la contrara.` }, pruebas:{ texto:"Los ascensos que se  proveerán por el concurso, examen y antigüedad" } },
   contratacion: { imagenes: [], indefinido:{ texto:"" }, temporal:{ texto:"" }, formacion:{ texto:"" } },
   vacantes: { imagenes: [], asignacion:{ texto:"" }, movilidad:{ texto:"" } },
   prendas: { imagenes: [], entrega:{ texto:"" }, reposicion:{ texto:"" }, temporada:{ texto:"" } },
