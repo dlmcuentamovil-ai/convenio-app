@@ -34,8 +34,13 @@ window.RESPUESTAS_BASICO = {
   - Para el año 2031 => 2,74€` } },
   descansos: { imagenes: [], semanal:{ texto:"Según convenio" }, diario:{ texto:"al menos 12 horas entre turnos" }, festivos:{ texto:`Todos los Nacionales, Autonómicos de la Comunidad de Madrid, locales del municipio de Madird y San Martín de Porres.
     Un total de 15 festivos/año` }, recuperaciones:{ texto:"" } },
-  antiguedad: { imagenes: [], trienios:{ texto:"" }, quinquenios:{ texto:"" } },
-  pagas: { imagenes: [], verano:{ texto:"" }, navidad:{ texto:"" }, prorrateo:{ texto:"" } },
+  antiguedad: { imagenes: [], bienios:{ texto:`Se cobrarán los 3 primeros bienios:
+  - Primer bienio un 5%
+  - Segundo bienio un 10%
+  - Tercer bienio 15%` }, quinquenios:{ texto:`Se cobrarán a partir del tercer bienio incrementando un 7% por quinquenio` } },
+  pagas: { imagenes: [], verano:{ texto:`Paga de Verano: Se devengará del 1 de enero al 30 de junio.
+  La paga extraordinaria de Verano se hará efectiva el día 16 del mes  de julio.` }, navidad:{ texto:`Paga de Navidad: Se devengará del 1 de julio al 31 de diciembre.
+  La paga de Navidad se hará efectiva el día 17 del mes de diciembre. ` } },
   economia: { imagenes: [], salario:{ texto:"" }, complementos:{ texto:"" }, dietas:{ texto:"" }, kilometraje:{ texto:"" } },
   excedencias: { imagenes: [], voluntaria:{ texto:"" }, forzosa:{ texto:"" }, cuidado:{ texto:"" } },
   conductores: { imagenes: [], carnet:{ texto:"" }, funciones:{ texto:"" }, plus:{ texto:"" } },
