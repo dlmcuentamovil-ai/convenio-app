@@ -60,7 +60,7 @@ window.RESPUESTAS_BASICO = {
   ascensos: { imagenes: [], criterios:{ texto:`Serán de libre designación por parte de la Empresa los puestos de Jefe de Servicio,  Encargado General y Subencargado General.
   Podrán optar cumpliendo los siguientes requisitos (estos son los minimos):
   - Un minimo de 6 meses en la contrara.` }, pruebas:{ texto:"Los ascensos que se  proveerán por el concurso, examen y antigüedad" } },
-  contratacion: { imagenes: [], indefinido:{ texto:"" }, temporal:{ texto:"" }, formacion:{ texto:"" } },
+  contratacion: { imagenes: [], indefinido:{ texto:"" }, temporal:{ texto:"" } },
   vacantes: { imagenes: [], asignacion:{ texto:"" }, movilidad:{ texto:"" } },
   prendas: { imagenes: [], entrega:{ texto:"" }, reposicion:{ texto:"" }, temporada:{ texto:"" } },
   mejoras: { imagenes: [], seguro:{ texto:"" }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
