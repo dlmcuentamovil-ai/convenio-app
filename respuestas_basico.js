@@ -1,5 +1,5 @@
 window.RESPUESTAS_BASICO = {
-  jornada: { imagenes: [], tt: { texto:"" }, sdf:{ texto:"" }, nocturno:{ texto:"" }, requisitos:{ texto:"" }, anual:{ texto:"" }, irregular:{ texto:"" }, cambios:{ texto:"" }, efectivas:{ texto:"" }, bocadillo:{ texto:"" }, complementarias:{ texto:"" } },
+  jornada: { imagenes: [], tt: { texto:"8 horas dias" }, sdf:{ texto:"" }, nocturno:{ texto:"" }, requisitos:{ texto:"" }, anual:{ texto:"" }, irregular:{ texto:"" }, cambios:{ texto:"" }, efectivas:{ texto:"" }, bocadillo:{ texto:"" }, complementarias:{ texto:"" } },
   vacaciones: { imagenes: [], tt:{ texto:"" }, sdf:{ texto:"" }, computo:{ texto:"" }, devengo:{ texto:"" }, disfrute:{ texto:"" }, calendario:{ texto:"" }, antiguedad:{ texto:"" } },
   permisos: { imagenes: [], retribuidos:{ texto:"" }, noretribuidos:{ texto:"" }, hospitalizacion:{ texto:"" }, fallecimiento:{ texto:"" }, nacimiento:{ texto:"" }, acompanamiento:{ texto:"" }, deber:{ texto:"" } },
   pluses: { imagenes: [], nocturnidad:{ texto:"" }, festividad:{ texto:"" }, peligrosidad:{ texto:"" }, turnicidad:{ texto:"" }, transporte:{ texto:"" }, asistencia:{ texto:"" } },
