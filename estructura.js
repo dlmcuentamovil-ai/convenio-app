@@ -85,8 +85,9 @@ window.ESTRUCTURA = {
     icono: "💰",
     sub: {
       verano: { titulo: "Paga de verano" },
+      sanmartindeporres: { titulo: "Paga de San Martín de Porres" },
       navidad: { titulo: "Paga de navidad" },
-      prorrateo: { titulo: "Prorrateo" }
+      beneficios: { titulo: "Paga de Beneficios" }
     }
   },
 
