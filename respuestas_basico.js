@@ -25,7 +25,7 @@ window.RESPUESTAS_BASICO = {
   - Incremento de 1€ en el año 2028
   - Incremento de 1€ en el año 2029
   - Incremento de 1€ en el año 2030
-  - Incremento de 1€ en el año 2031` }, festividad:{ texto:"Para compensar la disponibilidad se abonara un plus denominado PLUS DISPONIBILIDAD," }, peligrosidad:{ texto:"" }, turnicidad:{ texto:"Para compensar la disponibilidad se abonara un plus denominado PLUS DISPONIBILIDAD" }, transporte:{ texto:"El plus trasporte viene regulado en las tablas salariales" }, asistencia:{ texto:`Artículo 31. – Prima compensatoria por la asistencia al trabajo.
+  - Incremento de 1€ en el año 2031` }, festividad:{ texto:"Para compensar la disponibilidad se abonara un plus denominado PLUS DISPONIBILIDAD," }, calidad:{ texto:"Este plus lo cobraran todos los que tengan la categoria de oficiales" }, turnicidad:{ texto:"Para compensar la disponibilidad se abonara un plus denominado PLUS DISPONIBILIDAD" }, transporte:{ texto:"El plus trasporte viene regulado en las tablas salariales" }, asistencia:{ texto:`Artículo 31. – Prima compensatoria por la asistencia al trabajo.
   - Para el año 2026 => 2,25€
   - Para el año 2027 => 2,34€
   - Para el año 2028 => 2,43€
