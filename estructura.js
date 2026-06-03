@@ -136,8 +136,7 @@ window.ESTRUCTURA = {
     icono: "📑",
     sub: {
       indefinido: { titulo: "Indefinido" },
-      temporal: { titulo: "Temporal" },
-      formacion: { titulo: "Contrato de formación" }
+      temporal: { titulo: "Temporal" }
     }
   },
 
