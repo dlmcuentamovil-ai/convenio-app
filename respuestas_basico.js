@@ -60,7 +60,14 @@ window.RESPUESTAS_BASICO = {
   ascensos: { imagenes: [], criterios:{ texto:`Serán de libre designación por parte de la Empresa los puestos de Jefe de Servicio,  Encargado General y Subencargado General.
   Podrán optar cumpliendo los siguientes requisitos (estos son los minimos):
   - Un minimo de 6 meses en la contrara.` }, pruebas:{ texto:"Los ascensos que se  proveerán por el concurso, examen y antigüedad" } },
-  contratacion: { imagenes: [], indefinido:{ texto:"" }, temporal:{ texto:"" } },
+  contratacion: { imagenes: [], indefinido:{ texto:"Las Empresas no podrán superar un porcentaje del 10 % de eventualidad, del total de la plantilla fija a jornada completa, y un 18 % en plantilla de jornadas parciales en cada contrata. En dichos porcentajes no estarán incluidos los eventuales contratados para verano, contratos de relevo, ni campañas especiales o refuerzo, interinidades, excedencias y sustituciones. 
+" }, temporal:{ texto:`Las contrataciones temporales serán:
+- Contrataciones de Verano
+- Contrataciones para eventos o refuerzo
+- Contrataciones para campañas
+- Contrataciones por excedencias
+- Contrataciones para sustituciones por IT
+- Contrataciones de relevo` } },
   vacantes: { imagenes: [], asignacion:{ texto:"" }, movilidad:{ texto:"" } },
   prendas: { imagenes: [], entrega:{ texto:"" }, reposicion:{ texto:"" }, temporada:{ texto:"" } },
   mejoras: { imagenes: [], seguro:{ texto:"" }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
