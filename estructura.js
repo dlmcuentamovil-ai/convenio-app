@@ -75,7 +75,7 @@ window.ESTRUCTURA = {
     titulo: "Antigüedad",
     icono: "📅",
     sub: {
-      trienios: { titulo: "Trienios" },
+      bienios: { titulo: "Bienios" },
       quinquenios: { titulo: "Quinquenios" }
     }
   },
