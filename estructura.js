@@ -53,7 +53,7 @@ window.ESTRUCTURA = {
     sub: {
       nocturnidad: { titulo: "Nocturnidad" },
       festividad: { titulo: "Festividad" },
-      peligrosidad: { titulo: "Peligrosidad" },
+      calidad: { titulo: "Calidad" },
       turnicidad: { titulo: "Turnicidad" },
       transporte: { titulo: "Plus de transporte" },
       asistencia: { titulo: "Asistencia" }
