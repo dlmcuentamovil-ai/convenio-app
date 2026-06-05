@@ -154,7 +154,7 @@ window.ESTRUCTURA = {
     sub: {
       entrega: { titulo: "Entrega" },
       reposicion: { titulo: "Reposición" },
-      temporada: { titulo: "Temporada" }
+      uniformidad: { titulo: "Uniformidad" }
     }
   },
 
