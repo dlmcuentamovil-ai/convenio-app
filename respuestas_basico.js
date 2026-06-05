@@ -156,9 +156,7 @@ window.RESPUESTAS_BASICO = {
   En el caso que la empresa estime por cualquier causa justificada y de manera excepcional,la necesidad de realizar un nuevo reconocimiento fuera de su jornada laboral, también se tendrá derecho al disfrute del día libre.
   Al  personal  de  nuevo  ingreso,  igualmente  con  carácter  voluntario  con  las  excepciones  de obligatoriedad recogidas en la normativa vigente, se le realizará este reconocimiento médico antes de su incorporación al puesto de trabajo, salvo en campañas especiales y cuando por motivos de  organización  no pudiera  realizarse  el  reconocimiento médico  antes  del  ingreso del trabajador a su puesto de trabajo.
   El resultado de dicho reconocimiento será entregado a cada trabajador de forma confidencial.
-  En  el mes de octubre de cada año, se habilitará una vacuna contra la gripe, de carácter voluntario, efectuándose en horas de trabajo.
-  
-  ` }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
+  En  el mes de octubre de cada año, se habilitará una vacuna contra la gripe, de carácter voluntario, efectuándose en horas de trabajo.` }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
   jubilacion: { imagenes: [], parcial:{ texto:"" }, anticipada:{ texto:"" } },
   seguridad: { imagenes: [], epis:{ texto:"" }, riesgos:{ texto:"" }, reconocimientos:{ texto:"" } },
   adicionales: { imagenes: [], primera:{ texto:"" }, segunda:{ texto:"" }, tercera:{ texto:"" } }
