@@ -144,8 +144,7 @@ window.ESTRUCTURA = {
     titulo: "Plazas Vacantes",
     icono: "🏢",
     sub: {
-      asignacion: { titulo: "Asignación" },
-      movilidad: { titulo: "Movilidad" }
+      asignacion: { titulo: "Asignación" }
     }
   },
 
