@@ -95,7 +95,70 @@ window.RESPUESTAS_BASICO = {
   1 toalla de ducha.
   Un par de botas.
   Un par de botas de agua. ` } },
-  mejoras: { imagenes: [], seguro:{ texto:"" }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
+  mejoras: { imagenes: [], seguro:{ texto:`
+  SEGURO COLECTIVO DE VIDA:
+  En caso de accidente laboral o enfermedad profesional como consecuencia de la actividad desarrollada para la Empresa, de la que derive muerte, incapacidad laboral permanente absoluta o gran invalidez para cualquier actividad laboral, el trabajador o sus beneficiarios en todo  caso  percibirán,  durante  la  vigencia  del  presente  convenio,  en  concepto  de indemnización, la cantidad que se señala en las tablas del Anexo I, independientemente de las prestaciones que por este motivo les corresponda.
+  Las  empresas  suscribirán  un  seguro  de  responsabilidad  civil  por  los  daños  que  pudieran causar  en  el  ejercicio  de  sus  funciones,  que  incluirá  la  asistencia  letrada  de  abogado  en aquellos incidentes o accidentes que transcurran durante el desarrollo de su actividad laboral,de los que se derive algún daño o perjuicio para el trabajador/a.
+
+  ANTICIPOS REINTEGRABLES:
+  El personal con más de seis meses en la Contrata podrá solicitar un anticipo reintegrable por unas cantidades máximas, que se recogen en el Anexo I.
+  La concesión o no de dicho anticipo se llevará a cabo por la Empresa y el Comité de Empresa,quienes deberán extremar la ponderación a la hora de valorar cada supuesto, obligándose las personas trabajadoras solicitantes a acreditar debidamente cuantos extremos les sean requeridos.
+  La amortización de dicho anticipo se hará durante las 15 pagas posteriores al mismo como máximo y las cantidades amortizadas revertirán al fondo de anticipos reintegrables.
+
+  PRESTACIONES SOCIALES:
+  En caso de rotura de gafas, prótesis y sonotones durante la jornada laboral, la Empresa abonará para su reposición, la cantidad por unidad que se refleja en el Anexo I.
+
+  ACCIDENTES DE TRABAJO:
+  En caso de accidente laboral, todo el personal afectado por el presente Convenio percibirá el 100 por 100 del total devengado como si de trabajo real se tratara, haciéndose el pago el día normal de cada mes.
+
+  ENFERMEDAD:
+  En  caso  de  enfermedad  común  o  accidente  no  laboral,  todo  el  personal  afectado  por  el presente Convenio Colectivo percibirá hasta el 70% del Salario Base, más antigüedad, más complementos salariales, más plus de transporte, señalados en el Artículo 28 del mismo, en aquellos procesos de incapacidad temporal que no superen los dos días.
+  Si el proceso de incapacidad temporal se prolongara durante más de dos días naturales, se abonará  desde  el  primer  día  hasta  el  100%  de  tales  conceptos durante  el  tiempo  que  la Empresa cotice a la Seguridad Social por el trabajador.
+
+  HOSPITALIZACIÓN:
+  En caso de hospitalización y desde el primer día de la baja hasta que se produzca el alta, el trabajador percibirá el 100 por 100 del salario base, más antigüedad, más complementos salariales, más plus de transporte.
+
+  JUBILACIÓN:
+  Los/as  trabajadores/as  que  soliciten  su  jubilación  recibirán,  por  parte  de  la empresa concesionaria en ese momento y por cada año de trabajo en la Contrata, en el momento de producirse  aquella,  las  cantidades que se  concretan  en  las  tablas  del  Anexo  I,comprendiéndose las mismas desde los 62 años de edad a los 67 años. Dichas cantidades corresponden a personas trabajadoras a jornada completa. Cualquier otra jornada distinta,se pagará de forma proporcional.
+  Igualmente se abonará la idéntica cantidad correspondiente a los 67 años que se refleja en el  anexo  I  del  presente  convenio  por  años  de  servicio  prestado,  cuando el/la  trabajador/a solicite la jubilación dentro de los seis meses posteriores al cumplimiento de los 67 años.
+  En  materia  de  jubilación  obligatoria  se  estará  a  lo  dispuesto  en  la  normativa  legal  y reglamentaria vigente en cada momento, que resulte de aplicación.
+
+  JUVILACIÓN ANTICIPADA PARCIAL:
+  De conformidad con el acuerdo de Jubilación Anticipada Parcial de fecha 27 de marzo de 2013, todas las personas trabajadoras incluidas en el acuerdo, continuarán rigiéndose por dicha jubilación en los términos indicados en el mismo. El resto de trabajadores/as estará a lo dispuesto en la legislación vigente en materia de jubilación parcial.
+  La empresa en la que preste servicio el trabajador/a en el momento de producirse la jubilación parcial abonará, en concepto de incentivo para la jubilación parcial, la cantidad que se refleja para la jubilación a los 64 años, independientemente de la edad en la que  realmente  se produzca la jubilación.
+  La jubilación anticipada, y por tanto el pago en ese momento del incentivo para tal tipo de jubilación que se acaba de expresar, supone la renuncia expresa del trabajador al cobro del complemento de JUBILACION previsto en el artículo 40, cualquiera que sea el momento en el que se produzca dicha JUBILACION ordinaria del trabajador, al resultar incompatibles y excluyentes entre sí uno y otro concepto.
+
+  JUVILACION A LOS 64 AÑOS:
+  En  este  tipo  de  jubilación  se  estará  a  lo  dispuesto  en  la  normativa  legal  y  reglamentaria vigente en cada momento, que resulte de aplicación.
+
+  MEDIDAS CONTRA LA VIOLENCIA DE GÉNERO:
+  La empresa facilitará a la trabajadora víctima de violencia de género, y para hacer efectiva su protección o derecho a la asistencia social integral, el cambio de su turno de trabajo, de su parque y/o de su ruta, dentro de las posibilidades de la empresa y previo acuerdo con la trabajadora.
+  Igualmente, la trabajadora víctima de violencia de género tendrá derecho a la reducción de su  jornada  de  trabajo  hasta  un  máximo  del  50  por  100  de  su  jornada,  con  disminución proporcional  de  salario  y  a  la  suspensión  de  la  relación  laboral  con  reserva  del  puesto de trabajo en los términos previstos en la Ley General de la Seguridad Social. La duración de esta suspensión será la establecida por la Ley del Estatuto de los Trabajadores.
+  Las situaciones de violencia que dan lugar al reconocimiento de los derechos regulados en esta  disposición  se  acreditarán  con  la  orden  de  protección  a  favor  de  la  víctima.
+  Excepcionalmente, será título de acreditación de esta situación, el informe del ministerio fiscal que indique la existencia de indicios de que la demandante es víctima de violencia de género hasta tanto se dicte la orden de protección.
+  En lo no recogido en este artículo, se estará a lo dispuesto en la Ley al efecto.
+
+  PRINCIPIOS GENERALES:
+  Las empresas, las personas trabajadoras y los representantes de los trabajadores, velarán en todo momento por dar cumplimiento a lo previsto en la Ley 31/1995 de 10 de noviembre,de Prevención de Riesgos Laborales o aquellas que en un futuro la pudiera sustituir, en todo lo concerniente al Sector de Limpieza Pública Viaria.
+  Asimismo, es compromiso de las partes el adoptar aquellas medidas promulgadas con rango de Ley, que ya existen o se dicten en el futuro, tendentes a conciliar la vida familiar y laboral en las personas trabajadoras, con especial atención a todos aquellos aspectos relacionados con la mujer, embarazo, lactancia y cuidado de los hijos o personas mayores.
+
+  EMBARAZO, LACTANCIA Y MATERNIDAD, NACIMIENTO Y CUIDADO DE MENOR:
+  Se estará a lo dispuesto en la legislación vigente en estas materias en cada momento.
+
+  REVISIÓN MÉDICA:
+  Con carácter voluntario para el trabajador, se realizará anualmente una revisión médica por parte de un Servicio Médico que constará de una serie de pruebas mínimas, como son:
+  Audiometría.
+  Control visual.
+  Espirometría.
+  Análisis de sangre y orina.
+  Exploración clínica.
+  Para la realización de este reconocimiento médico se concederá el día del mismo como libre al trabajador/a que efectúe la revisión médica. Será la empresa la que fije el día del reconocimiento.
+  En el caso que la empresa estime por cualquier causa justificada y de manera excepcional,la necesidad de realizar un nuevo reconocimiento fuera de su jornada laboral, también se tendrá derecho al disfrute del día libre.
+  Al  personal  de  nuevo  ingreso,  igualmente  con  carácter  voluntario  con  las  excepciones  de obligatoriedad recogidas en la normativa vigente, se le realizará este reconocimiento médico antes de su incorporación al puesto de trabajo, salvo en campañas especiales y cuando por motivos de  organización  no pudiera  realizarse  el  reconocimiento médico  antes  del  ingreso del trabajador a su puesto de trabajo.
+  El resultado de dicho reconocimiento será entregado a cada trabajador de forma confidencial.
+  En  el mes de octubre de cada año, se habilitará una vacuna contra la gripe, de carácter voluntario, efectuándose en horas de trabajo.
+  
+  ` }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
   jubilacion: { imagenes: [], parcial:{ texto:"" }, anticipada:{ texto:"" } },
   seguridad: { imagenes: [], epis:{ texto:"" }, riesgos:{ texto:"" }, reconocimientos:{ texto:"" } },
   adicionales: { imagenes: [], primera:{ texto:"" }, segunda:{ texto:"" }, tercera:{ texto:"" } }
