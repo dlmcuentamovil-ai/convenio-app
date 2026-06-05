@@ -67,7 +67,7 @@ window.RESPUESTAS_BASICO = {
 - Contrataciones por excedencias
 - Contrataciones para sustituciones por IT
 - Contrataciones de relevo` } },
-  vacantes: { imagenes: [], asignacion:{ texto:`e
+  vacantes: { imagenes: [], asignacion:{ texto:`
   En el plazo de 30 días y sin tener en cuenta la plantilla, por las vacantes que se produzcan debido a muerte o despido declarado improcedente por sentencia firme que conlleven la extinción del contrato, o por acuerdo entre las partes.Igualmente se actuará en los casos de invalidez que no supongan el reingreso del trabajador/a en la plantilla y tras la declaración definitiva de la misma, si no se hubiera cubierto con anterioridad.
   En caso de excedencia se cubrirán las vacantes durante el tiempo que duren éstas.
   En caso de jubilación se cubrirá la plaza mediante la contratación de un trabajador/a durantedos años.
