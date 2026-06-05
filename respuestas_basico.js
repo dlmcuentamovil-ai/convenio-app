@@ -67,7 +67,11 @@ window.RESPUESTAS_BASICO = {
 - Contrataciones por excedencias
 - Contrataciones para sustituciones por IT
 - Contrataciones de relevo` } },
-  vacantes: { imagenes: [], asignacion:{ texto:"" }, movilidad:{ texto:"" } },
+  vacantes: { imagenes: [], asignacion:{ texto:`e
+  En el plazo de 30 días y sin tener en cuenta la plantilla, por las vacantes que se produzcan debido a muerte o despido declarado improcedente por sentencia firme que conlleven la extinción del contrato, o por acuerdo entre las partes.Igualmente se actuará en los casos de invalidez que no supongan el reingreso del trabajador/a en la plantilla y tras la declaración definitiva de la misma, si no se hubiera cubierto con anterioridad.
+  En caso de excedencia se cubrirán las vacantes durante el tiempo que duren éstas.
+  En caso de jubilación se cubrirá la plaza mediante la contratación de un trabajador/a durantedos años.
+  Siete de cada diez (7/10) contrataciones indefinidas de peón a tiempo completo que realice la empresa se efectuarán con el personal procedente del colectivo de trabajadores de sábados, domingos y festivos (SDF) con más de seis meses de antigüedad en el servicio de limpieza pública viaria de Madrid Capital. Todo ello, no será de aplicación, en ningún caso, a las contrataciones que se lleven a cabo por las empresas mediante un contrato de relevo.` } },
   prendas: { imagenes: [], entrega:{ texto:"" }, reposicion:{ texto:"" }, temporada:{ texto:"" } },
   mejoras: { imagenes: [], seguro:{ texto:"" }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
   jubilacion: { imagenes: [], parcial:{ texto:"" }, anticipada:{ texto:"" } },
