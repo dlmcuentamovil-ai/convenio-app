@@ -72,7 +72,29 @@ window.RESPUESTAS_BASICO = {
   En caso de excedencia se cubrirán las vacantes durante el tiempo que duren éstas.
   En caso de jubilación se cubrirá la plaza mediante la contratación de un trabajador/a durantedos años.
   Siete de cada diez (7/10) contrataciones indefinidas de peón a tiempo completo que realice la empresa se efectuarán con el personal procedente del colectivo de trabajadores de sábados, domingos y festivos (SDF) con más de seis meses de antigüedad en el servicio de limpieza pública viaria de Madrid Capital. Todo ello, no será de aplicación, en ningún caso, a las contrataciones que se lleven a cabo por las empresas mediante un contrato de relevo.` } },
-  prendas: { imagenes: [], entrega:{ texto:"" }, reposicion:{ texto:"" }, temporada:{ texto:"" } },
+  prendas: { imagenes: [], entrega:{ texto:"Las Empresas harán entrega por una sola vez de una equipación completa de ropa de verano,durante el mes de mayo, y de invierno, durante el mes de octubre." }, reposicion:{ texto:`Cada prenda de esta equipación se repondrá únicamente en función de su deterioro debido al uso normal de la misma.
+  Las prendas de trabajo se entregarán en horas de trabajo en los respectivos parques; ante cualquier medida o prueba se seguirá igual proceso.
+  La ropa se solicitara por hoja de solicitud.` }, uniformidad:{ texto:`
+  ROPA DE VERANO:
+  2 pantalones.
+  2 camisas.
+  1 cazadora.
+  Un par de zapatos.
+  Una gorra de verano.
+  Una toalla de manos.
+  
+ ROPA DE INVIERNO:
+  2 pantalones.
+  2 camisas.
+  1 forro polar.
+  1 jersey.
+  1 anorak.
+  1 traje de agua.
+  1 gorra de invierno.
+  1 braga.
+  1 toalla de ducha.
+  Un par de botas.
+  Un par de botas de agua. ` } },
   mejoras: { imagenes: [], seguro:{ texto:"" }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
   jubilacion: { imagenes: [], parcial:{ texto:"" }, anticipada:{ texto:"" } },
   seguridad: { imagenes: [], epis:{ texto:"" }, riesgos:{ texto:"" }, reconocimientos:{ texto:"" } },
