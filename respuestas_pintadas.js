@@ -46,8 +46,10 @@ Un total de 15 festivos/año` }, recuperaciones:{ texto:"No aplica" } },
   - Segundo bienio un 10%
   - Tercer bienio 15%` }, quinquenios:{ texto:`Se cobrarán a partir del tercer bienio incrementando un 7% por quinquenio` } },
   pagas: { imagenes: [], verano:{ texto:`Paga de Verano: Se devengará del 1 de enero al 30 de junio.
-La paga extraordinaria de Verano se hará efectiva el día 16 del mes de julio.` }, navidad:{ texto:`Paga de Navidad: Se devengará del 1 de julio al 31 de diciembre.
-La paga de Navidad se hará efectiva el día 17 del mes de diciembre.` }, prorrateo:{ texto:`` } },
+  La paga extraordinaria de Verano se hará efectiva el día 16 del mes  de julio.` }, sanmartindeporres:{ texto:`Paga de San Martín de Porres: Se devengará desde el 1 de enero al 31 de diciembre y se abonará con la nómina del mes de octubre y en proporción al tiempo trabajado. 
+  Esta paga se hara efectiva en el me Octubre y en proporción al tiempo trabajado` }, navidad:{ texto:`Paga de Navidad: Se devengará del 1 de julio al 31 de diciembre.
+  La paga de Navidad se hará efectiva el día 17 del mes de diciembre. ` }, beneficios:{ texto:`Paga de Beneficios: del 1  de enero al 31 de diciembre del año anterior y se abonará en proporción al tiempo trabajado, no devengándose las ausencias injustificadas. 
+  La paga de Beneficios se hará efectiva el último día hábil del mes de febrero ` } },
   economia: { imagenes: [], salario:{ texto:"" }, complementos:{ texto:"" }, dietas:{ texto:"" }, kilometraje:{ texto:"" } },
   excedencias: { imagenes: [], voluntaria:{ texto:"" }, forzosa:{ texto:"" }, cuidado:{ texto:"" } },
   conductores: { imagenes: [], carnet:{ texto:"" }, funciones:{ texto:"" }, plus:{ texto:"" } },
