@@ -11,6 +11,36 @@
   <script src="estructura.js"></script>
   <script src="respuestas_basico.js"></script>
   <script src="respuestas_pintadas.js"></script>
+  body {
+    background-image: url("/portada_convenio_ServCom_limpiezaPublicaViaria.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+  }
+
+  /* Para que el contenido NO herede la opacidad */
+  #appRoot {
+    position: relative;
+    z-index: 2;
+    opacity: 1 !important;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    background-repeat: inherit;
+    opacity: 0.5;
+    z-index: 1;
+    pointer-events: none;
+  }
 </head>
 
 <body>
