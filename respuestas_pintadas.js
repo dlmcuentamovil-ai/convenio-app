@@ -77,8 +77,14 @@ Podrán optar cumpliendo los siguientes requisitos (estos son los minimos):
 - Contrataciones por excedencias
 - Contrataciones para sustituciones por IT
 - Contrataciones de relevo` }, },
-  vacantes: { imagenes: [], asignacion:{ texto:"" }, movilidad:{ texto:"" } },
-  prendas: { imagenes: [], entrega:{ texto:"" }, reposicion:{ texto:"" }, temporada:{ texto:"" } },
+  vacantes: { imagenes: [], asignacion:{ texto:`En el plazo de 30 días y sin tener en cuenta la plantilla, por las vacantes que se produzcan debido a muerte o despido declarado improcedente por sentencia firme que conlleven la extinción del contrato, o por acuerdo entre las partes.Igualmente se actuará en los casos de invalidez que no supongan el reingreso del trabajador/a en la plantilla y tras la declaración definitiva de la misma, si no se hubiera cubierto con anterioridad.
+En caso de excedencia se cubrirán las vacantes durante el tiempo que duren éstas.
+En caso de jubilación se cubrirá la plaza mediante la contratación de un trabajador/a durantedos años.
+Siete de cada diez (7/10) contrataciones indefinidas de peón a tiempo completo que realice la empresa se efectuarán con el personal procedente del colectivo de trabajadores de sábados, domingos y festivos (SDF) con más de seis meses de antigüedad en el servicio de limpieza pública viaria de Madrid Capital. Todo ello, no será de aplicación, en ningún caso, a las contrataciones que se lleven a cabo por las empresas mediante un contrato de relevo.` }, },
+  prendas: { imagenes: [], entrega:{ texto:"Las Empresas harán entrega por una sola vez de una equipación completa de ropa de verano,durante el mes de mayo, y de invierno, durante el mes de octubre." }, 
+  reposicion:{ texto:`Cada prenda de esta equipación se repondrá únicamente en función de su deterioro debido al uso normal de la misma.
+Las prendas de trabajo se entregarán en horas de trabajo en los respectivos parques; ante cualquier medida o prueba se seguirá igual proceso.
+La ropa se solicitara por hoja de solicitud.` }, temporada:{ texto:"" } },
   mejoras: { imagenes: [], seguro:{ texto:"" }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
   jubilacion: { imagenes: [], parcial:{ texto:"" }, anticipada:{ texto:"" } },
   seguridad: { imagenes: [], epis:{ texto:"" }, riesgos:{ texto:"" }, reconocimientos:{ texto:"" } },
