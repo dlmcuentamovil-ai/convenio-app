@@ -1,6 +1,9 @@
 window.RESPUESTAS_PINTADAS = {
-  jornada: { imagenes: [], tt: { texto:"" }, sdf:{ texto:"" }, nocturno:{ texto:"" }, requisitos:{ texto:"" }, anual:{ texto:"" }, irregular:{ texto:"" }, cambios:{ texto:"" }, efectivas:{ texto:"" }, bocadillo:{ texto:"" }, complementarias:{ texto:"" } },
-  vacaciones: { imagenes: [], tt:{ texto:"" }, sdf:{ texto:"" }, computo:{ texto:"" }, devengo:{ texto:"" }, disfrute:{ texto:"" }, calendario:{ texto:"" }, antiguedad:{ texto:"" } },
+  jornada: { imagenes: [], tt: { texto:"7h /jornada" }, sdf:{ texto:"7h /jornada" }, nocturno:{ texto:"Es voluntario y no rotativo. Si no hubiera personal voluntario para el turno de noche se cubrirán los puestos necesarios con personal de día rotando entre todos ellos, excepto de mayores de 60 años, que será voluntario." }, 
+  requisitos:{ texto:"Mayor de 18 años y voluntario para mayores de 60 años" }, anual:{ texto:"Para el cálculo de la jornada anual se tendrán en cuenta los festivos de cada año y las vacaciones, asi como el permiso de navidad de 2 días para jornada completa y 1 día para jornada de SDF" }, 
+  irregular:{ texto:"No aplica" }, cambios:{ texto:"Se realizarán por hoja de solicitud. Si se solicita voluntario la empresa podra aceptar dicho cambiom, o no. Si se solicita por conciliación familiar se debera aportar documentación para acreditarlo" }, efectivas:{ texto:"Todas aquellas horas dentro de la jornada laboral incluidas las horas de cobro" }, 
+  bocadillo:{ texto:"Se dispondra de 30 minutos para todas las jornadas y turnos" }, complementarias:{ texto:"Tambien llamadas horas extras o jornada extra" } },
+  vacaciones: { imagenes: [], tt:{ texto:"31 días naturales de vacaciones" }, sdf:{ texto:"10 dias habiles" }, computo:{ texto:"" }, devengo:{ texto:"" }, disfrute:{ texto:"" }, calendario:{ texto:"" }, antiguedad:{ texto:"" } },
   permisos: { imagenes: [], retribuidos:{ texto:"" }, noretribuidos:{ texto:"" }, hospitalizacion:{ texto:"" }, fallecimiento:{ texto:"" }, nacimiento:{ texto:"" }, acompanamiento:{ texto:"" }, deber:{ texto:"" } },
   pluses: { imagenes: [], nocturnidad:{ texto:"" }, festividad:{ texto:"" }, peligrosidad:{ texto:"" }, turnicidad:{ texto:"" }, transporte:{ texto:"" }, asistencia:{ texto:"" } },
   descansos: { imagenes: [], semanal:{ texto:"" }, diario:{ texto:"" }, festivos:{ texto:"" }, recuperaciones:{ texto:"" } },
