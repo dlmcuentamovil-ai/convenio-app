@@ -27,8 +27,20 @@ Se disfrutarán de 3 días por fallecimiento de abuelos, abuelos políticos, pad
 CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN`}, acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
 Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
 En caso de un menor de 12 años consultar Plan de Igualdad.` }, deber:{ texto:"" } },
-  pluses: { imagenes: [], nocturnidad:{ texto:"" }, festividad:{ texto:"" }, peligrosidad:{ texto:"" }, turnicidad:{ texto:"" }, transporte:{ texto:"" }, asistencia:{ texto:"" } },
-  descansos: { imagenes: [], semanal:{ texto:"" }, diario:{ texto:"" }, festivos:{ texto:"" }, recuperaciones:{ texto:"" } },
+  pluses: { imagenes: [], nocturnidad:{ texto:`20% del salario base.
+- Incremento de 1€ en el año 2027
+- Incremento de 1€ en el año 2028
+- Incremento de 1€ en el año 2029
+- Incremento de 1€ en el año 2030
+- Incremento de 1€ en el año 2031` }, festividad:{ texto:"No aplica" }, peligrosidad:{ texto:"No aplica" }, turnicidad:{ texto:"No aplica" }, transporte:{ texto:"El plus trasporte viene regulado en las tablas salariales" }, asistencia:{ texto:`Artículo 31. – Prima compensatoria por la asistencia al trabajo.
+- Para el año 2026 => 2,25€
+- Para el año 2027 => 2,34€
+- Para el año 2028 => 2,43€
+- Para el año 2029 => 2,53€
+- Para el año 2030 => 2,63€
+- Para el año 2031 => 2,74€` } },
+  descansos: { imagenes: [], semanal:{ texto:"Según convenio" }, diario:{ texto:"Al menos 12 horas entre turnos" }, festivos:{ texto:`Todos los Nacionales, Autonómicos de la Comunidad de Madrid, locales del municipio de Madird y San Martín de Porres.
+Un total de 15 festivos/año` }, recuperaciones:{ texto:"No aplica" } },
   antiguedad: { imagenes: [], trienios:{ texto:"" }, quinquenios:{ texto:"" } },
   pagas: { imagenes: [], verano:{ texto:"" }, navidad:{ texto:"" }, prorrateo:{ texto:"" } },
   economia: { imagenes: [], salario:{ texto:"" }, complementos:{ texto:"" }, dietas:{ texto:"" }, kilometraje:{ texto:"" } },
