@@ -1,0 +1,23 @@
+{
+  "name": "Convenio LPV 26-31",
+  "short_name": "LPV 26-31",
+  "description": "Consulta rápida del Convenio LPV Madrid 2026-2031",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#b30000",
+  "icons": [
+    {
+      "src": "/image_0.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/portada_convenio.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
