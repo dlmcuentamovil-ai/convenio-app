@@ -41,7 +41,10 @@ En caso de un menor de 12 años consultar Plan de Igualdad.` }, deber:{ texto:""
 - Para el año 2031 => 2,74€` } },
   descansos: { imagenes: [], semanal:{ texto:"Según convenio" }, diario:{ texto:"Al menos 12 horas entre turnos" }, festivos:{ texto:`Todos los Nacionales, Autonómicos de la Comunidad de Madrid, locales del municipio de Madird y San Martín de Porres.
 Un total de 15 festivos/año` }, recuperaciones:{ texto:"No aplica" } },
-  antiguedad: { imagenes: [], trienios:{ texto:"" }, quinquenios:{ texto:"" } },
+  antiguedad: { imagenes: [], bienios:{ texto:`Se cobrarán los 3 primeros bienios:
+  - Primer bienio un 5%
+  - Segundo bienio un 10%
+  - Tercer bienio 15%` }, quinquenios:{ texto:`Se cobrarán a partir del tercer bienio incrementando un 7% por quinquenio` } },
   pagas: { imagenes: [], verano:{ texto:"" }, navidad:{ texto:"" }, prorrateo:{ texto:"" } },
   economia: { imagenes: [], salario:{ texto:"" }, complementos:{ texto:"" }, dietas:{ texto:"" }, kilometraje:{ texto:"" } },
   excedencias: { imagenes: [], voluntaria:{ texto:"" }, forzosa:{ texto:"" }, cuidado:{ texto:"" } },
