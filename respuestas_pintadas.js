@@ -45,7 +45,9 @@ Un total de 15 festivos/año` }, recuperaciones:{ texto:"No aplica" } },
   - Primer bienio un 5%
   - Segundo bienio un 10%
   - Tercer bienio 15%` }, quinquenios:{ texto:`Se cobrarán a partir del tercer bienio incrementando un 7% por quinquenio` } },
-  pagas: { imagenes: [], verano:{ texto:"" }, navidad:{ texto:"" }, prorrateo:{ texto:"" } },
+  pagas: { imagenes: [], verano:{ texto:`Paga de Verano: Se devengará del 1 de enero al 30 de junio.
+La paga extraordinaria de Verano se hará efectiva el día 16 del mes de julio.` }, navidad:{ texto:`Paga de Navidad: Se devengará del 1 de julio al 31 de diciembre.
+La paga de Navidad se hará efectiva el día 17 del mes de diciembre.` }, prorrateo:{ texto:`` } },
   economia: { imagenes: [], salario:{ texto:"" }, complementos:{ texto:"" }, dietas:{ texto:"" }, kilometraje:{ texto:"" } },
   excedencias: { imagenes: [], voluntaria:{ texto:"" }, forzosa:{ texto:"" }, cuidado:{ texto:"" } },
   conductores: { imagenes: [], carnet:{ texto:"" }, funciones:{ texto:"" }, plus:{ texto:"" } },
