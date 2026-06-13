@@ -50,7 +50,7 @@ Un total de 15 festivos/año` }, recuperaciones:{ texto:"No aplica" } },
   Esta paga se hara efectiva en el me Octubre y en proporción al tiempo trabajado` }, navidad:{ texto:`Paga de Navidad: Se devengará del 1 de julio al 31 de diciembre.
   La paga de Navidad se hará efectiva el día 17 del mes de diciembre. ` }, beneficios:{ texto:`Paga de Beneficios: del 1  de enero al 31 de diciembre del año anterior y se abonará en proporción al tiempo trabajado, no devengándose las ausencias injustificadas. 
   La paga de Beneficios se hará efectiva el último día hábil del mes de febrero ` } },
-  economia: { imagenes: [], salario:{ texto:"" }, complementos:{ texto:"" }, dietas:{ texto:"" }, kilometraje:{ texto:"" } },
+  economia: { imagenes: [], salario:{ texto:"Ver tablas salariales" }, complementos:{ texto:"Ver tablas salariles" }, dietas:{ texto:"Ver tablas salariales" }, kilometraje:{ texto:"Ver tablas salariales" } },
   excedencias: { imagenes: [], voluntaria:{ texto:"" }, forzosa:{ texto:"" }, cuidado:{ texto:"" } },
   conductores: { imagenes: [], carnet:{ texto:"" }, funciones:{ texto:"" }, plus:{ texto:"" } },
   ascensos: { imagenes: [], criterios:{ texto:"" }, pruebas:{ texto:"" } },
