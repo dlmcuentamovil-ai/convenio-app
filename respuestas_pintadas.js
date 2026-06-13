@@ -5,7 +5,28 @@ window.RESPUESTAS_PINTADAS = {
   bocadillo:{ texto:"Se dispondra de 30 minutos para todas las jornadas y turnos" }, complementarias:{ texto:"Tambien llamadas horas extras o jornada extra" } },
   vacaciones: { imagenes: [], tt:{ texto:"31 días naturales de vacaciones" }, sdf:{ texto:"10 dias habiles" }, computo:{ texto:"Dias naturales." }, devengo:{ texto:"Se disfrutaran las vacaciones anuales excepto en contratos temporales que se disfrutaran la parte proporcional trabajado desde el 1 de enero de ese mismo año." }, 
                disfrute:{ texto:"Se disfurtaran en el mes de julio o agosto. Cualquier cambio se solicitará por hoja de solicitud." }, calendario:{ texto:"No aplica" }, antiguedad:{ texto:"No procede, se asignará por rotación" } },
-  permisos: { imagenes: [], retribuidos:{ texto:"" }, noretribuidos:{ texto:"" }, hospitalizacion:{ texto:"" }, fallecimiento:{ texto:"" }, nacimiento:{ texto:"" }, acompanamiento:{ texto:"" }, deber:{ texto:"" } },
+  permisos: { imagenes: [], retribuidos:{ texto:`Artículo 18. LICENCIAS Y PERMISOS
+- 10 días al año para exámenes por estudios oficiales.
+- 15 días retribuidos en caso de matrimonio o parejas de hecho inscritas debidamente en el Registro Oficial.
+- 5 días por accidente grave u hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario de parientes hasta segundo grado de consanguinidad o afinidad.
+- 1 día por intervención quirúrgica ambulatoria de parientes hasta segundo grado de consanguinidad o afinidad, ampliables a dos días más si existiese la necesidad de realizar un desplazamiento al efecto.
+- 3 días por fallecimiento de abuelos, abuelos políticos, padres, hijos, padres políticos, cónyuges, nietos, hermanos y hermanos políticos, ampliables a dos días más si existiese la necesidad de realizar un desplazamiento al efecto.
+- 3 días por enfermedad grave de padres, padres políticos, cónyuges, hijos y nietos. Cuatro días si ocurriese el hecho fuera de la provincia.
+- 2 días por traslado de domicilio habitual, que podrán disfrutarse dentro de los treinta días siguientes a la fecha de su empadronamiento, debiéndose acreditar dicho extremo con el correspondiente certificado emitido por la administración competente.
+- 1 día hábil en matrimonio de hijos, hermanos o padres y dos días en caso de que fuera en distinta provincia.
+- 1 día por fallecimiento de tíos y sobrinos consanguíneos y dos días si el fallecimiento ocurriese fuera de la provincia.
+- Horas para exámenes y renovaciones de carnet de conducir y D.N.I.
+- Por el tiempo indispensable para la realización del examen del CAP cuando éste coincida con su jornada laboral, o en la noche anterior si tuviera que prestar trabajo.
+- Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
+Todas estas licencias y permisos deberán ser preavisados, salvo urgencias, y posteriormente justificados debidamente. Además, todos estos permisos serán disfrutados tanto por los matrimonios como por las parejas de hecho debidamente inscritas en el registro oficial.` }, 
+             noretribuidos:{ texto:"Todos aquellos que no vienen ni en el articulo 18 del convenio colectivo ni en el plan de igualdad" }, hospitalizacion:{ texto:`Como marca el convenio en el Articulo 18. C
+Serán de 5 días por accidente grave u hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario de parientes hasta segundo grado de consanguinidad o afinidad.
+IMPORTANTE: Se disfrutarán en días laborables siempre y cuando continue el hecho causante que en cuyo caso se pararia el permiso. En caso de Reposo domiciliario debe indicar los dias a tal efecto.` }, fallecimiento:{ texto:`Como marca el convenio en su Articulo 18.e
+Se disfrutarán de 3 días por fallecimiento de abuelos, abuelos políticos, padres, hijos, padres políticos, cónyuges, nietos, hermanos y hermanos políticos, ampliables a dos días más si existiese la necesidad de realizar un desplazamiento al efecto.` }, 
+  nacimiento:{ texto:`Según marque la ley vigente.
+CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN`}, acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
+Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
+En caso de un menor de 12 años consultar Plan de Igualdad.` }, deber:{ texto:"" } },
   pluses: { imagenes: [], nocturnidad:{ texto:"" }, festividad:{ texto:"" }, peligrosidad:{ texto:"" }, turnicidad:{ texto:"" }, transporte:{ texto:"" }, asistencia:{ texto:"" } },
   descansos: { imagenes: [], semanal:{ texto:"" }, diario:{ texto:"" }, festivos:{ texto:"" }, recuperaciones:{ texto:"" } },
   antiguedad: { imagenes: [], trienios:{ texto:"" }, quinquenios:{ texto:"" } },
