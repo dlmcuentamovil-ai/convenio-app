@@ -5,21 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Consulta Convenio Selur</title>
 <style>
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("portada_convenio_ServCom_limpiezaPublicaViaria.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.5;
-      z-index: -1;
-    }
-  </style>
+  body {
+    background-image: url("portada_convenio_ServCom_limpiezaPublicaViaria.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Capa semitransparente encima del fondo */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5); /* 50% opacidad */
+    pointer-events: none;
+    z-index: -1;
+  }
+</style>
   <link rel="stylesheet" href="styles.css">
 
   <!-- Archivos externos -->
