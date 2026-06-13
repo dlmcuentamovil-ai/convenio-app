@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Consulta Convenio Selur</title>
 <style>
+  /* Fondo directamente en el body */
   body {
     background-image: url("portada_convenio_ServCom_limpiezaPublicaViaria.jpg");
     background-size: cover;
@@ -22,7 +23,14 @@
     height: 100%;
     background: rgba(255,255,255,0.5); /* 50% opacidad */
     pointer-events: none;
-    z-index: -1;
+    z-index: 1; /* ← ESTO ES LO IMPORTANTE */
+  }
+
+  /* Para que tu app quede por encima */
+  #appRoot {
+    position: relative;
+    z-index: 2;
+    background: transparent !important; /* ← QUITA EL FONDO BLANCO */
   }
 </style>
   <link rel="stylesheet" href="styles.css">
