@@ -33,9 +33,9 @@ IMPORTANTE: Se disfrutarán en días laborables siempre y cuando continue el hec
 Se disfrutarán de 3 días por fallecimiento de abuelos, abuelos políticos, padres, hijos, padres políticos, cónyuges, nietos, hermanos y hermanos políticos, ampliables a dos días más si existiese la necesidad de realizar un desplazamiento al efecto.` },
 
     nacimiento:{ texto:`Según marque la ley vigente.
-CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN` }
+CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN` },
   }  // ← cierre correcto del objeto permisos
-};  
+  
 acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
 Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
 En caso de un menor de 12 años consultar Plan de Igualdad.` },
