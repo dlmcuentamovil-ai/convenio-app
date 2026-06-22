@@ -216,29 +216,25 @@
     });
 
     $("#btnForm").addEventListener("click", () => {
-      estado.nombre = $("#inpNombre").value.trim();   // 🔥 FALTABA ESTA LÍNEA
       estado.selur = $("#inpSelur").value;
       estado.jornada = $("#inpJornada").value;
 
-      if (!estado.nombre || !estado.selur || !estado.jornada) {
+      if (!estado.selur || !estado.jornada) {
         alert("Completa todos los campos");
         return;
       }
 
-      // Cargar datos guardados
       const savedBasico = localStorage.getItem("RESPUESTAS_BASICO");
       if (savedBasico) window.RESPUESTAS_BASICO = JSON.parse(savedBasico);
 
       const savedPintadas = localStorage.getItem("RESPUESTAS_PINTADAS");
       if (savedPintadas) window.RESPUESTAS_PINTADAS = JSON.parse(savedPintadas);
 
-      // Asignar bloque correcto
       if (estado.selur === "basico") window.RESPUESTAS = window.RESPUESTAS_BASICO;
       if (estado.selur === "pintadas") window.RESPUESTAS = window.RESPUESTAS_PINTADAS;
 
       renderApp();
-});
-
+    });
     return;  // ⬅️ AQUÍ TERMINA EL FORMULARIO DEL TRABAJADOR
   }
 
