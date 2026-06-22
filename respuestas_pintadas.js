@@ -26,7 +26,8 @@ Se disfrutarán de 3 días por fallecimiento de abuelos, abuelos políticos, pad
   nacimiento:{ texto:`Según marque la ley vigente.
 CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN`}, acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
 Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
-En caso de un menor de 12 años consultar Plan de Igualdad.` }, deber:{ texto:"" } },
+En caso de un menor de 12 años consultar Plan de Igualdad.` }, deber:{ texto:"Por el tiempo indispensable para el cumplimiento de un deber inexcusable
+de carácter público y personal." } },
   pluses: { imagenes: [], nocturnidad:{ texto:`20% del salario base.
 - Incremento de 1€ en el año 2027
 - Incremento de 1€ en el año 2028
@@ -131,12 +132,12 @@ Los/as trabajadores/as que soliciten su jubilación recibirán, por parte de la 
 Igualmente se abonará la idéntica cantidad correspondiente a los 67 años que se refleja en el anexo I del presente convenio por años de servicio prestado, cuando el/la trabajador/a solicite la jubilación dentro de los seis meses posteriores al cumplimiento de los 67 años.
 En materia de jubilación obligatoria se estará a lo dispuesto en la normativa legal y reglamentaria vigente en cada momento, que resulte de aplicación.
 
-JUVILACIÓN ANTICIPADA PARCIAL:
+JUBILACIÓN ANTICIPADA PARCIAL:
 De conformidad con el acuerdo de Jubilación Anticipada Parcial de fecha 27 de marzo de 2013, todas las personas trabajadoras incluidas en el acuerdo, continuarán rigiéndose por dicha jubilación en los términos indicados en el mismo. El resto de trabajadores/as estará a lo dispuesto en la legislación vigente en materia de jubilación parcial.
 La empresa en la que preste servicio el trabajador/a en el momento de producirse la jubilación parcial abonará, en concepto de incentivo para la jubilación parcial, la cantidad que se refleja para la jubilación a los 64 años, independientemente de la edad en la que realmente se produzca la jubilación.
 La jubilación anticipada, y por tanto el pago en ese momento del incentivo para tal tipo de jubilación que se acaba de expresar, supone la renuncia expresa del trabajador al cobro del complemento de JUBILACION previsto en el artículo 40, cualquiera que sea el momento en el que se produzca dicha JUBILACION ordinaria del trabajador, al resultar incompatibles y excluyentes entre sí uno y otro concepto.
 
-JUVILACION A LOS 64 AÑOS:
+JUBILACION A LOS 64 AÑOS:
 En este tipo de jubilación se estará a lo dispuesto en la normativa legal y reglamentaria vigente en cada momento, que resulte de aplicación.
 
 MEDIDAS CONTRA LA VIOLENCIA DE GÉNERO:
@@ -164,8 +165,22 @@ Para la realización de este reconocimiento médico se concederá el día del mi
 En el caso que la empresa estime por cualquier causa justificada y de manera excepcional,la necesidad de realizar un nuevo reconocimiento fuera de su jornada laboral, también se tendrá derecho al disfrute del día libre.
 Al personal de nuevo ingreso, igualmente con carácter voluntario con las excepciones de obligatoriedad recogidas en la normativa vigente, se le realizará este reconocimiento médico antes de su incorporación al puesto de trabajo, salvo en campañas especiales y cuando por motivos de organización no pudiera realizarse el reconocimiento médico antes del ingreso del trabajador a su puesto de trabajo.
 El resultado de dicho reconocimiento será entregado a cada trabajador de forma confidencial.
-En el mes de octubre de cada año, se habilitará una vacuna contra la gripe, de carácter voluntario, efectuándose en horas de trabajo.` }, ayudas:{ texto:`` }, formacion:{ texto:`` } },
-  jubilacion: { imagenes: [], parcial:{ texto:"" }, anticipada:{ texto:"" } },
+En el mes de octubre de cada año, se habilitará una vacuna contra la gripe, de carácter voluntario, efectuándose en horas de trabajo.` }, ayudas:{ texto:`Ver apartado "Seguro"` }, formacion:{ texto:`Habrá una formación inicial obligatoria. Despues realizara una formación permanente según las categorias` } },
+  jubilacion: { imagenes: [], parcial:{ texto:"No aplica" }, anticipada:{ texto:`De conformidad con el acuerdo de Jubilación Anticipada Parcial de fecha 27
+de marzo de 2013, todas las personas trabajadoras incluidas en el acuerdo,
+continuarán rigiéndose por dicha jubilación en los términos indicados en el34
+mismo. El resto de trabajadores/as estará a lo dispuesto en la legislación
+vigente en materia de jubilación parcial.
+La empresa en la que preste servicio el trabajador/a en el momento de
+producirse la jubilación parcial abonará, en concepto de incentivo para la
+jubilación parcial, la cantidad que se refleja para la jubilación a los 64 años,
+independientemente de la edad en la que realmente se produzca la jubilación.
+La jubilación anticipada, y por tanto el pago en ese momento del incentivo para
+tal tipo de jubilación que se acaba de expresar, supone la renuncia expresa del
+trabajador al cobro del complemento de JUBILACION previsto en el artículo
+41, cualquiera que sea el momento en el que se produzca dicha JUBILACION
+ordinaria del trabajador, al resultar incompatibles y excluyentes entre sí uno y
+otro concepto.` } },
   seguridad: { imagenes: [], epis:{ texto:"" }, riesgos:{ texto:"" }, reconocimientos:{ texto:"" } },
   adicionales: { imagenes: [], primera:{ texto:"" }, segunda:{ texto:"" }, tercera:{ texto:"" } }
 };
