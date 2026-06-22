@@ -3,9 +3,12 @@ window.RESPUESTAS_PINTADAS = {
   requisitos:{ texto:"Mayor de 18 años y voluntario para mayores de 60 años" }, anual:{ texto:"Para el cálculo de la jornada anual se tendrán en cuenta los festivos de cada año y las vacaciones, asi como el permiso de navidad de 2 días para jornada completa y 1 día para jornada de SDF" }, 
   irregular:{ texto:"No aplica" }, cambios:{ texto:"Se realizarán por hoja de solicitud. Si se solicita voluntario la empresa podra aceptar dicho cambiom, o no. Si se solicita por conciliación familiar se debera aportar documentación para acreditarlo" }, efectivas:{ texto:"Todas aquellas horas dentro de la jornada laboral incluidas las horas de cobro" }, 
   bocadillo:{ texto:"Se dispondra de 30 minutos para todas las jornadas y turnos" }, complementarias:{ texto:"Tambien llamadas horas extras o jornada extra" } },
+
   vacaciones: { imagenes: [], tt:{ texto:"31 días naturales de vacaciones" }, sdf:{ texto:"10 dias habiles" }, computo:{ texto:"Dias naturales." }, devengo:{ texto:"Se disfrutaran las vacaciones anuales excepto en contratos temporales que se disfrutaran la parte proporcional trabajado desde el 1 de enero de ese mismo año." }, 
                disfrute:{ texto:"Se disfurtaran en el mes de julio o agosto. Cualquier cambio se solicitará por hoja de solicitud." }, calendario:{ texto:"No aplica" }, antiguedad:{ texto:"No procede, se asignará por rotación" } },
-  permisos: { imagenes: [], retribuidos:{ texto:`Artículo 18. LICENCIAS Y PERMISOS
+
+  permisos: { imagenes: [], 
+    retribuidos:{ texto:`Artículo 18. LICENCIAS Y PERMISOS
 - 10 días al año para exámenes por estudios oficiales.
 - 15 días retribuidos en caso de matrimonio o parejas de hecho inscritas debidamente en el Registro Oficial.
 - 5 días por accidente grave u hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario de parientes hasta segundo grado de consanguinidad o afinidad.
@@ -19,12 +22,20 @@ window.RESPUESTAS_PINTADAS = {
 - Por el tiempo indispensable para la realización del examen del CAP cuando éste coincida con su jornada laboral, o en la noche anterior si tuviera que prestar trabajo.
 - Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
 Todas estas licencias y permisos deberán ser preavisados, salvo urgencias, y posteriormente justificados debidamente. Además, todos estos permisos serán disfrutados tanto por los matrimonios como por las parejas de hecho debidamente inscritas en el registro oficial.` }, 
-             noretribuidos:{ texto:"Todos aquellos que no vienen ni en el articulo 18 del convenio colectivo ni en el plan de igualdad" }, hospitalizacion:{ texto:`Como marca el convenio en el Articulo 18. C
+
+    noretribuidos:{ texto:"Todos aquellos que no vienen ni en el articulo 18 del convenio colectivo ni en el plan de igualdad" },
+
+    hospitalizacion:{ texto:`Como marca el convenio en el Articulo 18. C
 Serán de 5 días por accidente grave u hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario de parientes hasta segundo grado de consanguinidad o afinidad.
-IMPORTANTE: Se disfrutarán en días laborables siempre y cuando continue el hecho causante que en cuyo caso se pararia el permiso. En caso de Reposo domiciliario debe indicar los dias a tal efecto.` }, fallecimiento:{ texto:`Como marca el convenio en su Articulo 18.e
-Se disfrutarán de 3 días por fallecimiento de abuelos, abuelos políticos, padres, hijos, padres políticos, cónyuges, nietos, hermanos y hermanos políticos, ampliables a dos días más si existiese la necesidad de realizar un desplazamiento al efecto.` }, 
-  nacimiento:{ texto:`Según marque la ley vigente.
-CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN`}, acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
+IMPORTANTE: Se disfrutarán en días laborables siempre y cuando continue el hecho causante que en cuyo caso se pararia el permiso. En caso de Reposo domiciliario debe indicar los dias a tal efecto.` },
+
+    fallecimiento:{ texto:`Como marca el convenio en su Articulo 18.e
+Se disfrutarán de 3 días por fallecimiento de abuelos, abuelos políticos, padres, hijos, padres políticos, cónyuges, nietos, hermanos y hermanos políticos, ampliables a dos días más si existiese la necesidad de realizar un desplazamiento al efecto.` },
+
+    nacimiento:{ texto:`Según marque la ley vigente.
+CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN` }
+  }  // ← cierre correcto del objeto permisos
+};   // ← cierre correcto del objeto principal acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
 Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
 En caso de un menor de 12 años consultar Plan de Igualdad.` }, deber:{ texto:"Por el tiempo indispensable para el cumplimiento de un deber inexcusable
 de carácter público y personal." } },
