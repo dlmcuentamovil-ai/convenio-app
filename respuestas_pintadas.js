@@ -81,7 +81,7 @@ Se responsabilizará del entretenimiento y adecuada 10 conservación de la máqu
   ascensos: { imagenes: [], criterios:{ texto:`Serán de libre designación por parte de la Empresa los puestos de Jefe de Servicio, Encargado General y Subencargado General.
 Podrán optar cumpliendo los siguientes requisitos (estos son los minimos):
 - Un minimo de 6 meses en la contrara.` }, pruebas:{ texto:`Los ascensos que se proveerán por el concurso, examen y antigüedad` } },
-  contratacion: { imagenes: [], indefinido:{ texto:"Las Empresas no podrán superar un porcentaje del 10 % de eventualidad, del total de la plantilla fija a jornada completa, y un 18 % en plantilla de jornadas parciales en cada contrata. En dichos porcentajes no estarán incluidos los eventuales contratados para verano, contratos de relevo, ni campañas especiales o refuerzo, interinidades, excedencias y sustituciones." }, 
+  contratacion: { imagenes: [], indefinido:{ texto:`Las Empresas no podrán superar un porcentaje del 10 % de eventualidad, del total de la plantilla fija a jornada completa, y un 18 % en plantilla de jornadas parciales en cada contrata. En dichos porcentajes no estarán incluidos los eventuales contratados para verano, contratos de relevo, ni campañas especiales o refuerzo, interinidades, excedencias y sustituciones.` }, 
   temporal:{ texto:`Las contrataciones temporales serán:
 - Contrataciones de Verano
 - Contrataciones para eventos o refuerzo
@@ -93,7 +93,7 @@ Podrán optar cumpliendo los siguientes requisitos (estos son los minimos):
 En caso de excedencia se cubrirán las vacantes durante el tiempo que duren éstas.
 En caso de jubilación se cubrirá la plaza mediante la contratación de un trabajador/a durantedos años.
 Siete de cada diez (7/10) contrataciones indefinidas de peón a tiempo completo que realice la empresa se efectuarán con el personal procedente del colectivo de trabajadores de sábados, domingos y festivos (SDF) con más de seis meses de antigüedad en el servicio de limpieza pública viaria de Madrid Capital. Todo ello, no será de aplicación, en ningún caso, a las contrataciones que se lleven a cabo por las empresas mediante un contrato de relevo.` }, },
-  prendas: { imagenes: [], entrega:{ texto:"Las Empresas harán entrega por una sola vez de una equipación completa de ropa de verano,durante el mes de mayo, y de invierno, durante el mes de octubre." }, 
+  prendas: { imagenes: [], entrega:{ texto:`Las Empresas harán entrega por una sola vez de una equipación completa de ropa de verano, durante el mes de mayo, y de invierno, durante el mes de octubre.` }, 
   reposicion:{ texto:`Cada prenda de esta equipación se repondrá únicamente en función de su deterioro debido al uso normal de la misma.
 Las prendas de trabajo se entregarán en horas de trabajo en los respectivos parques; ante cualquier medida o prueba se seguirá igual proceso.
 La ropa se solicitara por hoja de solicitud.` }, uniformidad:{ texto:`ROPA DE VERANO:
@@ -179,7 +179,7 @@ El resultado de dicho reconocimiento será entregado a cada trabajador de forma 
 En el mes de octubre de cada año, se habilitará una vacuna contra la gripe, de carácter voluntario, efectuándose en horas de trabajo.` }, ayudas:{ texto:`Ver apartado "Seguro"` }, formacion:{ texto:`Habrá una formación inicial obligatoria. Despues realizara una formación permanente según las categorias` } },
   jubilacion: { imagenes: [], parcial:{ texto:"No aplica" }, anticipada:{ texto:`De conformidad con el acuerdo de Jubilación Anticipada Parcial de fecha 27
 de marzo de 2013, todas las personas trabajadoras incluidas en el acuerdo,
-continuarán rigiéndose por dicha jubilación en los términos indicados en el34
+continuarán rigiéndose por dicha jubilación en los términos indicados en el 34
 mismo. El resto de trabajadores/as estará a lo dispuesto en la legislación
 vigente en materia de jubilación parcial.
 La empresa en la que preste servicio el trabajador/a en el momento de
