@@ -35,7 +35,8 @@ Se disfrutarán de 3 días por fallecimiento de abuelos, abuelos políticos, pad
     nacimiento:{ texto:`Según marque la ley vigente.
 CONSULTAR CON UN DELEGADO SINDICAL PARA MAYOR INFORMACIÓN` }
   }  // ← cierre correcto del objeto permisos
-};   // ← cierre correcto del objeto principal acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
+};  
+acompanamiento:{ texto:`Como marca el convenio en su Articulo 18.i
 Por el tiempo indispensable por estancia en urgencias hospitalarias, debidamente acreditada, del cónyuge o un familiar en primer grado de consanguinidad.
 En caso de un menor de 12 años consultar Plan de Igualdad.` }, deber:{ texto:`Por el tiempo indispensable para el cumplimiento de un deber inexcusable
 de carácter público y personal.` } },
