@@ -158,7 +158,68 @@ window.RESPUESTAS_BASICO = {
   Al  personal  de  nuevo  ingreso,  igualmente  con  carácter  voluntario  con  las  excepciones  de obligatoriedad recogidas en la normativa vigente, se le realizará este reconocimiento médico antes de su incorporación al puesto de trabajo, salvo en campañas especiales y cuando por motivos de  organización  no pudiera  realizarse  el  reconocimiento médico  antes  del  ingreso del trabajador a su puesto de trabajo.
   El resultado de dicho reconocimiento será entregado a cada trabajador de forma confidencial.
   En  el mes de octubre de cada año, se habilitará una vacuna contra la gripe, de carácter voluntario, efectuándose en horas de trabajo.` }, ayudas:{ texto:"" }, formacion:{ texto:"" } },
-  jubilacion: { imagenes: [], parcial:{ texto:"" }, anticipada:{ texto:"" } },
-  seguridad: { imagenes: [], epis:{ texto:"" }, riesgos:{ texto:"" }, reconocimientos:{ texto:"" } },
-  adicionales: { imagenes: [], primera:{ texto:"" }, segunda:{ texto:"" }, tercera:{ texto:"" } }
+  jubilacion: { imagenes: [], parcial:{ texto:"No aplica" }, anticipada:{ texto:`De conformidad con el acuerdo de Jubilación Anticipada Parcial de fecha 27
+de marzo de 2013, todas las personas trabajadoras incluidas en el acuerdo,
+continuarán rigiéndose por dicha jubilación en los términos indicados en el34
+mismo. El resto de trabajadores/as estará a lo dispuesto en la legislación
+vigente en materia de jubilación parcial.
+La empresa en la que preste servicio el trabajador/a en el momento de
+producirse la jubilación parcial abonará, en concepto de incentivo para la
+jubilación parcial, la cantidad que se refleja para la jubilación a los 64 años,
+independientemente de la edad en la que realmente se produzca la jubilación.
+La jubilación anticipada, y por tanto el pago en ese momento del incentivo para
+tal tipo de jubilación que se acaba de expresar, supone la renuncia expresa del
+trabajador al cobro del complemento de JUBILACION previsto en el artículo
+41, cualquiera que sea el momento en el que se produzca dicha JUBILACION
+ordinaria del trabajador, al resultar incompatibles y excluyentes entre sí uno y
+otro concepto.` } },
+  seguridad: { imagenes: [], epis:{ texto:"Los EPI´s de entregaran al inicio y por reposición en algunos casos por hoja de solicitud" }, riesgos:{ texto:`Las empresas, las personas trabajadoras y los representantes de los
+trabajadores, velarán en todo momento por dar cumplimiento a lo previsto
+en la Ley 31/1995 de 10 de noviembre, de Prevención de Riesgos Laborales o
+aquellas que en un futuro la pudiera sustituir, en todo lo concerniente al Sector
+de Limpieza Pública Viaria.
+Asimismo, es compromiso de las partes el adoptar aquellas medidas
+promulgadas con rango de Ley, que ya existen o se dicten en el futuro,
+tendentes a conciliar la vida familiar y laboral en las personas trabajadoras,
+con especial atención a todos aquellos aspectos relacionados con la mujer,
+embarazo, lactancia y cuidado de los hijos o personas mayores.` }, reconocimientos:{ texto:`Con carácter voluntario para el trabajador, se realizará anualmente una revisión
+médica por parte de un Servicio Médico que constará de una serie de pruebas
+mínimas, como son:
+• Audiometría.
+• Control visual.
+• Espirometría.
+• Análisis de sangre y orina.
+• ºExploración clínica.
+Asimismo, a criterio de estos servicios médicos, aquellas otras que estimen
+oportunas.
+Para la realización de este reconocimiento médico se concederá el día del
+mismo como libre al trabajador/a que efectúe la revisión médica. Será la
+empresa la que fije el día del reconocimiento.
+En el caso que la empresa estime por cualquier causa justificada y de manera
+excepcional, la necesidad de realizar un nuevo reconocimiento fuera de su
+jornada laboral, también se tendrá derecho al disfrute del día libre.` } },
+  adicionales: { imagenes: [], primera:{ texto:`Disposición adicional primera - Igualdad de oportunidades
+La Constitución española proclama el derecho a la igualdad y a la no
+discriminación por razón de sexo. Las organizaciones firmantes del convenio,
+tanto sindical como empresarial, entienden que es necesario que el derecho
+fundamental a la igualdad de trato y oportunidades entre hombres y mujeres
+en el trabajo, sea real y efectivo. Asimismo, la eliminación de las desigualdades
+entre unas y otros es un objetivo que debe integrarse en todos los ámbitos
+de actuación. Por ello, y teniendo presente el papel del Sector de la Limpieza
+Pública Viaria como sector comprometido, se acuerda favorecer una gestión
+óptima de los recursos humanos que evite discriminaciones y que pueda
+ofrecer igualdad de oportunidades en lo que se refiere a acceso al empleo,
+a la formación y a la promoción profesional. Todo ello, de conformidad con
+el deber de negociar medidas dirigidas a promover la igualdad de trato y de
+oportunidades entre mujeres y hombres en el ámbito laboral, según lo previsto
+en la Ley Orgánica 3/2007, de 22 de marzo, de Igualdad Efectiva entre Mujeres
+y Hombres (BOE de 23 de marzo)` }, segunda:{ texto:`Disposición adicional segunda - Género neutro
+Todas las condiciones y expresiones que se contienen en el presente Convenio
+Colectivo, se dirigen indistintamente, afectarán y están redactadas en género
+neutro. No obstante, en todas las expresiones, vocablos y términos, con
+independencia del género con el que se expresen se entenderá que están
+incluidos ambos géneros, hombres y mujeres, trabajadores y trabajadoras.` }, tercera:{ texto:`Disposición adicional tercera - Unidad Electoral
+La unidad electoral será el distrito municipal del Ayuntamiento de Madrid,
+además del SELUR , la limpieza pública viaria del Aeropuerto Adolfo Suarez
+lado aire-tierra (AENA) y el servicio de Interbloques.` } }
 };
